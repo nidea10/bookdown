@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
+  <title>Chapter 7 Rezago | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
   <meta name="description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta property="og:title" content="Chapter 7 Rezago | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta name="twitter:title" content="Chapter 7 Rezago | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   
   <meta name="twitter:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="promedio-movil.html"/>
+<link rel="next" href="descomposicion.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -171,19 +171,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="rezago" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Rezago<a href="rezago.html#rezago" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>El concepto de rezago es fundamental para analizar y modelar series de tiempo porque permite entender cómo los valores pasados pueden influir en los valores presentes o futuros de la serie. Al analizar los rezagos, podemos identificar patrones, hacer predicciones más precisas y entender mejor la dinámica subyacente de los datos.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="rezago.html#cb41-1" tabindex="-1"></a><span class="co"># Sin cargar la librería dplyr para evitar conflictos</span></span>
+<span id="cb41-2"><a href="rezago.html#cb41-2" tabindex="-1"></a>datos_lag <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb41-3"><a href="rezago.html#cb41-3" tabindex="-1"></a>  <span class="at">Close =</span> <span class="fu">as.numeric</span>(<span class="fu">coredata</span>(soybean_xts)),</span>
+<span id="cb41-4"><a href="rezago.html#cb41-4" tabindex="-1"></a>  <span class="at">Lag =</span> <span class="fu">as.numeric</span>(<span class="fu">coredata</span>(stats<span class="sc">::</span><span class="fu">lag</span>(soybean_xts))) <span class="co"># Usar stats::lag para evitar conflictos</span></span>
+<span id="cb41-5"><a href="rezago.html#cb41-5" tabindex="-1"></a>)</span>
+<span id="cb41-6"><a href="rezago.html#cb41-6" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="rezago.html#cb41-7" tabindex="-1"></a><span class="co"># Comprobando que ambos vectores tengan la misma longitud</span></span>
+<span id="cb41-8"><a href="rezago.html#cb41-8" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(datos_lag<span class="sc">$</span>Close) <span class="sc">==</span> <span class="fu">length</span>(datos_lag<span class="sc">$</span>Lag))  <span class="co"># Detiene la ejecución si no son TRUE</span></span>
+<span id="cb41-9"><a href="rezago.html#cb41-9" tabindex="-1"></a></span>
+<span id="cb41-10"><a href="rezago.html#cb41-10" tabindex="-1"></a><span class="co"># Crear el gráfico de rezago con ggplot2</span></span>
+<span id="cb41-11"><a href="rezago.html#cb41-11" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb41-12"><a href="rezago.html#cb41-12" tabindex="-1"></a><span class="fu">ggplot</span>(datos_lag, <span class="fu">aes</span>(<span class="at">x=</span>Lag, <span class="at">y=</span>Close)) <span class="sc">+</span></span>
+<span id="cb41-13"><a href="rezago.html#cb41-13" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Close), <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="rezago.html#cb41-14" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-15"><a href="rezago.html#cb41-15" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low=</span><span class="st">&quot;red&quot;</span>, <span class="at">high=</span><span class="st">&quot;green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="rezago.html#cb41-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb41-17"><a href="rezago.html#cb41-17" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Gráfico de Rezago para Precio de Cierre&quot;</span>, <span class="at">x=</span><span class="st">&quot;Rezago 1&quot;</span>, <span class="at">y=</span><span class="st">&quot;Precio de Cierre&quot;</span>) <span class="sc">+</span></span>
+<span id="cb41-18"><a href="rezago.html#cb41-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## Warning: Removed 5 rows containing non-finite values (`stat_smooth()`).</code></pre>
+<pre><code>## Warning: Removed 5 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Se ve un patrón claro o una agrupación de puntos en el gráfico de rezago 1, por lo tanto es probable que exista una autocorrelación significativa. Se puede considerar modelos de series de tiempo como ARIMA que toman en cuenta la autocorrelación para hacer predicciones más precisas de ser necesario.</p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="promedio-movil.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="descomposicion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -214,7 +236,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-Rezago.Rmd",
 "text": "Edit"
 },
 "history": {

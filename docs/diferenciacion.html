@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
+  <title>Chapter 10 Diferenciacion | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
   <meta name="description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta property="og:title" content="Chapter 10 Diferenciacion | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Page not found | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta name="twitter:title" content="Chapter 10 Diferenciacion | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   
   <meta name="twitter:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-
+<link rel="prev" href="estacionariedad.html"/>
+<link rel="next" href="final-words.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -171,19 +171,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="page-not-found" class="section level1">
-<h1>Page not found</h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="diferenciacion" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">Chapter 10</span> Diferenciacion<a href="diferenciacion.html#diferenciacion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Diferenciar una serie temporal es un proceso utilizado para hacer que una serie no estacionaria se vuelva estacionaria. La idea es transformar la serie de datos para estabilizar la media de la serie temporal, eliminando tendencias y efectos estacionales. En otras palabras, se busca que las propiedades de la serie (como la media y la varianza) no cambien con el tiempo.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="diferenciacion.html#cb52-1" tabindex="-1"></a><span class="co"># Inicializa un contador para las diferenciaciones</span></span>
+<span id="cb52-2"><a href="diferenciacion.html#cb52-2" tabindex="-1"></a>diferencias <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb52-3"><a href="diferenciacion.html#cb52-3" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="diferenciacion.html#cb52-4" tabindex="-1"></a><span class="co"># Realiza el test ADF y verifica la estacionariedad</span></span>
+<span id="cb52-5"><a href="diferenciacion.html#cb52-5" tabindex="-1"></a><span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
+<span id="cb52-6"><a href="diferenciacion.html#cb52-6" tabindex="-1"></a>  p_value <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soybean_ts)<span class="sc">$</span>p.value</span>
+<span id="cb52-7"><a href="diferenciacion.html#cb52-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Número de diferencias:&quot;</span>, diferencias, <span class="st">&quot;- Valor p:&quot;</span>, p_value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb52-8"><a href="diferenciacion.html#cb52-8" tabindex="-1"></a>  </span>
+<span id="cb52-9"><a href="diferenciacion.html#cb52-9" tabindex="-1"></a>  <span class="co"># Si el valor p es menor que 0.05, la serie es estacionaria, y puedes salir del bucle.</span></span>
+<span id="cb52-10"><a href="diferenciacion.html#cb52-10" tabindex="-1"></a>  <span class="cf">if</span>(p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>) {</span>
+<span id="cb52-11"><a href="diferenciacion.html#cb52-11" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie se volvió estacionaria después de&quot;</span>, diferencias, <span class="st">&quot;diferenciaciones.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb52-12"><a href="diferenciacion.html#cb52-12" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb52-13"><a href="diferenciacion.html#cb52-13" tabindex="-1"></a>  }</span>
+<span id="cb52-14"><a href="diferenciacion.html#cb52-14" tabindex="-1"></a>  </span>
+<span id="cb52-15"><a href="diferenciacion.html#cb52-15" tabindex="-1"></a>  <span class="co"># Si has llegado al final de la serie, sal del bucle</span></span>
+<span id="cb52-16"><a href="diferenciacion.html#cb52-16" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(soybean_ts) <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb52-17"><a href="diferenciacion.html#cb52-17" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie no se volvió estacionaria después de diferenciar.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb52-18"><a href="diferenciacion.html#cb52-18" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb52-19"><a href="diferenciacion.html#cb52-19" tabindex="-1"></a>  }</span>
+<span id="cb52-20"><a href="diferenciacion.html#cb52-20" tabindex="-1"></a>  </span>
+<span id="cb52-21"><a href="diferenciacion.html#cb52-21" tabindex="-1"></a>  <span class="co"># Si no es estacionaria, diferenciar la serie una vez más y continuar el bucle.</span></span>
+<span id="cb52-22"><a href="diferenciacion.html#cb52-22" tabindex="-1"></a>  soybean_ts <span class="ot">&lt;-</span> <span class="fu">diff</span>(soybean_ts)</span>
+<span id="cb52-23"><a href="diferenciacion.html#cb52-23" tabindex="-1"></a>  diferencias <span class="ot">&lt;-</span> diferencias <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb52-24"><a href="diferenciacion.html#cb52-24" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## Número de diferencias: 0 - Valor p: 0.5657422</code></pre>
+<pre><code>## Warning in adf.test(soybean_ts): p-value smaller than printed p-value</code></pre>
+<pre><code>## Número de diferencias: 1 - Valor p: 0.01 
+## La serie se volvió estacionaria después de 1 diferenciaciones.</code></pre>
+<p>Conclusión:</p>
+<p>Antes de realizar cualquier diferenciación (d = 0), el valor p de la prueba de Dickey-Fuller Aumentada es 0.5657422, lo que es mayor que 0.05. Por lo tanto, no puedes rechazar la hipótesis nula de que existe una raíz unitaria, y se concluye que la serie original no es estacionaria.</p>
+<p>Después de diferenciar la serie una vez (d = 1), el valor p de la prueba de Dickey-Fuller Aumentada es 0.01, lo cual es menor que 0.05.</p>
+<p>La serie de tiempo original no es estacionaria, pero después de realizar una diferenciación, la serie resultante sí es estacionaria.</p>
+<p>Fue necesario transformarla o diferenciarla para eliminar la tendencia y estabilizar la varianza, antes de aplicar modelos de series temporales como ARIMA.</p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-
+<a href="estacionariedad.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -214,7 +246,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/09-Diferenciacion.Rmd",
 "text": "Edit"
 },
 "history": {

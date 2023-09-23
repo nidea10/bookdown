@@ -127,7 +127,7 @@
 
 \title{MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA}
 \author{Nidia Munevar - Leonardo Palacios}
-\date{2023-08-21}
+\date{2023-09-22}
 
 \begin{document}
 \maketitle
@@ -156,8 +156,7 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Instalar y cargar las librerías necesarias}
-\CommentTok{\#install.packages("quantmod")}
+\CommentTok{\# Cargar la biblioteca quantmod}
 \FunctionTok{library}\NormalTok{(quantmod)}
 \end{Highlighting}
 \end{Shaded}
@@ -193,33 +192,88 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Simbolo del aceite de soya en Yahoo Finance}
-\NormalTok{company }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}ZS=F\textquotesingle{}}
+\CommentTok{\# Especificar el símbolo para futuros de soja}
+\NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
 
-\CommentTok{\# Definir fecha de inicio y del día de hoy}
-\NormalTok{start }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2010{-}01{-}01"}\NormalTok{)}
-\NormalTok{today }\OtherTok{\textless{}{-}} \FunctionTok{Sys.Date}\NormalTok{()}
-
-\CommentTok{\# Conexión a Yahoo Finance para descargar la información}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{getSymbols}\NormalTok{(company, }\AttributeTok{src =} \StringTok{"yahoo"}\NormalTok{, }\AttributeTok{from =}\NormalTok{ start, }\AttributeTok{to =}\NormalTok{ today, }\AttributeTok{auto.assign =} \ConstantTok{FALSE}\NormalTok{)}
-
-\CommentTok{\# Visualizar información de las últimas filas}
-\FunctionTok{tail}\NormalTok{(df, }\DecValTok{10}\NormalTok{)}
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##            ZS=F.Open ZS=F.High ZS=F.Low ZS=F.Close ZS=F.Volume ZS=F.Adjusted
-## 2023-08-07   1430.00   1430.00  1405.00    1414.50         212       1414.50
-## 2023-08-08   1400.25   1431.25  1395.00    1430.00         382       1430.00
-## 2023-08-09   1436.00   1438.00  1430.75    1431.50         104       1431.50
-## 2023-08-10   1431.75   1438.50  1410.00    1412.00          82       1412.00
-## 2023-08-11   1353.25   1409.00  1353.25    1401.25          25       1401.25
-## 2023-08-14   1422.00   1422.00  1391.00    1391.00        7906       1391.00
-## 2023-08-15   1344.25   1348.75  1319.50    1323.25       15884       1323.25
-## 2023-08-16   1323.75   1344.25  1321.25    1334.75        9256       1334.75
-## 2023-08-17   1337.00   1347.75  1332.50    1336.75       12549       1336.75
-## 2023-08-18   1338.00   1365.50  1337.75    1362.75       12549       1362.75
+## [1] "ZS=F"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un data frame con la serie de tiempo}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{index}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)), }
+                           \AttributeTok{Open =} \FunctionTok{Op}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{High =} \FunctionTok{Hi}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Low =} \FunctionTok{Lo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Close =} \FunctionTok{Cl}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Volume =} \FunctionTok{Vo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol))}
+\NormalTok{                           )}
+
+\CommentTok{\# Eliminar filas con valores NA}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(soybean\_data)}
+
+\CommentTok{\# Muestra los primeros registros del data frame}
+\FunctionTok{head}\NormalTok{(soybean\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  Date ZS.F.Open ZS.F.High ZS.F.Low ZS.F.Close ZS.F.Volume
+## 2010-01-04 2010-01-04   1043.00   1065.50  1041.25    1049.50       25947
+## 2010-01-05 2010-01-05   1047.00   1056.00  1042.00    1052.25       21073
+## 2010-01-06 2010-01-06   1050.00   1058.50  1042.75    1050.50       17567
+## 2010-01-07 2010-01-07   1050.50   1052.00  1016.50    1017.75       11750
+## 2010-01-08 2010-01-08   1018.25   1018.25  1005.00    1013.00       11750
+## 2010-01-11 2010-01-11   1014.00   1022.00   997.50    1001.75       11750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(soybean\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "data.frame"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la biblioteca xts}
+\FunctionTok{library}\NormalTok{(xts)}
+
+\CommentTok{\# Crear una serie de tiempo xts a partir del data frame soybean\_data}
+\NormalTok{soybean\_xts }\OtherTok{\textless{}{-}} \FunctionTok{xts}\NormalTok{(soybean\_data[, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{order.by =}\NormalTok{ soybean\_data}\SpecialCharTok{$}\NormalTok{Date)}
+
+\CommentTok{\# Verificar la serie de tiempo}
+\FunctionTok{head}\NormalTok{(soybean\_xts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            ZS.F.Open ZS.F.High ZS.F.Low ZS.F.Close ZS.F.Volume
+## 2010-01-04   1043.00   1065.50  1041.25    1049.50       25947
+## 2010-01-05   1047.00   1056.00  1042.00    1052.25       21073
+## 2010-01-06   1050.00   1058.50  1042.75    1050.50       17567
+## 2010-01-07   1050.50   1052.00  1016.50    1017.75       11750
+## 2010-01-08   1018.25   1018.25  1005.00    1013.00       11750
+## 2010-01-11   1014.00   1022.00   997.50    1001.75       11750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(soybean\_xts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "xts" "zoo"
 \end{verbatim}
 
 \hypertarget{analisis-exploratorio}{%
@@ -227,8 +281,106 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Cargar las librerías necesarias}
+\CommentTok{\# Cargar la biblioteca quantmod}
 \FunctionTok{library}\NormalTok{(quantmod)}
+
+\CommentTok{\# Especificar el símbolo para futuros de soja}
+\NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
+
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "ZS=F"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un data frame con la serie de tiempo}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{index}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)), }
+                           \AttributeTok{Open =} \FunctionTok{Op}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{High =} \FunctionTok{Hi}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Low =} \FunctionTok{Lo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Close =} \FunctionTok{Cl}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Volume =} \FunctionTok{Vo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol))}
+\NormalTok{)}
+
+\CommentTok{\# Eliminar filas con valores NA}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(soybean\_data)}
+
+
+\FunctionTok{head}\NormalTok{(soybean\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  Date ZS.F.Open ZS.F.High ZS.F.Low ZS.F.Close ZS.F.Volume
+## 2010-01-04 2010-01-04   1043.00   1065.50  1041.25    1049.50       25947
+## 2010-01-05 2010-01-05   1047.00   1056.00  1042.00    1052.25       21073
+## 2010-01-06 2010-01-06   1050.00   1058.50  1042.75    1050.50       17567
+## 2010-01-07 2010-01-07   1050.50   1052.00  1016.50    1017.75       11750
+## 2010-01-08 2010-01-08   1018.25   1018.25  1005.00    1013.00       11750
+## 2010-01-11 2010-01-11   1014.00   1022.00   997.50    1001.75       11750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la biblioteca xts}
+\FunctionTok{library}\NormalTok{(xts)}
+
+\CommentTok{\# Crear una serie de tiempo xts a partir del data frame soybean\_data}
+\NormalTok{soybean\_xts }\OtherTok{\textless{}{-}} \FunctionTok{xts}\NormalTok{(soybean\_data[, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{order.by =}\NormalTok{ soybean\_data}\SpecialCharTok{$}\NormalTok{Date)}
+
+\CommentTok{\# Verificar la serie de tiempo}
+\FunctionTok{head}\NormalTok{(soybean\_xts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            ZS.F.Open ZS.F.High ZS.F.Low ZS.F.Close ZS.F.Volume
+## 2010-01-04   1043.00   1065.50  1041.25    1049.50       25947
+## 2010-01-05   1047.00   1056.00  1042.00    1052.25       21073
+## 2010-01-06   1050.00   1058.50  1042.75    1050.50       17567
+## 2010-01-07   1050.50   1052.00  1016.50    1017.75       11750
+## 2010-01-08   1018.25   1018.25  1005.00    1013.00       11750
+## 2010-01-11   1014.00   1022.00   997.50    1001.75       11750
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(soybean\_xts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "xts" "zoo"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Acceder a la columna "ZS.F.Close" en soybean\_xts}
+\NormalTok{close\_prices }\OtherTok{\textless{}{-}}\NormalTok{ soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{]}
+
+\CommentTok{\# Imprimir las primeras filas de la columna Close}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{head}\NormalTok{(close\_prices))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##            ZS.F.Close
+## 2010-01-04    1049.50
+## 2010-01-05    1052.25
+## 2010-01-06    1050.50
+## 2010-01-07    1017.75
+## 2010-01-08    1013.00
+## 2010-01-11    1001.75
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la biblioteca ggplot2 para hacer gráficos}
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \end{Highlighting}
 \end{Shaded}
@@ -239,151 +391,354 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Símbolo del aceite de soya en Yahoo Finance}
-\NormalTok{company }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}ZS=F\textquotesingle{}}
-
-\CommentTok{\# Definir fecha de inicio y del día de hoy}
-\NormalTok{start }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2010{-}01{-}01"}\NormalTok{)}
-\NormalTok{today }\OtherTok{\textless{}{-}} \FunctionTok{Sys.Date}\NormalTok{()}
-
-\CommentTok{\# Conexión a Yahoo Finance para descargar la información}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{getSymbols}\NormalTok{(company, }\AttributeTok{src =} \StringTok{"yahoo"}\NormalTok{, }\AttributeTok{from =}\NormalTok{ start, }\AttributeTok{to =}\NormalTok{ today, }\AttributeTok{auto.assign =} \ConstantTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: ZS=F contains missing values. Some functions will not work if objects
-## contain missing values in the middle of the series. Consider using na.omit(),
-## na.approx(), na.fill(), etc to remove or replace them.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Convertir el objeto xts a un dataframe para poder usarlo con ggplot2}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Date=}\FunctionTok{index}\NormalTok{(df), }\FunctionTok{coredata}\NormalTok{(df))}
-
-\CommentTok{\# Graficar la serie de tiempo usando ggplot2}
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Date, }\AttributeTok{y=}\NormalTok{ZS.F.Close)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Serie de Tiempo del Aceite de Soya"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{xlab}\NormalTok{(}\StringTok{"Fecha"}\NormalTok{) }\SpecialCharTok{+} 
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Precio de Cierre"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-2-1.pdf}
-
-\hypertarget{promedio-movil--rezago-y-estacionalidad}{%
-\chapter{Promedio Movil- Rezago y Estacionalidad}\label{promedio-movil--rezago-y-estacionalidad}}
-
-Calculamos el promedio móvil simple usando una ventana de 30 días.Introducimos un rezago (lag) a la serie de tiempo.Obtenemos un promedio móvil centrado de 12 meses, suponiendo que la serie tiene estacionalidad anual (común con datos mensuales).
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Cargar las librerías necesarias}
-\FunctionTok{library}\NormalTok{(quantmod)}
-\FunctionTok{library}\NormalTok{(dplyr)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: package 'dplyr' was built under R version 4.2.3
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## ######################### Warning from 'xts' package ##########################
-## #                                                                             #
-## # The dplyr lag() function breaks how base R's lag() function is supposed to  #
-## # work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #
-## # source() into this session won't work correctly.                            #
-## #                                                                             #
-## # Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #
-## # conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #
-## # dplyr from breaking base R's lag() function.                                #
-## #                                                                             #
-## # Code in packages is not affected. It's protected by R's namespace mechanism #
-## # Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #
-## #                                                                             #
-## ###############################################################################
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## Attaching package: 'dplyr'
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:xts':
-## 
-##     first, last
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-\end{verbatim}
-
-\begin{verbatim}
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(zoo)}
-
-\CommentTok{\# Simbolo del aceite de soya en Yahoo Finance}
-\NormalTok{company }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}ZS=F\textquotesingle{}}
-
-\CommentTok{\# Definir fecha de inicio y del día de hoy}
-\NormalTok{start }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(}\StringTok{"2010{-}01{-}01"}\NormalTok{)}
-\NormalTok{today }\OtherTok{\textless{}{-}} \FunctionTok{Sys.Date}\NormalTok{()}
-
-\CommentTok{\# Conexión a Yahoo Finance para descargar la información}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{getSymbols}\NormalTok{(company, }\AttributeTok{src =} \StringTok{"yahoo"}\NormalTok{, }\AttributeTok{from =}\NormalTok{ start, }\AttributeTok{to =}\NormalTok{ today, }\AttributeTok{auto.assign =} \ConstantTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## Warning: ZS=F contains missing values. Some functions will not work if objects
-## contain missing values in the middle of the series. Consider using na.omit(),
-## na.approx(), na.fill(), etc to remove or replace them.
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Convertir el objeto xts a un dataframe para usarlo con dplyr y ggplot2}
-\NormalTok{df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{index}\NormalTok{(df), }\FunctionTok{coredata}\NormalTok{(df))}
-
-\CommentTok{\# Calcular el promedio móvil de 30 días usando el nombre correcto de la columna}
-\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{MA\_30 =} \FunctionTok{rollmean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{ZS.F.Close}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{k =} \DecValTok{30}\NormalTok{, }\AttributeTok{fill =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{align =} \StringTok{"right"}\NormalTok{))}
-
-\CommentTok{\# Introducir un rezago (por ejemplo, un lag de 1 día)}
-\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{Lag\_1 =} \FunctionTok{lag}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{ZS.F.Close}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{n =} \DecValTok{1}\NormalTok{))}
-
-\CommentTok{\# Calcular un promedio móvil centrado de 12 meses (útil para datos mensuales)}
-\NormalTok{df }\OtherTok{\textless{}{-}}\NormalTok{ df }\SpecialCharTok{\%\textgreater{}\%}
-  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{MA\_12 =} \FunctionTok{rollmean}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{ZS.F.Close}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{k =} \DecValTok{12}\NormalTok{, }\AttributeTok{fill =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{align =} \StringTok{"center"}\NormalTok{))}
-
-\CommentTok{\# Gráfica del precio de cierre, promedio móvil de 30 días y promedio móvil centrado de 12 meses}
-\FunctionTok{ggplot}\NormalTok{(df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =} \StringTok{\textasciigrave{}}\AttributeTok{ZS.F.Close}\StringTok{\textasciigrave{}}\NormalTok{, }\AttributeTok{color =} \StringTok{"Precio de Cierre"}\NormalTok{)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ MA\_30, }\AttributeTok{color =} \StringTok{"Promedio Móvil 30 días"}\NormalTok{), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ MA\_12, }\AttributeTok{color =} \StringTok{"Promedio Móvil 12 meses"}\NormalTok{), }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Serie de Tiempo y Promedios Móviles"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{ylab}\NormalTok{(}\StringTok{"Precio"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{color =} \StringTok{"Leyenda"}\NormalTok{) }\SpecialCharTok{+}
+\CommentTok{\# Crear un gráfico de serie de tiempo}
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =} \ConstantTok{NULL}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{index}\NormalTok{(close\_prices), }\AttributeTok{y =}\NormalTok{ close\_prices)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Fecha"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Precio de Cierre"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Serie de Tiempo de Futuros de Soja"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_minimal}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-3-1.pdf}
+\begin{verbatim}
+## Don't know how to automatically pick scale for object of type <xts/zoo>.
+## Defaulting to continuous.
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\hypertarget{promedio-movil}{%
+\chapter{Promedio Movil}\label{promedio-movil}}
+
+Cuando aplicamos un promedio móvil a una serie de tiempo, cada punto de la serie transformada (promediada) es el promedio de un número determinado de puntos anteriores, actuales y futuros de la serie original. Este número de puntos que decides promediar se llama ``ventana'' del promedio móvil.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la biblioteca quantmod}
+\FunctionTok{library}\NormalTok{(quantmod)}
+
+\CommentTok{\# Especificar el símbolo para futuros de soja}
+\NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
+
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: ZS=F contains missing values. Some functions will not work if objects
+## contain missing values in the middle of the series. Consider using na.omit(),
+## na.approx(), na.fill(), etc to remove or replace them.
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "ZS=F"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Crear un data frame con la serie de tiempo}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Date =} \FunctionTok{index}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)), }
+                           \AttributeTok{Open =} \FunctionTok{Op}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{High =} \FunctionTok{Hi}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Low =} \FunctionTok{Lo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Close =} \FunctionTok{Cl}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol)),}
+                           \AttributeTok{Volume =} \FunctionTok{Vo}\NormalTok{(}\FunctionTok{get}\NormalTok{(symbol))}
+\NormalTok{                           )}
+
+\CommentTok{\# Eliminar filas con valores NA}
+\NormalTok{soybean\_data }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(soybean\_data)}
+
+\CommentTok{\# Muestra los primeros registros del data frame}
+\CommentTok{\# head(soybean\_data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar la biblioteca xts}
+\FunctionTok{library}\NormalTok{(xts)}
+
+\CommentTok{\# Crear una serie de tiempo xts a partir del data frame soybean\_data}
+\NormalTok{soybean\_xts }\OtherTok{\textless{}{-}} \FunctionTok{xts}\NormalTok{(soybean\_data[, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{order.by =}\NormalTok{ soybean\_data}\SpecialCharTok{$}\NormalTok{Date)}
+
+\CommentTok{\# Verificar la serie de tiempo}
+\CommentTok{\# head(soybean\_xts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(TTR)}
+\FunctionTok{library}\NormalTok{(scales)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'scales' was built under R version 4.2.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convertir el objeto xts a data.frame}
+\NormalTok{soybean\_df }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(soybean\_xts)}
+\NormalTok{soybean\_df}\SpecialCharTok{$}\NormalTok{Date }\OtherTok{\textless{}{-}} \FunctionTok{index}\NormalTok{(soybean\_xts)}
+
+\CommentTok{\# Calcular SMA\_200 y SMA\_500}
+\NormalTok{soybean\_df}\SpecialCharTok{$}\NormalTok{SMA\_200 }\OtherTok{\textless{}{-}} \FunctionTok{SMA}\NormalTok{(soybean\_df}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\AttributeTok{n =} \DecValTok{200}\NormalTok{)}
+\NormalTok{soybean\_df}\SpecialCharTok{$}\NormalTok{SMA\_500 }\OtherTok{\textless{}{-}} \FunctionTok{SMA}\NormalTok{(soybean\_df}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\AttributeTok{n =} \DecValTok{500}\NormalTok{)}
+
+\CommentTok{\# Usar ggplot2 para visualizar los datos}
+\FunctionTok{ggplot}\NormalTok{(soybean\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ZS.F.Close, }\AttributeTok{color =} \StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}}\NormalTok{), }\AttributeTok{alpha =} \FloatTok{0.75}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_200, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}}\NormalTok{), }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_500, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}}\NormalTok{), }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{15}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{\textquotesingle{}Serie de Tiempo de Futuros de Soja\textquotesingle{}}\NormalTok{,}
+       \AttributeTok{subtitle =} \StringTok{\textquotesingle{}Con Promedios Móviles de 200 y 500 Días\textquotesingle{}}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{),}
+        \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+        \AttributeTok{plot.subtitle =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
+        \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{date\_breaks =} \StringTok{"1 year"}\NormalTok{, }\AttributeTok{date\_labels =} \StringTok{"\%Y"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{dollar\_format}\NormalTok{()) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{),}
+                     \AttributeTok{name =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## i Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+Observaciones:
+
+Entre los años 2013 y mediados del 2014 se puede ver cambios en la tendencia de la serie de tiempo de futuros de la soya, tamto para el promedio movil de 200 días, como para el de 500 días el cual es mas marcado.
+
+Entre los años 2021 y mediados del 2023 se puede ver cambios en la tendencia de la serie de tiempo de futuros de la soya, tamto para el promedio movil de 200 días, como para el de 500 días el cual es mas marcado.Se podria llegar a validar por medio de un mayor estudio de este tiempo si la afectación fue causada por el desarrollo de la pandemia del covid-19 la cul inicio en marzo de 2020 e inicio a retrocer en Agosto de 2021 cuando se inicio el uso de las vacunas.
+
+Al suavizar las fluctuaciones menores, a traves de los promedios móviles se logro resaltar las tendencias subyacentes en los datos.
+
+\hypertarget{rezago}{%
+\chapter{Rezago}\label{rezago}}
+
+El concepto de rezago es fundamental para analizar y modelar series de tiempo porque permite entender cómo los valores pasados pueden influir en los valores presentes o futuros de la serie. Al analizar los rezagos, podemos identificar patrones, hacer predicciones más precisas y entender mejor la dinámica subyacente de los datos.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Sin cargar la librería dplyr para evitar conflictos}
+\NormalTok{datos\_lag }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Close =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coredata}\NormalTok{(soybean\_xts)),}
+  \AttributeTok{Lag =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coredata}\NormalTok{(stats}\SpecialCharTok{::}\FunctionTok{lag}\NormalTok{(soybean\_xts))) }\CommentTok{\# Usar stats::lag para evitar conflictos}
+\NormalTok{)}
+
+\CommentTok{\# Comprobando que ambos vectores tengan la misma longitud}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Close) }\SpecialCharTok{==} \FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Lag))  }\CommentTok{\# Detiene la ejecución si no son TRUE}
+
+\CommentTok{\# Crear el gráfico de rezago con ggplot2}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{ggplot}\NormalTok{(datos\_lag, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Lag, }\AttributeTok{y=}\NormalTok{Close)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ Close), }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{\textquotesingle{}lm\textquotesingle{}}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color=}\StringTok{"blue"}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_color\_gradient}\NormalTok{(}\AttributeTok{low=}\StringTok{"red"}\NormalTok{, }\AttributeTok{high=}\StringTok{"green"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Gráfico de Rezago para Precio de Cierre"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Rezago 1"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Precio de Cierre"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula = 'y ~ x'
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 5 rows containing non-finite values (`stat_smooth()`).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 5 rows containing missing values (`geom_point()`).
+\end{verbatim}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Se ve un patrón claro o una agrupación de puntos en el gráfico de rezago 1, por lo tanto es probable que exista una autocorrelación significativa. Se puede considerar modelos de series de tiempo como ARIMA que toman en cuenta la autocorrelación para hacer predicciones más precisas de ser necesario.
+
+\hypertarget{descomposicion}{%
+\chapter{Descomposicion}\label{descomposicion}}
+
+Se refiere a los patrones o tendencias que se repiten a intervalos regulares, como cada día, mes, trimestre o año, dependiendo de la frecuencia de los datos. En otras palabras, es como un ciclo que se repite en el tiempo.
+
+DESCOMPOSICION
+
+Con la funcion decompose podemos hallar la:
+
+Observed: Serie de tiempo original.
+
+Tendencia (trend): Muestra la dirección general en la que se mueven los datos a largo plazo, sin tener en cuenta las fluctuaciones estacionales o irregulares.
+
+Estacionalidad (seasonal): Representa las fluctuaciones que ocurren en intervalos regulares, como los cambios diarios, mensuales o anuales, debido a la estacionalidad.
+
+Error o Residuo (random): Es la parte de la serie de tiempo que no se puede atribuir ni a la tendencia ni a la estacionalidad. Captura la variabilidad en los datos que no se puede explicar por los otros dos componentes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Convertir a objeto ts, aquí supondré que tienes datos diarios.}
+\NormalTok{frecuencia }\OtherTok{\textless{}{-}} \DecValTok{365}  \CommentTok{\# (12 para mensual, 4 para trimestral, etc.)}
+\NormalTok{soybean\_ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{], }\AttributeTok{frequency =}\NormalTok{ frecuencia)}
+
+\CommentTok{\# Utilizar decompose}
+\NormalTok{soybean\_decomposed }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(soybean\_ts)}
+\FunctionTok{plot}\NormalTok{(soybean\_decomposed)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-1.pdf}
+Al validar el componenete estacional de la serie por separado, como se ve en la siguiente imagen:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Extraer el componente estacional y convertir el tiempo en fecha}
+\NormalTok{seasonal\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Date =} \FunctionTok{as.Date}\NormalTok{(}\FunctionTok{index}\NormalTok{(soybean\_xts)),}
+  \AttributeTok{Seasonal =} \FunctionTok{as.numeric}\NormalTok{(soybean\_decomposed}\SpecialCharTok{$}\NormalTok{seasonal)}
+\NormalTok{)}
+
+\CommentTok{\# Eliminar las filas con NA en el componente estacional (pueden aparecer dependiendo del método de descomposición)}
+\NormalTok{seasonal\_df }\OtherTok{\textless{}{-}}\NormalTok{ seasonal\_df[}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(seasonal\_df}\SpecialCharTok{$}\NormalTok{Seasonal), ]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+
+\FunctionTok{ggplot}\NormalTok{(seasonal\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Date, }\AttributeTok{y=}\NormalTok{Seasonal)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color=}\StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Componente Estacional de la Serie Temporal"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Fecha"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Estacionalidad"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\StringTok{"none"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-16-1.pdf}
+Podemos deducir que la serie de tiempo de los precios del aceite de soya:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Muestra patrones claros y consistentes, esto sugiere que la serie temporal tiene ciclos regulares que se repiten a intervalos fijos.
+\item
+  Se pueden identificar en qué momentos del ciclo tienden a ocurrir los valores altos y bajos de la serie.
+\end{enumerate}
+
+\hypertarget{estacionariedad}{%
+\chapter{Estacionariedad}\label{estacionariedad}}
+
+La prueba de Dickey-Fuller, específicamente el test ADF (Augmented Dickey-Fuller), es una prueba estadística utilizada para determinar si una serie temporal tiene una raíz unitaria, es decir, si es no estacionaria y presenta alguna forma de estructura temporal como una tendencia o una estacionalidad.
+
+Vamos a comprobar mediante esta prueba si es o no estacionaria la serie de tiempo del precio del aceite de soya.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Cargar el paquete necesario}
+\FunctionTok{library}\NormalTok{(tseries)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'tseries' was built under R version 4.2.3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Supón que tienes una serie temporal llamada \textquotesingle{}mi\_serie\textquotesingle{}}
+\CommentTok{\# Realizar la prueba de Dickey{-}Fuller Aumentada}
+\NormalTok{resultado\_adf }\OtherTok{\textless{}{-}} \FunctionTok{adf.test}\NormalTok{(soybean\_ts)}
+
+\CommentTok{\# Imprimir el resultado}
+\FunctionTok{print}\NormalTok{(resultado\_adf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Augmented Dickey-Fuller Test
+## 
+## data:  soybean_ts
+## Dickey-Fuller = -2.0297, Lag order = 15, p-value = 0.5657
+## alternative hypothesis: stationary
+\end{verbatim}
+
+Cuando hacemos una prueba como esta, estamos tratando de averiguar si la serie de tiempo es ``estacionaria'' o no. Una serie estacionaria es aquella cuyas propiedades, como la media y la varianza, no cambian con el tiempo.
+
+En esta prueba, tenemos algo llamado valor p, que es como un termómetro que nos dice qué tan seguros estamos de si la serie de tiempo es estacionaria o no. Un valor p pequeño (menor que 0.05) nos dice: ``La serie es estacionaria''. Un valor p grande (mayor que 0.05) nos dice: ``La serie no es estacionaria''.
+
+En este caso, el valor p es 0.5657, que es bastante grande, así que, la serie de tiempo no es estacionaria.
+
+\hypertarget{diferenciacion}{%
+\chapter{Diferenciacion}\label{diferenciacion}}
+
+Diferenciar una serie temporal es un proceso utilizado para hacer que una serie no estacionaria se vuelva estacionaria. La idea es transformar la serie de datos para estabilizar la media de la serie temporal, eliminando tendencias y efectos estacionales. En otras palabras, se busca que las propiedades de la serie (como la media y la varianza) no cambien con el tiempo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Inicializa un contador para las diferenciaciones}
+\NormalTok{diferencias }\OtherTok{\textless{}{-}} \DecValTok{0}
+
+\CommentTok{\# Realiza el test ADF y verifica la estacionariedad}
+\ControlFlowTok{while}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{) \{}
+\NormalTok{  p\_value }\OtherTok{\textless{}{-}} \FunctionTok{adf.test}\NormalTok{(soybean\_ts)}\SpecialCharTok{$}\NormalTok{p.value}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Número de diferencias:"}\NormalTok{, diferencias, }\StringTok{"{-} Valor p:"}\NormalTok{, p\_value, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  
+  \CommentTok{\# Si el valor p es menor que 0.05, la serie es estacionaria, y puedes salir del bucle.}
+  \ControlFlowTok{if}\NormalTok{(p\_value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"La serie se volvió estacionaria después de"}\NormalTok{, diferencias, }\StringTok{"diferenciaciones.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+    \ControlFlowTok{break}
+\NormalTok{  \}}
+  
+  \CommentTok{\# Si has llegado al final de la serie, sal del bucle}
+  \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(soybean\_ts) }\SpecialCharTok{\textless{}=} \DecValTok{1}\NormalTok{) \{}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"La serie no se volvió estacionaria después de diferenciar.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+    \ControlFlowTok{break}
+\NormalTok{  \}}
+  
+  \CommentTok{\# Si no es estacionaria, diferenciar la serie una vez más y continuar el bucle.}
+\NormalTok{  soybean\_ts }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(soybean\_ts)}
+\NormalTok{  diferencias }\OtherTok{\textless{}{-}}\NormalTok{ diferencias }\SpecialCharTok{+} \DecValTok{1}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Número de diferencias: 0 - Valor p: 0.5657422
+\end{verbatim}
+
+\begin{verbatim}
+## Warning in adf.test(soybean_ts): p-value smaller than printed p-value
+\end{verbatim}
+
+\begin{verbatim}
+## Número de diferencias: 1 - Valor p: 0.01 
+## La serie se volvió estacionaria después de 1 diferenciaciones.
+\end{verbatim}
+
+Conclusión:
+
+Antes de realizar cualquier diferenciación (d = 0), el valor p de la prueba de Dickey-Fuller Aumentada es 0.5657422, lo que es mayor que 0.05. Por lo tanto, no puedes rechazar la hipótesis nula de que existe una raíz unitaria, y se concluye que la serie original no es estacionaria.
+
+Después de diferenciar la serie una vez (d = 1), el valor p de la prueba de Dickey-Fuller Aumentada es 0.01, lo cual es menor que 0.05.
+
+La serie de tiempo original no es estacionaria, pero después de realizar una diferenciación, la serie resultante sí es estacionaria.
+
+Fue necesario transformarla o diferenciarla para eliminar la tendencia y estabilizar la varianza, antes de aplicar modelos de series temporales como ARIMA.
 
 \hypertarget{final-words}{%
 \chapter{Final Words}\label{final-words}}
