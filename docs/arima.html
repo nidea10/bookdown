@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 9 Estacionariedad | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
+  <title>Chapter 12 ARIMA | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA</title>
   <meta name="description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 9 Estacionariedad | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta property="og:title" content="Chapter 12 ARIMA | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 9 Estacionariedad | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
+  <meta name="twitter:title" content="Chapter 12 ARIMA | MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA" />
   
   <meta name="twitter:description" content="Modelación del precio del aceite de soya mediante series de tiempo y machine learning." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="descomposicion.html"/>
-<link rel="next" href="diferenciacion.html"/>
+<link rel="prev" href="holter-winter.html"/>
+<link rel="next" href="final-words.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -173,28 +173,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="estacionariedad" class="section level1 hasAnchor" number="9">
-<h1><span class="header-section-number">Chapter 9</span> Estacionariedad<a href="estacionariedad.html#estacionariedad" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>La prueba de Dickey-Fuller, específicamente el test ADF (Augmented Dickey-Fuller), es una prueba estadística utilizada para determinar si una serie temporal tiene una raíz unitaria, es decir, si es no estacionaria y presenta alguna forma de estructura temporal como una tendencia o una estacionalidad.</p>
-<p>Vamos a comprobar mediante esta prueba si es o no estacionaria la serie de tiempo del precio del aceite de soya.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estacionariedad.html#cb48-1" tabindex="-1"></a><span class="co"># Cargar el paquete necesario</span></span>
-<span id="cb48-2"><a href="estacionariedad.html#cb48-2" tabindex="-1"></a><span class="fu">library</span>(tseries)</span></code></pre></div>
-<pre><code>## Warning: package &#39;tseries&#39; was built under R version 4.2.3</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estacionariedad.html#cb50-1" tabindex="-1"></a><span class="co"># Supón que tienes una serie temporal llamada &#39;mi_serie&#39;</span></span>
-<span id="cb50-2"><a href="estacionariedad.html#cb50-2" tabindex="-1"></a><span class="co"># Realizar la prueba de Dickey-Fuller Aumentada</span></span>
-<span id="cb50-3"><a href="estacionariedad.html#cb50-3" tabindex="-1"></a>resultado_adf <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soybean_ts)</span>
-<span id="cb50-4"><a href="estacionariedad.html#cb50-4" tabindex="-1"></a></span>
-<span id="cb50-5"><a href="estacionariedad.html#cb50-5" tabindex="-1"></a><span class="co"># Imprimir el resultado</span></span>
-<span id="cb50-6"><a href="estacionariedad.html#cb50-6" tabindex="-1"></a><span class="fu">print</span>(resultado_adf)</span></code></pre></div>
-<pre><code>## 
-##  Augmented Dickey-Fuller Test
+<div id="arima" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">Chapter 12</span> ARIMA<a href="arima.html#arima" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>ARIMA es como un método o herramienta que nos ayuda a entender y prever cómo se comportará una secuencia de números en el futuro, basándose en cómo se ha comportado en el pasado.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="arima.html#cb64-1" tabindex="-1"></a>modelo<span class="ot">&lt;-</span><span class="fu">auto.arima</span>(soybean_ts)</span>
+<span id="cb64-2"><a href="arima.html#cb64-2" tabindex="-1"></a>modelo</span></code></pre></div>
+<pre><code>## Series: soybean_ts 
+## ARIMA(0,0,0) with zero mean 
 ## 
-## data:  soybean_ts
-## Dickey-Fuller = -2.0292, Lag order = 15, p-value = 0.566
-## alternative hypothesis: stationary</code></pre>
-<p>Cuando hacemos una prueba como esta, estamos tratando de averiguar si la serie de tiempo es “estacionaria” o no. Una serie estacionaria es aquella cuyas propiedades, como la media y la varianza, no cambian con el tiempo.</p>
-<p>En esta prueba, tenemos algo llamado valor p, que es como un termómetro que nos dice qué tan seguros estamos de si la serie de tiempo es estacionaria o no. Un valor p pequeño (menor que 0.05) nos dice: “La serie es estacionaria”. Un valor p grande (mayor que 0.05) nos dice: “La serie no es estacionaria”.</p>
-<p>En este caso, el valor p es 0.5657, que es bastante grande, así que, la serie de tiempo no es estacionaria.</p>
+## sigma^2 = 315:  log likelihood = -14822.55
+## AIC=29647.11   AICc=29647.11   BIC=29653.25</code></pre>
+<p>Conclusión:</p>
+<p>El resultado de auto.arima() elige un modelo ARIMA(0,0,0) con media cero,indica según el análisis que no hay patrones, ritmos, ni tendencias claras en los datos de la serie de tiempo del precio del aceite de soya.</p>
+<p>Los valores de la serie de tiempo del precio delaceite de soya son como un conjunto de números aleatorios, o “ruido blanco”, sin conexión aparente entre ellos. En otras palabras, cada punto de datos es independiente de los otros y no está influenciado por los valores pasados en la serie.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="arima.html#cb66-1" tabindex="-1"></a><span class="fu">length</span>(soybean_ts)</span></code></pre></div>
+<pre><code>## [1] 3451</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="arima.html#cb68-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(soybean_ts))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="arima.html#cb70-1" tabindex="-1"></a><span class="fu">class</span>(soybean_ts)</span></code></pre></div>
+<pre><code>## [1] &quot;ts&quot;</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="arima.html#cb72-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(soybean_ts) <span class="sc">|</span> <span class="fu">is.infinite</span>(soybean_ts))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="arima.html#cb74-1" tabindex="-1"></a><span class="co"># Instalar el paquete changepoint</span></span>
+<span id="cb74-2"><a href="arima.html#cb74-2" tabindex="-1"></a><span class="co">#install.packages(&quot;changepoint&quot;)</span></span>
+<span id="cb74-3"><a href="arima.html#cb74-3" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="arima.html#cb74-4" tabindex="-1"></a><span class="co"># Cargar el paquete changepoint</span></span>
+<span id="cb74-5"><a href="arima.html#cb74-5" tabindex="-1"></a><span class="fu">library</span>(changepoint)</span></code></pre></div>
+<pre><code>## Warning: package &#39;changepoint&#39; was built under R version 4.2.3</code></pre>
+<pre><code>## Successfully loaded changepoint package version 2.2.4
+##  See NEWS for details of changes.</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="arima.html#cb77-1" tabindex="-1"></a>mval_soybean <span class="ot">&lt;-</span> <span class="fu">cpt.mean</span>(<span class="fu">as.numeric</span>(soybean_ts), <span class="at">method =</span> <span class="st">&quot;AMOC&quot;</span>)</span>
+<span id="cb77-2"><a href="arima.html#cb77-2" tabindex="-1"></a><span class="fu">cpts</span>(mval_soybean)</span></code></pre></div>
+<pre><code>## [1] 3410</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="arima.html#cb79-1" tabindex="-1"></a><span class="co"># Plot de la serie de tiempo</span></span>
+<span id="cb79-2"><a href="arima.html#cb79-2" tabindex="-1"></a><span class="fu">plot</span>(soybean_ts, <span class="at">type=</span><span class="st">&#39;l&#39;</span>, <span class="at">main=</span><span class="st">&#39;Serie de Tiempo con Punto de Cambio&#39;</span>, <span class="at">ylab=</span><span class="st">&#39;Valor&#39;</span>, <span class="at">xlab=</span><span class="st">&#39;Tiempo&#39;</span>)</span>
+<span id="cb79-3"><a href="arima.html#cb79-3" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="arima.html#cb79-4" tabindex="-1"></a><span class="co"># Añadir una línea vertical en el punto de cambio</span></span>
+<span id="cb79-5"><a href="arima.html#cb79-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v=</span><span class="dv">3410</span>, <span class="at">col=</span><span class="st">&#39;red&#39;</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb79-6"><a href="arima.html#cb79-6" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="arima.html#cb79-7" tabindex="-1"></a><span class="co"># Añadir una leyenda</span></span>
+<span id="cb79-8"><a href="arima.html#cb79-8" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend=</span><span class="st">&quot;Punto de Cambio&quot;</span>, <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">lty=</span><span class="dv">2</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="arima.html#cb80-1" tabindex="-1"></a>pred<span class="ot">&lt;-</span><span class="fu">forecast</span>(soybean_ts,<span class="at">h=</span><span class="dv">12</span>)</span>
+<span id="cb80-2"><a href="arima.html#cb80-2" tabindex="-1"></a>pred</span></code></pre></div>
+<pre><code>##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## 10.45753      -8.494463 -28.69910 11.71017 -39.39478 22.40586
+## 10.46027       1.707605 -18.49703 21.91224 -29.19271 32.60792
+## 10.46301      -1.862220 -22.06685 18.34241 -32.76254 29.03810
+## 10.46575      -8.089611 -28.29424 12.11502 -38.98993 22.81071
+## 10.46849       9.909409 -10.29522 30.11404 -20.99091 40.80973
+## 10.47123       9.178946 -11.02569 29.38358 -21.72137 40.07927
+## 10.47397       9.724160 -10.48047 29.92879 -21.17616 40.62448
+## 10.47671       6.439264 -13.76537 26.64390 -24.46106 37.33958
+## 10.47945      -7.246653 -27.45129 12.95798 -38.14697 23.65367
+## 10.48219      -4.370599 -24.57523 15.83403 -35.27092 26.52972
+## 10.48493       1.092988 -19.11165 21.29762 -29.80733 31.99331
+## 10.48767      -6.704761 -26.90939 13.49987 -37.60508 24.19556</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="arima.html#cb82-1" tabindex="-1"></a><span class="fu">plot</span>(pred, <span class="at">main=</span><span class="st">&quot; &quot;</span>, <span class="at">ylab=</span><span class="st">&quot;valor&quot;</span>, <span class="at">col=</span><span class="st">&quot;deepskyblue&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Tiempo&quot;</span>)</span>
+<span id="cb82-2"><a href="arima.html#cb82-2" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main=</span><span class="st">&quot;Predicción DIF Precios del aceite de soya&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 
 </div>
             </section>
@@ -202,8 +239,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="descomposicion.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="diferenciacion.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="holter-winter.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -234,7 +271,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/08-Estacionariedad.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/11-ARIMA.Rmd",
 "text": "Edit"
 },
 "history": {

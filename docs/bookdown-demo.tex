@@ -1226,6 +1226,149 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 ## 10.53699     -8.4054722 -34.501855 17.6909102 -48.31644 31.50550
 \end{verbatim}
 
+\hypertarget{arima}{%
+\chapter{ARIMA}\label{arima}}
+
+ARIMA es como un método o herramienta que nos ayuda a entender y prever cómo se comportará una secuencia de números en el futuro, basándose en cómo se ha comportado en el pasado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo}\OtherTok{\textless{}{-}}\FunctionTok{auto.arima}\NormalTok{(soybean\_ts)}
+\NormalTok{modelo}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Series: soybean_ts 
+## ARIMA(0,0,0) with zero mean 
+## 
+## sigma^2 = 315:  log likelihood = -14822.55
+## AIC=29647.11   AICc=29647.11   BIC=29653.25
+\end{verbatim}
+
+Conclusión:
+
+El resultado de auto.arima() elige un modelo ARIMA(0,0,0) con media cero,indica según el análisis que no hay patrones, ritmos, ni tendencias claras en los datos de la serie de tiempo del precio del aceite de soya.
+
+Los valores de la serie de tiempo del precio delaceite de soya son como un conjunto de números aleatorios, o ``ruido blanco'', sin conexión aparente entre ellos. En otras palabras, cada punto de datos es independiente de los otros y no está influenciado por los valores pasados en la serie.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{length}\NormalTok{(soybean\_ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3451
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(soybean\_ts))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{class}\NormalTok{(soybean\_ts)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "ts"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(soybean\_ts) }\SpecialCharTok{|} \FunctionTok{is.infinite}\NormalTok{(soybean\_ts))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Instalar el paquete changepoint}
+\CommentTok{\#install.packages("changepoint")}
+
+\CommentTok{\# Cargar el paquete changepoint}
+\FunctionTok{library}\NormalTok{(changepoint)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: package 'changepoint' was built under R version 4.2.3
+\end{verbatim}
+
+\begin{verbatim}
+## Successfully loaded changepoint package version 2.2.4
+##  See NEWS for details of changes.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mval\_soybean }\OtherTok{\textless{}{-}} \FunctionTok{cpt.mean}\NormalTok{(}\FunctionTok{as.numeric}\NormalTok{(soybean\_ts), }\AttributeTok{method =} \StringTok{"AMOC"}\NormalTok{)}
+\FunctionTok{cpts}\NormalTok{(mval\_soybean)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3410
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Plot de la serie de tiempo}
+\FunctionTok{plot}\NormalTok{(soybean\_ts, }\AttributeTok{type=}\StringTok{\textquotesingle{}l\textquotesingle{}}\NormalTok{, }\AttributeTok{main=}\StringTok{\textquotesingle{}Serie de Tiempo con Punto de Cambio\textquotesingle{}}\NormalTok{, }\AttributeTok{ylab=}\StringTok{\textquotesingle{}Valor\textquotesingle{}}\NormalTok{, }\AttributeTok{xlab=}\StringTok{\textquotesingle{}Tiempo\textquotesingle{}}\NormalTok{)}
+
+\CommentTok{\# Añadir una línea vertical en el punto de cambio}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v=}\DecValTok{3410}\NormalTok{, }\AttributeTok{col=}\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Añadir una leyenda}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\StringTok{"Punto de Cambio"}\NormalTok{, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-25-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pred}\OtherTok{\textless{}{-}}\FunctionTok{forecast}\NormalTok{(soybean\_ts,}\AttributeTok{h=}\DecValTok{12}\NormalTok{)}
+\NormalTok{pred}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
+## 10.45753      -8.494463 -28.69910 11.71017 -39.39478 22.40586
+## 10.46027       1.707605 -18.49703 21.91224 -29.19271 32.60792
+## 10.46301      -1.862220 -22.06685 18.34241 -32.76254 29.03810
+## 10.46575      -8.089611 -28.29424 12.11502 -38.98993 22.81071
+## 10.46849       9.909409 -10.29522 30.11404 -20.99091 40.80973
+## 10.47123       9.178946 -11.02569 29.38358 -21.72137 40.07927
+## 10.47397       9.724160 -10.48047 29.92879 -21.17616 40.62448
+## 10.47671       6.439264 -13.76537 26.64390 -24.46106 37.33958
+## 10.47945      -7.246653 -27.45129 12.95798 -38.14697 23.65367
+## 10.48219      -4.370599 -24.57523 15.83403 -35.27092 26.52972
+## 10.48493       1.092988 -19.11165 21.29762 -29.80733 31.99331
+## 10.48767      -6.704761 -26.90939 13.49987 -37.60508 24.19556
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(pred, }\AttributeTok{main=}\StringTok{" "}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"valor"}\NormalTok{, }\AttributeTok{col=}\StringTok{"deepskyblue"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Tiempo"}\NormalTok{)}
+\FunctionTok{title}\NormalTok{(}\AttributeTok{main=}\StringTok{"Predicción DIF Precios del aceite de soya"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
+
 \hypertarget{final-words}{%
 \chapter{Final Words}\label{final-words}}
 
