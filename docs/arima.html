@@ -23,7 +23,7 @@
 <meta name="author" content="Nidia Munevar - Leonardo Palacios" />
 
 
-<meta name="date" content="2023-09-23" />
+<meta name="date" content="2023-09-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="holter-winter.html"/>
-<link rel="next" href="final-words.html"/>
+<link rel="next" href="prophet.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -152,7 +152,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="diferenciacion.html"><a href="diferenciacion.html"><i class="fa fa-check"></i><b>10</b> Diferenciacion</a></li>
 <li class="chapter" data-level="11" data-path="holter-winter.html"><a href="holter-winter.html"><i class="fa fa-check"></i><b>11</b> Holter-Winter</a></li>
 <li class="chapter" data-level="12" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>12</b> ARIMA</a></li>
-<li class="chapter" data-level="13" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>13</b> Final Words</a></li>
+<li class="chapter" data-level="13" data-path="prophet.html"><a href="prophet.html"><i class="fa fa-check"></i><b>13</b> Prophet</a></li>
+<li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -181,13 +182,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Series: soybean_ts 
 ## ARIMA(0,0,0) with zero mean 
 ## 
-## sigma^2 = 315:  log likelihood = -14822.55
-## AIC=29647.11   AICc=29647.11   BIC=29653.25</code></pre>
+## sigma^2 = 314.9:  log likelihood = -14826.36
+## AIC=29654.72   AICc=29654.72   BIC=29660.86</code></pre>
 <p>Conclusión:</p>
 <p>El resultado de auto.arima() elige un modelo ARIMA(0,0,0) con media cero,indica según el análisis que no hay patrones, ritmos, ni tendencias claras en los datos de la serie de tiempo del precio del aceite de soya.</p>
 <p>Los valores de la serie de tiempo del precio delaceite de soya son como un conjunto de números aleatorios, o “ruido blanco”, sin conexión aparente entre ellos. En otras palabras, cada punto de datos es independiente de los otros y no está influenciado por los valores pasados en la serie.</p>
 <div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="arima.html#cb66-1" tabindex="-1"></a><span class="fu">length</span>(soybean_ts)</span></code></pre></div>
-<pre><code>## [1] 3451</code></pre>
+<pre><code>## [1] 3452</code></pre>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="arima.html#cb68-1" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(soybean_ts))</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
 <div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="arima.html#cb70-1" tabindex="-1"></a><span class="fu">class</span>(soybean_ts)</span></code></pre></div>
@@ -217,18 +218,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="arima.html#cb80-1" tabindex="-1"></a>pred<span class="ot">&lt;-</span><span class="fu">forecast</span>(soybean_ts,<span class="at">h=</span><span class="dv">12</span>)</span>
 <span id="cb80-2"><a href="arima.html#cb80-2" tabindex="-1"></a>pred</span></code></pre></div>
 <pre><code>##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
-## 10.45753      -8.494463 -28.69910 11.71017 -39.39478 22.40586
-## 10.46027       1.707605 -18.49703 21.91224 -29.19271 32.60792
-## 10.46301      -1.862220 -22.06685 18.34241 -32.76254 29.03810
-## 10.46575      -8.089611 -28.29424 12.11502 -38.98993 22.81071
-## 10.46849       9.909409 -10.29522 30.11404 -20.99091 40.80973
-## 10.47123       9.178946 -11.02569 29.38358 -21.72137 40.07927
-## 10.47397       9.724160 -10.48047 29.92879 -21.17616 40.62448
-## 10.47671       6.439264 -13.76537 26.64390 -24.46106 37.33958
-## 10.47945      -7.246653 -27.45129 12.95798 -38.14697 23.65367
-## 10.48219      -4.370599 -24.57523 15.83403 -35.27092 26.52972
-## 10.48493       1.092988 -19.11165 21.29762 -29.80733 31.99331
-## 10.48767      -6.704761 -26.90939 13.49987 -37.60508 24.19556</code></pre>
+## 10.46027       1.705264 -18.49799 21.90851 -29.19294 32.60347
+## 10.46301      -1.864569 -22.06782 18.33868 -32.76277 29.03364
+## 10.46575      -8.091969 -28.29522 12.11128 -38.99017 22.80624
+## 10.46849       9.907042 -10.29621 30.11029 -20.99116 40.80525
+## 10.47123       9.176571 -11.02668 29.37982 -21.72163 40.07478
+## 10.47397       9.721777 -10.48147 29.92503 -21.17643 40.61998
+## 10.47671       6.436872 -13.76638 26.64012 -24.46133 37.33508
+## 10.47945      -7.249053 -27.45230 12.95420 -38.14726 23.64915
+## 10.48219      -4.373007 -24.57626 15.83024 -35.27121 26.52520
+## 10.48493       1.090572 -19.11268 21.29382 -29.80763 31.98878
+## 10.48767      -6.707186 -26.91044 13.49607 -37.60539 24.19102
+## 10.49041       1.096394 -19.10686 21.29965 -29.80181 31.99460</code></pre>
 <div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="arima.html#cb82-1" tabindex="-1"></a><span class="fu">plot</span>(pred, <span class="at">main=</span><span class="st">&quot; &quot;</span>, <span class="at">ylab=</span><span class="st">&quot;valor&quot;</span>, <span class="at">col=</span><span class="st">&quot;deepskyblue&quot;</span>, <span class="at">xlab=</span><span class="st">&quot;Tiempo&quot;</span>)</span>
 <span id="cb82-2"><a href="arima.html#cb82-2" tabindex="-1"></a><span class="fu">title</span>(<span class="at">main=</span><span class="st">&quot;Predicción DIF Precios del aceite de soya&quot;</span>)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
@@ -240,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 <a href="holter-winter.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="prophet.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
