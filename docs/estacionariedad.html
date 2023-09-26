@@ -154,6 +154,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>12</b> ARIMA</a></li>
 <li class="chapter" data-level="13" data-path="prophet.html"><a href="prophet.html"><i class="fa fa-check"></i><b>13</b> Prophet</a></li>
 <li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="15" data-path="rnn-elman.html"><a href="rnn-elman.html"><i class="fa fa-check"></i><b>15</b> RNN-Elman</a></li>
+<li class="chapter" data-level="16" data-path="rnn-jordan.html"><a href="rnn-jordan.html"><i class="fa fa-check"></i><b>16</b> RNN-Jordan</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -178,15 +180,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 9</span> Estacionariedad<a href="estacionariedad.html#estacionariedad" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>La prueba de Dickey-Fuller, específicamente el test ADF (Augmented Dickey-Fuller), es una prueba estadística utilizada para determinar si una serie temporal tiene una raíz unitaria, es decir, si es no estacionaria y presenta alguna forma de estructura temporal como una tendencia o una estacionalidad.</p>
 <p>Vamos a comprobar mediante esta prueba si es o no estacionaria la serie de tiempo del precio del aceite de soya.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="estacionariedad.html#cb48-1" tabindex="-1"></a><span class="co"># Cargar el paquete necesario</span></span>
-<span id="cb48-2"><a href="estacionariedad.html#cb48-2" tabindex="-1"></a><span class="fu">library</span>(tseries)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estacionariedad.html#cb50-1" tabindex="-1"></a><span class="co"># Cargar el paquete necesario</span></span>
+<span id="cb50-2"><a href="estacionariedad.html#cb50-2" tabindex="-1"></a><span class="fu">library</span>(tseries)</span></code></pre></div>
 <pre><code>## Warning: package &#39;tseries&#39; was built under R version 4.2.3</code></pre>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="estacionariedad.html#cb50-1" tabindex="-1"></a><span class="co"># Supón que tienes una serie temporal llamada &#39;mi_serie&#39;</span></span>
-<span id="cb50-2"><a href="estacionariedad.html#cb50-2" tabindex="-1"></a><span class="co"># Realizar la prueba de Dickey-Fuller Aumentada</span></span>
-<span id="cb50-3"><a href="estacionariedad.html#cb50-3" tabindex="-1"></a>resultado_adf <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soybean_ts)</span>
-<span id="cb50-4"><a href="estacionariedad.html#cb50-4" tabindex="-1"></a></span>
-<span id="cb50-5"><a href="estacionariedad.html#cb50-5" tabindex="-1"></a><span class="co"># Imprimir el resultado</span></span>
-<span id="cb50-6"><a href="estacionariedad.html#cb50-6" tabindex="-1"></a><span class="fu">print</span>(resultado_adf)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="estacionariedad.html#cb52-1" tabindex="-1"></a><span class="co"># Supón que tienes una serie temporal llamada &#39;mi_serie&#39;</span></span>
+<span id="cb52-2"><a href="estacionariedad.html#cb52-2" tabindex="-1"></a><span class="co"># Realizar la prueba de Dickey-Fuller Aumentada</span></span>
+<span id="cb52-3"><a href="estacionariedad.html#cb52-3" tabindex="-1"></a>resultado_adf <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soybean_ts)</span>
+<span id="cb52-4"><a href="estacionariedad.html#cb52-4" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="estacionariedad.html#cb52-5" tabindex="-1"></a><span class="co"># Imprimir el resultado</span></span>
+<span id="cb52-6"><a href="estacionariedad.html#cb52-6" tabindex="-1"></a><span class="fu">print</span>(resultado_adf)</span></code></pre></div>
 <pre><code>## 
 ##  Augmented Dickey-Fuller Test
 ## 

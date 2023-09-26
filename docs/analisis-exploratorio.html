@@ -154,6 +154,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>12</b> ARIMA</a></li>
 <li class="chapter" data-level="13" data-path="prophet.html"><a href="prophet.html"><i class="fa fa-check"></i><b>13</b> Prophet</a></li>
 <li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="15" data-path="rnn-elman.html"><a href="rnn-elman.html"><i class="fa fa-check"></i><b>15</b> RNN-Elman</a></li>
+<li class="chapter" data-level="16" data-path="rnn-jordan.html"><a href="rnn-jordan.html"><i class="fa fa-check"></i><b>16</b> RNN-Jordan</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -235,17 +237,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 2010-01-07    1017.75
 ## 2010-01-08    1013.00
 ## 2010-01-11    1001.75</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="analisis-exploratorio.html#cb28-1" tabindex="-1"></a><span class="co"># Cargar la biblioteca ggplot2 para hacer gráficos</span></span>
-<span id="cb28-2"><a href="analisis-exploratorio.html#cb28-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="analisis-exploratorio.html#cb28-1" tabindex="-1"></a><span class="fu">head</span>(soybean_xts)</span></code></pre></div>
+<pre><code>##            ZS.F.Open ZS.F.High ZS.F.Low ZS.F.Close ZS.F.Volume
+## 2010-01-04   1043.00   1065.50  1041.25    1049.50       25947
+## 2010-01-05   1047.00   1056.00  1042.00    1052.25       21073
+## 2010-01-06   1050.00   1058.50  1042.75    1050.50       17567
+## 2010-01-07   1050.50   1052.00  1016.50    1017.75       11750
+## 2010-01-08   1018.25   1018.25  1005.00    1013.00       11750
+## 2010-01-11   1014.00   1022.00   997.50    1001.75       11750</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="analisis-exploratorio.html#cb30-1" tabindex="-1"></a><span class="co"># Cargar la biblioteca ggplot2 para hacer gráficos</span></span>
+<span id="cb30-2"><a href="analisis-exploratorio.html#cb30-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 <pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="analisis-exploratorio.html#cb30-1" tabindex="-1"></a><span class="co"># Crear un gráfico de serie de tiempo</span></span>
-<span id="cb30-2"><a href="analisis-exploratorio.html#cb30-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(close_prices), <span class="at">y =</span> close_prices)) <span class="sc">+</span></span>
-<span id="cb30-3"><a href="analisis-exploratorio.html#cb30-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb30-4"><a href="analisis-exploratorio.html#cb30-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precio de Cierre&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Serie de Tiempo de Futuros de Soja&quot;</span>) <span class="sc">+</span></span>
-<span id="cb30-5"><a href="analisis-exploratorio.html#cb30-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="analisis-exploratorio.html#cb32-1" tabindex="-1"></a><span class="co"># Crear un gráfico de serie de tiempo</span></span>
+<span id="cb32-2"><a href="analisis-exploratorio.html#cb32-2" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">index</span>(close_prices), <span class="at">y =</span> close_prices)) <span class="sc">+</span></span>
+<span id="cb32-3"><a href="analisis-exploratorio.html#cb32-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="analisis-exploratorio.html#cb32-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precio de Cierre&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Serie de Tiempo de Futuros de Soja&quot;</span>) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="analisis-exploratorio.html#cb32-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <pre><code>## Don&#39;t know how to automatically pick scale for object of type &lt;xts/zoo&gt;.
 ## Defaulting to continuous.</code></pre>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 
 </div>
             </section>

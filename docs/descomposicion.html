@@ -154,6 +154,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="12" data-path="arima.html"><a href="arima.html"><i class="fa fa-check"></i><b>12</b> ARIMA</a></li>
 <li class="chapter" data-level="13" data-path="prophet.html"><a href="prophet.html"><i class="fa fa-check"></i><b>13</b> Prophet</a></li>
 <li class="chapter" data-level="14" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>14</b> Final Words</a></li>
+<li class="chapter" data-level="15" data-path="rnn-elman.html"><a href="rnn-elman.html"><i class="fa fa-check"></i><b>15</b> RNN-Elman</a></li>
+<li class="chapter" data-level="16" data-path="rnn-jordan.html"><a href="rnn-jordan.html"><i class="fa fa-check"></i><b>16</b> RNN-Jordan</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -183,31 +185,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Tendencia (trend): Muestra la dirección general en la que se mueven los datos a largo plazo, sin tener en cuenta las fluctuaciones estacionales o irregulares.</p>
 <p>Estacionalidad (seasonal): Representa las fluctuaciones que ocurren en intervalos regulares, como los cambios diarios, mensuales o anuales, debido a la estacionalidad.</p>
 <p>Error o Residuo (random): Es la parte de la serie de tiempo que no se puede atribuir ni a la tendencia ni a la estacionalidad. Captura la variabilidad en los datos que no se puede explicar por los otros dos componentes.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="descomposicion.html#cb45-1" tabindex="-1"></a><span class="co"># Convertir a objeto ts, aquí supondré que tienes datos diarios.</span></span>
-<span id="cb45-2"><a href="descomposicion.html#cb45-2" tabindex="-1"></a>frecuencia <span class="ot">&lt;-</span> <span class="dv">365</span>  <span class="co"># (12 para mensual, 4 para trimestral, etc.)</span></span>
-<span id="cb45-3"><a href="descomposicion.html#cb45-3" tabindex="-1"></a>soybean_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>], <span class="at">frequency =</span> frecuencia)</span>
-<span id="cb45-4"><a href="descomposicion.html#cb45-4" tabindex="-1"></a></span>
-<span id="cb45-5"><a href="descomposicion.html#cb45-5" tabindex="-1"></a><span class="co"># Utilizar decompose</span></span>
-<span id="cb45-6"><a href="descomposicion.html#cb45-6" tabindex="-1"></a>soybean_decomposed <span class="ot">&lt;-</span> <span class="fu">decompose</span>(soybean_ts)</span>
-<span id="cb45-7"><a href="descomposicion.html#cb45-7" tabindex="-1"></a><span class="fu">plot</span>(soybean_decomposed)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="descomposicion.html#cb47-1" tabindex="-1"></a><span class="co"># Convertir a objeto ts, aquí supondré que tienes datos diarios.</span></span>
+<span id="cb47-2"><a href="descomposicion.html#cb47-2" tabindex="-1"></a>frecuencia <span class="ot">&lt;-</span> <span class="dv">365</span>  <span class="co"># (12 para mensual, 4 para trimestral, etc.)</span></span>
+<span id="cb47-3"><a href="descomposicion.html#cb47-3" tabindex="-1"></a>soybean_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>], <span class="at">frequency =</span> frecuencia)</span>
+<span id="cb47-4"><a href="descomposicion.html#cb47-4" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="descomposicion.html#cb47-5" tabindex="-1"></a><span class="co"># Utilizar decompose</span></span>
+<span id="cb47-6"><a href="descomposicion.html#cb47-6" tabindex="-1"></a>soybean_decomposed <span class="ot">&lt;-</span> <span class="fu">decompose</span>(soybean_ts)</span>
+<span id="cb47-7"><a href="descomposicion.html#cb47-7" tabindex="-1"></a><span class="fu">plot</span>(soybean_decomposed)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-15-1.png" width="672" />
 Al validar el componenete estacional de la serie por separado, como se ve en la siguiente imagen:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="descomposicion.html#cb46-1" tabindex="-1"></a><span class="co"># Extraer el componente estacional y convertir el tiempo en fecha</span></span>
-<span id="cb46-2"><a href="descomposicion.html#cb46-2" tabindex="-1"></a>seasonal_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb46-3"><a href="descomposicion.html#cb46-3" tabindex="-1"></a>  <span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">index</span>(soybean_xts)),</span>
-<span id="cb46-4"><a href="descomposicion.html#cb46-4" tabindex="-1"></a>  <span class="at">Seasonal =</span> <span class="fu">as.numeric</span>(soybean_decomposed<span class="sc">$</span>seasonal)</span>
-<span id="cb46-5"><a href="descomposicion.html#cb46-5" tabindex="-1"></a>)</span>
-<span id="cb46-6"><a href="descomposicion.html#cb46-6" tabindex="-1"></a></span>
-<span id="cb46-7"><a href="descomposicion.html#cb46-7" tabindex="-1"></a><span class="co"># Eliminar las filas con NA en el componente estacional (pueden aparecer dependiendo del método de descomposición)</span></span>
-<span id="cb46-8"><a href="descomposicion.html#cb46-8" tabindex="-1"></a>seasonal_df <span class="ot">&lt;-</span> seasonal_df[<span class="sc">!</span><span class="fu">is.na</span>(seasonal_df<span class="sc">$</span>Seasonal), ]</span></code></pre></div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="descomposicion.html#cb47-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb47-2"><a href="descomposicion.html#cb47-2" tabindex="-1"></a></span>
-<span id="cb47-3"><a href="descomposicion.html#cb47-3" tabindex="-1"></a><span class="fu">ggplot</span>(seasonal_df, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Seasonal)) <span class="sc">+</span></span>
-<span id="cb47-4"><a href="descomposicion.html#cb47-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
-<span id="cb47-5"><a href="descomposicion.html#cb47-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb47-6"><a href="descomposicion.html#cb47-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Componente Estacional de la Serie Temporal&quot;</span>, <span class="at">x=</span><span class="st">&quot;Fecha&quot;</span>, <span class="at">y=</span><span class="st">&quot;Estacionalidad&quot;</span>) <span class="sc">+</span></span>
-<span id="cb47-7"><a href="descomposicion.html#cb47-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="descomposicion.html#cb48-1" tabindex="-1"></a><span class="co"># Extraer el componente estacional y convertir el tiempo en fecha</span></span>
+<span id="cb48-2"><a href="descomposicion.html#cb48-2" tabindex="-1"></a>seasonal_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb48-3"><a href="descomposicion.html#cb48-3" tabindex="-1"></a>  <span class="at">Date =</span> <span class="fu">as.Date</span>(<span class="fu">index</span>(soybean_xts)),</span>
+<span id="cb48-4"><a href="descomposicion.html#cb48-4" tabindex="-1"></a>  <span class="at">Seasonal =</span> <span class="fu">as.numeric</span>(soybean_decomposed<span class="sc">$</span>seasonal)</span>
+<span id="cb48-5"><a href="descomposicion.html#cb48-5" tabindex="-1"></a>)</span>
+<span id="cb48-6"><a href="descomposicion.html#cb48-6" tabindex="-1"></a></span>
+<span id="cb48-7"><a href="descomposicion.html#cb48-7" tabindex="-1"></a><span class="co"># Eliminar las filas con NA en el componente estacional (pueden aparecer dependiendo del método de descomposición)</span></span>
+<span id="cb48-8"><a href="descomposicion.html#cb48-8" tabindex="-1"></a>seasonal_df <span class="ot">&lt;-</span> seasonal_df[<span class="sc">!</span><span class="fu">is.na</span>(seasonal_df<span class="sc">$</span>Seasonal), ]</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="descomposicion.html#cb49-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb49-2"><a href="descomposicion.html#cb49-2" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="descomposicion.html#cb49-3" tabindex="-1"></a><span class="fu">ggplot</span>(seasonal_df, <span class="fu">aes</span>(<span class="at">x=</span>Date, <span class="at">y=</span>Seasonal)) <span class="sc">+</span></span>
+<span id="cb49-4"><a href="descomposicion.html#cb49-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color=</span><span class="st">&quot;blue&quot;</span>) <span class="sc">+</span></span>
+<span id="cb49-5"><a href="descomposicion.html#cb49-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb49-6"><a href="descomposicion.html#cb49-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Componente Estacional de la Serie Temporal&quot;</span>, <span class="at">x=</span><span class="st">&quot;Fecha&quot;</span>, <span class="at">y=</span><span class="st">&quot;Estacionalidad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="descomposicion.html#cb49-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 Podemos deducir que la serie de tiempo de los precios del aceite de soya:</p>
 <ol style="list-style-type: decimal">
 <li><p>Muestra patrones claros y consistentes, esto sugiere que la serie temporal tiene ciclos regulares que se repiten a intervalos fijos.</p></li>
