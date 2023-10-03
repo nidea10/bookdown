@@ -182,21 +182,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="rezago.html#cb43-1" tabindex="-1"></a><span class="co"># Sin cargar la librería dplyr para evitar conflictos</span></span>
 <span id="cb43-2"><a href="rezago.html#cb43-2" tabindex="-1"></a>datos_lag <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb43-3"><a href="rezago.html#cb43-3" tabindex="-1"></a>  <span class="at">Close =</span> <span class="fu">as.numeric</span>(<span class="fu">coredata</span>(soybean_xts)),</span>
-<span id="cb43-4"><a href="rezago.html#cb43-4" tabindex="-1"></a>  <span class="at">Lag =</span> <span class="fu">as.numeric</span>(<span class="fu">coredata</span>(stats<span class="sc">::</span><span class="fu">lag</span>(soybean_xts))) <span class="co"># Usar stats::lag para evitar conflictos</span></span>
-<span id="cb43-5"><a href="rezago.html#cb43-5" tabindex="-1"></a>)</span>
-<span id="cb43-6"><a href="rezago.html#cb43-6" tabindex="-1"></a></span>
-<span id="cb43-7"><a href="rezago.html#cb43-7" tabindex="-1"></a><span class="co"># Comprobando que ambos vectores tengan la misma longitud</span></span>
-<span id="cb43-8"><a href="rezago.html#cb43-8" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(datos_lag<span class="sc">$</span>Close) <span class="sc">==</span> <span class="fu">length</span>(datos_lag<span class="sc">$</span>Lag))  <span class="co"># Detiene la ejecución si no son TRUE</span></span>
-<span id="cb43-9"><a href="rezago.html#cb43-9" tabindex="-1"></a></span>
-<span id="cb43-10"><a href="rezago.html#cb43-10" tabindex="-1"></a><span class="co"># Crear el gráfico de rezago con ggplot2</span></span>
-<span id="cb43-11"><a href="rezago.html#cb43-11" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb43-12"><a href="rezago.html#cb43-12" tabindex="-1"></a><span class="fu">ggplot</span>(datos_lag, <span class="fu">aes</span>(<span class="at">x=</span>Lag, <span class="at">y=</span>Close)) <span class="sc">+</span></span>
-<span id="cb43-13"><a href="rezago.html#cb43-13" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Close), <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb43-14"><a href="rezago.html#cb43-14" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
-<span id="cb43-15"><a href="rezago.html#cb43-15" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low=</span><span class="st">&quot;red&quot;</span>, <span class="at">high=</span><span class="st">&quot;green&quot;</span>) <span class="sc">+</span></span>
-<span id="cb43-16"><a href="rezago.html#cb43-16" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb43-17"><a href="rezago.html#cb43-17" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Gráfico de Rezago para Precio de Cierre&quot;</span>, <span class="at">x=</span><span class="st">&quot;Rezago 1&quot;</span>, <span class="at">y=</span><span class="st">&quot;Precio de Cierre&quot;</span>) <span class="sc">+</span></span>
-<span id="cb43-18"><a href="rezago.html#cb43-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<span id="cb43-4"><a href="rezago.html#cb43-4" tabindex="-1"></a>  <span class="at">Lag =</span> <span class="fu">as.numeric</span>(<span class="fu">coredata</span>(stats<span class="sc">::</span><span class="fu">lag</span>(soybean_xts))) <span class="co"># Usar </span></span>
+<span id="cb43-5"><a href="rezago.html#cb43-5" tabindex="-1"></a>  <span class="co"># stats::lag para evitar conflictos</span></span>
+<span id="cb43-6"><a href="rezago.html#cb43-6" tabindex="-1"></a>)</span>
+<span id="cb43-7"><a href="rezago.html#cb43-7" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="rezago.html#cb43-8" tabindex="-1"></a><span class="co"># Comprobando que ambos vectores tengan la misma longitud</span></span>
+<span id="cb43-9"><a href="rezago.html#cb43-9" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">length</span>(datos_lag<span class="sc">$</span>Close) <span class="sc">==</span> <span class="fu">length</span>(datos_lag<span class="sc">$</span>Lag))  </span>
+<span id="cb43-10"><a href="rezago.html#cb43-10" tabindex="-1"></a><span class="co"># Detiene la ejecución si no son TRUE</span></span>
+<span id="cb43-11"><a href="rezago.html#cb43-11" tabindex="-1"></a></span>
+<span id="cb43-12"><a href="rezago.html#cb43-12" tabindex="-1"></a><span class="co"># Crear el gráfico de rezago con ggplot2</span></span>
+<span id="cb43-13"><a href="rezago.html#cb43-13" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb43-14"><a href="rezago.html#cb43-14" tabindex="-1"></a><span class="fu">ggplot</span>(datos_lag, <span class="fu">aes</span>(<span class="at">x=</span>Lag, <span class="at">y=</span>Close)) <span class="sc">+</span></span>
+<span id="cb43-15"><a href="rezago.html#cb43-15" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> Close), <span class="at">alpha=</span><span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb43-16"><a href="rezago.html#cb43-16" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, </span>
+<span id="cb43-17"><a href="rezago.html#cb43-17" tabindex="-1"></a>  <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-18"><a href="rezago.html#cb43-18" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low=</span><span class="st">&quot;red&quot;</span>, <span class="at">high=</span><span class="st">&quot;green&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-19"><a href="rezago.html#cb43-19" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb43-20"><a href="rezago.html#cb43-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Gráfico de Rezago para Precio de Cierre&quot;</span>, </span>
+<span id="cb43-21"><a href="rezago.html#cb43-21" tabindex="-1"></a>  <span class="at">x=</span><span class="st">&quot;Rezago 1&quot;</span>, <span class="at">y=</span><span class="st">&quot;Precio de Cierre&quot;</span>) <span class="sc">+</span></span>
+<span id="cb43-22"><a href="rezago.html#cb43-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 5 rows containing non-finite values (`stat_smooth()`).</code></pre>
 <pre><code>## Warning: Removed 5 rows containing missing values (`geom_point()`).</code></pre>

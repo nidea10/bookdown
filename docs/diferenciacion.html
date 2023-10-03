@@ -185,24 +185,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb55-4"><a href="diferenciacion.html#cb55-4" tabindex="-1"></a><span class="co"># Realiza el test ADF y verifica la estacionariedad</span></span>
 <span id="cb55-5"><a href="diferenciacion.html#cb55-5" tabindex="-1"></a><span class="cf">while</span>(<span class="cn">TRUE</span>) {</span>
 <span id="cb55-6"><a href="diferenciacion.html#cb55-6" tabindex="-1"></a>  p_value <span class="ot">&lt;-</span> <span class="fu">adf.test</span>(soybean_ts)<span class="sc">$</span>p.value</span>
-<span id="cb55-7"><a href="diferenciacion.html#cb55-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Número de diferencias:&quot;</span>, diferencias, <span class="st">&quot;- Valor p:&quot;</span>, p_value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb55-8"><a href="diferenciacion.html#cb55-8" tabindex="-1"></a>  </span>
-<span id="cb55-9"><a href="diferenciacion.html#cb55-9" tabindex="-1"></a>  <span class="co"># Si el valor p es menor que 0.05, la serie es estacionaria, y puedes salir del bucle.</span></span>
-<span id="cb55-10"><a href="diferenciacion.html#cb55-10" tabindex="-1"></a>  <span class="cf">if</span>(p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>) {</span>
-<span id="cb55-11"><a href="diferenciacion.html#cb55-11" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie se volvió estacionaria después de&quot;</span>, diferencias, <span class="st">&quot;diferenciaciones.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb55-12"><a href="diferenciacion.html#cb55-12" tabindex="-1"></a>    <span class="cf">break</span></span>
-<span id="cb55-13"><a href="diferenciacion.html#cb55-13" tabindex="-1"></a>  }</span>
-<span id="cb55-14"><a href="diferenciacion.html#cb55-14" tabindex="-1"></a>  </span>
-<span id="cb55-15"><a href="diferenciacion.html#cb55-15" tabindex="-1"></a>  <span class="co"># Si has llegado al final de la serie, sal del bucle</span></span>
-<span id="cb55-16"><a href="diferenciacion.html#cb55-16" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(soybean_ts) <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
-<span id="cb55-17"><a href="diferenciacion.html#cb55-17" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie no se volvió estacionaria después de diferenciar.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb55-18"><a href="diferenciacion.html#cb55-18" tabindex="-1"></a>    <span class="cf">break</span></span>
-<span id="cb55-19"><a href="diferenciacion.html#cb55-19" tabindex="-1"></a>  }</span>
-<span id="cb55-20"><a href="diferenciacion.html#cb55-20" tabindex="-1"></a>  </span>
-<span id="cb55-21"><a href="diferenciacion.html#cb55-21" tabindex="-1"></a>  <span class="co"># Si no es estacionaria, diferenciar la serie una vez más y continuar el bucle.</span></span>
-<span id="cb55-22"><a href="diferenciacion.html#cb55-22" tabindex="-1"></a>  soybean_ts <span class="ot">&lt;-</span> <span class="fu">diff</span>(soybean_ts)</span>
-<span id="cb55-23"><a href="diferenciacion.html#cb55-23" tabindex="-1"></a>  diferencias <span class="ot">&lt;-</span> diferencias <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb55-24"><a href="diferenciacion.html#cb55-24" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb55-7"><a href="diferenciacion.html#cb55-7" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">&quot;Número de diferencias:&quot;</span>, diferencias, <span class="st">&quot;- Valor p:&quot;</span>, </span>
+<span id="cb55-8"><a href="diferenciacion.html#cb55-8" tabindex="-1"></a>  p_value, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb55-9"><a href="diferenciacion.html#cb55-9" tabindex="-1"></a>  </span>
+<span id="cb55-10"><a href="diferenciacion.html#cb55-10" tabindex="-1"></a>  <span class="co"># Si el valor p es menor que 0.05, la serie es estacionaria,</span></span>
+<span id="cb55-11"><a href="diferenciacion.html#cb55-11" tabindex="-1"></a>  <span class="co"># y puedes salir del bucle.</span></span>
+<span id="cb55-12"><a href="diferenciacion.html#cb55-12" tabindex="-1"></a>  <span class="cf">if</span>(p_value <span class="sc">&lt;</span> <span class="fl">0.05</span>) {</span>
+<span id="cb55-13"><a href="diferenciacion.html#cb55-13" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie se volvió estacionaria después de&quot;</span>, diferencias, <span class="st">&quot;diferenciaciones.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb55-14"><a href="diferenciacion.html#cb55-14" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb55-15"><a href="diferenciacion.html#cb55-15" tabindex="-1"></a>  }</span>
+<span id="cb55-16"><a href="diferenciacion.html#cb55-16" tabindex="-1"></a>  </span>
+<span id="cb55-17"><a href="diferenciacion.html#cb55-17" tabindex="-1"></a>  <span class="co"># Si has llegado al final de la serie, sal del bucle</span></span>
+<span id="cb55-18"><a href="diferenciacion.html#cb55-18" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(soybean_ts) <span class="sc">&lt;=</span> <span class="dv">1</span>) {</span>
+<span id="cb55-19"><a href="diferenciacion.html#cb55-19" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;La serie no se volvió estacionaria después de </span></span>
+<span id="cb55-20"><a href="diferenciacion.html#cb55-20" tabindex="-1"></a><span class="st">        diferenciar.</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb55-21"><a href="diferenciacion.html#cb55-21" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb55-22"><a href="diferenciacion.html#cb55-22" tabindex="-1"></a>  }</span>
+<span id="cb55-23"><a href="diferenciacion.html#cb55-23" tabindex="-1"></a>  </span>
+<span id="cb55-24"><a href="diferenciacion.html#cb55-24" tabindex="-1"></a>  <span class="co"># Si no es estacionaria, diferenciar la serie una vez más y </span></span>
+<span id="cb55-25"><a href="diferenciacion.html#cb55-25" tabindex="-1"></a>  <span class="co"># continuar el bucle.</span></span>
+<span id="cb55-26"><a href="diferenciacion.html#cb55-26" tabindex="-1"></a>  soybean_ts <span class="ot">&lt;-</span> <span class="fu">diff</span>(soybean_ts)</span>
+<span id="cb55-27"><a href="diferenciacion.html#cb55-27" tabindex="-1"></a>  diferencias <span class="ot">&lt;-</span> diferencias <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb55-28"><a href="diferenciacion.html#cb55-28" tabindex="-1"></a>}</span></code></pre></div>
 <pre><code>## Número de diferencias: 0 - Valor p: 0.5610549</code></pre>
 <pre><code>## Warning in adf.test(soybean_ts): p-value smaller than printed p-value</code></pre>
 <pre><code>## Número de diferencias: 1 - Valor p: 0.01 

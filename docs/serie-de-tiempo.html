@@ -194,8 +194,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="serie-de-tiempo.html#cb8-1" tabindex="-1"></a><span class="co"># Especificar el símbolo para futuros de soja</span></span>
 <span id="cb8-2"><a href="serie-de-tiempo.html#cb8-2" tabindex="-1"></a>symbol <span class="ot">&lt;-</span> <span class="st">&quot;ZS=F&quot;</span></span>
 <span id="cb8-3"><a href="serie-de-tiempo.html#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="serie-de-tiempo.html#cb8-4" tabindex="-1"></a><span class="co"># Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy</span></span>
-<span id="cb8-5"><a href="serie-de-tiempo.html#cb8-5" tabindex="-1"></a><span class="fu">getSymbols</span>(symbol, <span class="at">from =</span> <span class="st">&quot;2010-01-01&quot;</span>, <span class="at">to =</span> <span class="fu">Sys.Date</span>(), <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<span id="cb8-4"><a href="serie-de-tiempo.html#cb8-4" tabindex="-1"></a><span class="co"># Descargar los datos históricos desde el 1 de enero de 2010 hasta</span></span>
+<span id="cb8-5"><a href="serie-de-tiempo.html#cb8-5" tabindex="-1"></a><span class="co"># hoy</span></span>
+<span id="cb8-6"><a href="serie-de-tiempo.html#cb8-6" tabindex="-1"></a><span class="fu">getSymbols</span>(symbol, <span class="at">from =</span> <span class="st">&quot;2010-01-01&quot;</span>, <span class="at">to =</span> <span class="fu">Sys.Date</span>(), </span>
+<span id="cb8-7"><a href="serie-de-tiempo.html#cb8-7" tabindex="-1"></a><span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;ZS=F&quot;</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="serie-de-tiempo.html#cb10-1" tabindex="-1"></a><span class="co"># Crear un data frame con la serie de tiempo</span></span>
 <span id="cb10-2"><a href="serie-de-tiempo.html#cb10-2" tabindex="-1"></a>soybean_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Date =</span> <span class="fu">index</span>(<span class="fu">get</span>(symbol)), </span>

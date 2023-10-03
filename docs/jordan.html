@@ -180,49 +180,57 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 15</span> Jordan<a href="jordan.html#jordan" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Una red neuronal Jordan es un tipo especial de red neuronal que puede recordar información pasada para ayudar en predicciones futuras. En lugar de simplemente tomar una entrada y producir una salida, esta red toma tanto la entrada actual como su propia salida anterior para hacer su próxima predicción. Es como si tuviera una pequeña memoria de lo que hizo anteriormente.</p>
 <p>Imagina que intentas predecir el clima. En lugar de solo mirar el clima de hoy, también consideras lo que predijiste ayer. Esa es la idea detrás de la red Jordan</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="jordan.html#cb105-1" tabindex="-1"></a><span class="co"># Cargar los paquetes necesarios</span></span>
-<span id="cb105-2"><a href="jordan.html#cb105-2" tabindex="-1"></a><span class="co"># install.packages(&quot;neuralnet&quot;)</span></span>
-<span id="cb105-3"><a href="jordan.html#cb105-3" tabindex="-1"></a><span class="co"># install.packages(&quot;xts&quot;)</span></span>
-<span id="cb105-4"><a href="jordan.html#cb105-4" tabindex="-1"></a><span class="fu">library</span>(neuralnet)</span>
-<span id="cb105-5"><a href="jordan.html#cb105-5" tabindex="-1"></a><span class="fu">library</span>(xts)</span>
-<span id="cb105-6"><a href="jordan.html#cb105-6" tabindex="-1"></a></span>
-<span id="cb105-7"><a href="jordan.html#cb105-7" tabindex="-1"></a><span class="co"># Acceder a la columna de cierre</span></span>
-<span id="cb105-8"><a href="jordan.html#cb105-8" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ZS.F.Close =</span> <span class="fu">as.vector</span>(soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>]))</span>
-<span id="cb105-9"><a href="jordan.html#cb105-9" tabindex="-1"></a></span>
-<span id="cb105-10"><a href="jordan.html#cb105-10" tabindex="-1"></a><span class="co"># Crear un retraso (lag) para las series temporales y también un retraso para la variable objetivo</span></span>
-<span id="cb105-11"><a href="jordan.html#cb105-11" tabindex="-1"></a>data<span class="sc">$</span>lag_close <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">head</span>(data<span class="sc">$</span>ZS.F.Close, <span class="sc">-</span><span class="dv">1</span>))</span>
-<span id="cb105-12"><a href="jordan.html#cb105-12" tabindex="-1"></a>data<span class="sc">$</span>lag_output <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fu">head</span>(data<span class="sc">$</span>ZS.F.Close, <span class="sc">-</span><span class="dv">2</span>))  <span class="co"># Esto simula la idea de la red Jordan</span></span>
-<span id="cb105-13"><a href="jordan.html#cb105-13" tabindex="-1"></a></span>
-<span id="cb105-14"><a href="jordan.html#cb105-14" tabindex="-1"></a><span class="co"># Eliminar las primeras filas, ya que tendrán NA por el retraso</span></span>
-<span id="cb105-15"><a href="jordan.html#cb105-15" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),]</span>
-<span id="cb105-16"><a href="jordan.html#cb105-16" tabindex="-1"></a></span>
-<span id="cb105-17"><a href="jordan.html#cb105-17" tabindex="-1"></a><span class="co"># Dividir los datos en conjuntos de entrenamiento y prueba</span></span>
-<span id="cb105-18"><a href="jordan.html#cb105-18" tabindex="-1"></a>train_indices <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(data) <span class="sc">*</span> <span class="fl">0.8</span>)</span>
-<span id="cb105-19"><a href="jordan.html#cb105-19" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data[train_indices,]</span>
-<span id="cb105-20"><a href="jordan.html#cb105-20" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> data[<span class="sc">-</span>train_indices,]</span>
-<span id="cb105-21"><a href="jordan.html#cb105-21" tabindex="-1"></a></span>
-<span id="cb105-22"><a href="jordan.html#cb105-22" tabindex="-1"></a><span class="co"># Normalizar los datos</span></span>
-<span id="cb105-23"><a href="jordan.html#cb105-23" tabindex="-1"></a>maxs <span class="ot">&lt;-</span> <span class="fu">apply</span>(train_data, <span class="dv">2</span>, max)</span>
-<span id="cb105-24"><a href="jordan.html#cb105-24" tabindex="-1"></a>mins <span class="ot">&lt;-</span> <span class="fu">apply</span>(train_data, <span class="dv">2</span>, min)</span>
-<span id="cb105-25"><a href="jordan.html#cb105-25" tabindex="-1"></a>train_data_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(train_data, <span class="at">center=</span>mins, <span class="at">scale=</span>maxs<span class="sc">-</span>mins))</span>
-<span id="cb105-26"><a href="jordan.html#cb105-26" tabindex="-1"></a>test_data_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(test_data, <span class="at">center=</span>mins, <span class="at">scale=</span>maxs<span class="sc">-</span>mins))</span>
-<span id="cb105-27"><a href="jordan.html#cb105-27" tabindex="-1"></a></span>
-<span id="cb105-28"><a href="jordan.html#cb105-28" tabindex="-1"></a><span class="co"># Entrenar una red &quot;Jordan-inspired&quot; </span></span>
-<span id="cb105-29"><a href="jordan.html#cb105-29" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb105-30"><a href="jordan.html#cb105-30" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">neuralnet</span>(ZS.F.Close <span class="sc">~</span> lag_close <span class="sc">+</span> lag_output, <span class="at">data=</span>train_data_norm, <span class="at">hidden=</span><span class="dv">5</span>, <span class="at">algorithm=</span><span class="st">&quot;rprop+&quot;</span>, <span class="at">linear.output=</span><span class="cn">TRUE</span>, <span class="at">likelihood=</span><span class="cn">TRUE</span>)</span>
-<span id="cb105-31"><a href="jordan.html#cb105-31" tabindex="-1"></a></span>
-<span id="cb105-32"><a href="jordan.html#cb105-32" tabindex="-1"></a><span class="co"># Hacer predicciones</span></span>
-<span id="cb105-33"><a href="jordan.html#cb105-33" tabindex="-1"></a>test_data_for_pred <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag_close =</span> test_data_norm<span class="sc">$</span>lag_close, <span class="at">lag_output =</span> test_data_norm<span class="sc">$</span>lag_output)</span>
-<span id="cb105-34"><a href="jordan.html#cb105-34" tabindex="-1"></a>predicted_norm <span class="ot">&lt;-</span> <span class="fu">compute</span>(nn, test_data_for_pred)</span>
-<span id="cb105-35"><a href="jordan.html#cb105-35" tabindex="-1"></a></span>
-<span id="cb105-36"><a href="jordan.html#cb105-36" tabindex="-1"></a><span class="co"># Des-normalizar las predicciones</span></span>
-<span id="cb105-37"><a href="jordan.html#cb105-37" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> (predicted_norm<span class="sc">$</span>net.result <span class="sc">*</span> (maxs[<span class="dv">1</span>] <span class="sc">-</span> mins[<span class="dv">1</span>])) <span class="sc">+</span> mins[<span class="dv">1</span>]</span>
-<span id="cb105-38"><a href="jordan.html#cb105-38" tabindex="-1"></a></span>
-<span id="cb105-39"><a href="jordan.html#cb105-39" tabindex="-1"></a><span class="co"># Comparar las predicciones con los datos reales</span></span>
-<span id="cb105-40"><a href="jordan.html#cb105-40" tabindex="-1"></a><span class="fu">plot</span>(test_data<span class="sc">$</span>ZS.F.Close, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
-<span id="cb105-41"><a href="jordan.html#cb105-41" tabindex="-1"></a><span class="fu">lines</span>(predicted, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb105-42"><a href="jordan.html#cb105-42" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Real&quot;</span>, <span class="st">&quot;Predicho&quot;</span>), <span class="at">fill=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="jordan.html#cb104-1" tabindex="-1"></a><span class="co"># Cargar los paquetes necesarios</span></span>
+<span id="cb104-2"><a href="jordan.html#cb104-2" tabindex="-1"></a><span class="co"># install.packages(&quot;neuralnet&quot;)</span></span>
+<span id="cb104-3"><a href="jordan.html#cb104-3" tabindex="-1"></a><span class="co"># install.packages(&quot;xts&quot;)</span></span>
+<span id="cb104-4"><a href="jordan.html#cb104-4" tabindex="-1"></a><span class="fu">library</span>(neuralnet)</span>
+<span id="cb104-5"><a href="jordan.html#cb104-5" tabindex="-1"></a><span class="fu">library</span>(xts)</span>
+<span id="cb104-6"><a href="jordan.html#cb104-6" tabindex="-1"></a></span>
+<span id="cb104-7"><a href="jordan.html#cb104-7" tabindex="-1"></a><span class="co"># Acceder a la columna de cierre</span></span>
+<span id="cb104-8"><a href="jordan.html#cb104-8" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ZS.F.Close =</span> <span class="fu">as.vector</span>(soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>]))</span>
+<span id="cb104-9"><a href="jordan.html#cb104-9" tabindex="-1"></a></span>
+<span id="cb104-10"><a href="jordan.html#cb104-10" tabindex="-1"></a><span class="co"># Crear un retraso (lag) para las series temporales y también un</span></span>
+<span id="cb104-11"><a href="jordan.html#cb104-11" tabindex="-1"></a><span class="co"># retraso para la variable objetivo</span></span>
+<span id="cb104-12"><a href="jordan.html#cb104-12" tabindex="-1"></a>data<span class="sc">$</span>lag_close <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="fu">head</span>(data<span class="sc">$</span>ZS.F.Close, <span class="sc">-</span><span class="dv">1</span>))</span>
+<span id="cb104-13"><a href="jordan.html#cb104-13" tabindex="-1"></a>data<span class="sc">$</span>lag_output <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="fu">head</span>(data<span class="sc">$</span>ZS.F.Close, <span class="sc">-</span><span class="dv">2</span>))  <span class="co"># Esto </span></span>
+<span id="cb104-14"><a href="jordan.html#cb104-14" tabindex="-1"></a><span class="co"># simula la idea de la red Jordan</span></span>
+<span id="cb104-15"><a href="jordan.html#cb104-15" tabindex="-1"></a></span>
+<span id="cb104-16"><a href="jordan.html#cb104-16" tabindex="-1"></a><span class="co"># Eliminar las primeras filas, ya que tendrán NA por el retraso</span></span>
+<span id="cb104-17"><a href="jordan.html#cb104-17" tabindex="-1"></a>data <span class="ot">&lt;-</span> data[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>),]</span>
+<span id="cb104-18"><a href="jordan.html#cb104-18" tabindex="-1"></a></span>
+<span id="cb104-19"><a href="jordan.html#cb104-19" tabindex="-1"></a><span class="co"># Dividir los datos en conjuntos de entrenamiento y prueba</span></span>
+<span id="cb104-20"><a href="jordan.html#cb104-20" tabindex="-1"></a>train_indices <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(data) <span class="sc">*</span> <span class="fl">0.8</span>)</span>
+<span id="cb104-21"><a href="jordan.html#cb104-21" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> data[train_indices,]</span>
+<span id="cb104-22"><a href="jordan.html#cb104-22" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> data[<span class="sc">-</span>train_indices,]</span>
+<span id="cb104-23"><a href="jordan.html#cb104-23" tabindex="-1"></a></span>
+<span id="cb104-24"><a href="jordan.html#cb104-24" tabindex="-1"></a><span class="co"># Normalizar los datos</span></span>
+<span id="cb104-25"><a href="jordan.html#cb104-25" tabindex="-1"></a>maxs <span class="ot">&lt;-</span> <span class="fu">apply</span>(train_data, <span class="dv">2</span>, max)</span>
+<span id="cb104-26"><a href="jordan.html#cb104-26" tabindex="-1"></a>mins <span class="ot">&lt;-</span> <span class="fu">apply</span>(train_data, <span class="dv">2</span>, min)</span>
+<span id="cb104-27"><a href="jordan.html#cb104-27" tabindex="-1"></a>train_data_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(train_data, <span class="at">center=</span>mins,</span>
+<span id="cb104-28"><a href="jordan.html#cb104-28" tabindex="-1"></a><span class="at">scale=</span>maxs<span class="sc">-</span>mins))</span>
+<span id="cb104-29"><a href="jordan.html#cb104-29" tabindex="-1"></a>test_data_norm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">scale</span>(test_data, <span class="at">center=</span>mins, </span>
+<span id="cb104-30"><a href="jordan.html#cb104-30" tabindex="-1"></a><span class="at">scale=</span>maxs<span class="sc">-</span>mins))</span>
+<span id="cb104-31"><a href="jordan.html#cb104-31" tabindex="-1"></a></span>
+<span id="cb104-32"><a href="jordan.html#cb104-32" tabindex="-1"></a><span class="co"># Entrenar una red &quot;Jordan-inspired&quot; </span></span>
+<span id="cb104-33"><a href="jordan.html#cb104-33" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb104-34"><a href="jordan.html#cb104-34" tabindex="-1"></a>nn <span class="ot">&lt;-</span> <span class="fu">neuralnet</span>(ZS.F.Close <span class="sc">~</span> lag_close <span class="sc">+</span> lag_output, </span>
+<span id="cb104-35"><a href="jordan.html#cb104-35" tabindex="-1"></a><span class="at">data=</span>train_data_norm, <span class="at">hidden=</span><span class="dv">5</span>, <span class="at">algorithm=</span><span class="st">&quot;rprop+&quot;</span>, </span>
+<span id="cb104-36"><a href="jordan.html#cb104-36" tabindex="-1"></a><span class="at">linear.output=</span><span class="cn">TRUE</span>, <span class="at">likelihood=</span><span class="cn">TRUE</span>)</span>
+<span id="cb104-37"><a href="jordan.html#cb104-37" tabindex="-1"></a></span>
+<span id="cb104-38"><a href="jordan.html#cb104-38" tabindex="-1"></a><span class="co"># Hacer predicciones</span></span>
+<span id="cb104-39"><a href="jordan.html#cb104-39" tabindex="-1"></a>test_data_for_pred <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lag_close =</span> test_data_norm<span class="sc">$</span>lag_close, </span>
+<span id="cb104-40"><a href="jordan.html#cb104-40" tabindex="-1"></a><span class="at">lag_output =</span> test_data_norm<span class="sc">$</span>lag_output)</span>
+<span id="cb104-41"><a href="jordan.html#cb104-41" tabindex="-1"></a>predicted_norm <span class="ot">&lt;-</span> <span class="fu">compute</span>(nn, test_data_for_pred)</span>
+<span id="cb104-42"><a href="jordan.html#cb104-42" tabindex="-1"></a></span>
+<span id="cb104-43"><a href="jordan.html#cb104-43" tabindex="-1"></a><span class="co"># Des-normalizar las predicciones</span></span>
+<span id="cb104-44"><a href="jordan.html#cb104-44" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> (predicted_norm<span class="sc">$</span>net.result <span class="sc">*</span> (maxs[<span class="dv">1</span>] <span class="sc">-</span> mins[<span class="dv">1</span>])) <span class="sc">+</span> mins[<span class="dv">1</span>]</span>
+<span id="cb104-45"><a href="jordan.html#cb104-45" tabindex="-1"></a></span>
+<span id="cb104-46"><a href="jordan.html#cb104-46" tabindex="-1"></a><span class="co"># Comparar las predicciones con los datos reales</span></span>
+<span id="cb104-47"><a href="jordan.html#cb104-47" tabindex="-1"></a><span class="fu">plot</span>(test_data<span class="sc">$</span>ZS.F.Close, <span class="at">type=</span><span class="st">&quot;l&quot;</span>, <span class="at">col=</span><span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb104-48"><a href="jordan.html#cb104-48" tabindex="-1"></a><span class="fu">lines</span>(predicted, <span class="at">col=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb104-49"><a href="jordan.html#cb104-49" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">legend=</span><span class="fu">c</span>(<span class="st">&quot;Real&quot;</span>, <span class="st">&quot;Predicho&quot;</span>), </span>
+<span id="cb104-50"><a href="jordan.html#cb104-50" tabindex="-1"></a><span class="at">fill=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;red&quot;</span>))</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <p>Conclusiones:</p>
 <p>El modelo predice con exactitud,funciona bien en datos no vistos,es equilibrado, no solo memoriza los datos de entrenamiento,los datos usados son pertinentes para la tarea, puede ser aplicado en situaciones reales, a pesar de los buenos resultados, siempre es esencial hacer análisis.</p>
 

@@ -179,17 +179,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="holter-winter" class="section level1 hasAnchor" number="11">
 <h1><span class="header-section-number">Chapter 11</span> Holter-Winter<a href="holter-winter.html#holter-winter" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>La metodología Holt-Winters, también conocida como triple suavizado exponencial, es útil para series de tiempo con componentes de tendencia y estacionalidad.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="holter-winter.html#cb59-1" tabindex="-1"></a><span class="fu">library</span>(forecast)  <span class="co"># Necesario para pronosticar con el modelo Holt-Winters</span></span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="holter-winter.html#cb59-1" tabindex="-1"></a><span class="fu">library</span>(forecast)  <span class="co"># Necesario para pronosticar con el modelo </span></span></code></pre></div>
 <pre><code>## Warning: package &#39;forecast&#39; was built under R version 4.2.3</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="holter-winter.html#cb61-1" tabindex="-1"></a><span class="co"># Ajustar el modelo Holt-Winters</span></span>
-<span id="cb61-2"><a href="holter-winter.html#cb61-2" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(soybean_ts)</span>
-<span id="cb61-3"><a href="holter-winter.html#cb61-3" tabindex="-1"></a><span class="co"># Visualizar componentes del modelo</span></span>
-<span id="cb61-4"><a href="holter-winter.html#cb61-4" tabindex="-1"></a><span class="fu">plot</span>(hw_model)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="holter-winter.html#cb61-1" tabindex="-1"></a><span class="co"># Holt-Winters</span></span>
+<span id="cb61-2"><a href="holter-winter.html#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="holter-winter.html#cb61-3" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="holter-winter.html#cb61-4" tabindex="-1"></a></span>
+<span id="cb61-5"><a href="holter-winter.html#cb61-5" tabindex="-1"></a><span class="co"># Ajustar el modelo Holt-Winters</span></span>
+<span id="cb61-6"><a href="holter-winter.html#cb61-6" tabindex="-1"></a>hw_model <span class="ot">&lt;-</span> <span class="fu">HoltWinters</span>(soybean_ts)</span>
+<span id="cb61-7"><a href="holter-winter.html#cb61-7" tabindex="-1"></a><span class="co"># Visualizar componentes del modelo</span></span>
+<span id="cb61-8"><a href="holter-winter.html#cb61-8" tabindex="-1"></a><span class="fu">plot</span>(hw_model)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="holter-winter.html#cb62-1" tabindex="-1"></a><span class="co"># Pronosticar los siguientes 30 días (o la cantidad que desees)</span></span>
 <span id="cb62-2"><a href="holter-winter.html#cb62-2" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb62-3"><a href="holter-winter.html#cb62-3" tabindex="-1"></a>hw_forecast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(hw_model, <span class="at">h =</span> <span class="dv">30</span>)  <span class="co"># Cambia 30 por el número de periodos que quieras pronosticar</span></span>
-<span id="cb62-4"><a href="holter-winter.html#cb62-4" tabindex="-1"></a><span class="fu">plot</span>(hw_forecast)</span></code></pre></div>
+<span id="cb62-3"><a href="holter-winter.html#cb62-3" tabindex="-1"></a>hw_forecast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(hw_model, <span class="at">h =</span> <span class="dv">30</span>)  <span class="co"># Cambia 30 por el </span></span>
+<span id="cb62-4"><a href="holter-winter.html#cb62-4" tabindex="-1"></a><span class="co"># número de periodos que quieras pronosticar</span></span>
+<span id="cb62-5"><a href="holter-winter.html#cb62-5" tabindex="-1"></a><span class="fu">plot</span>(hw_forecast)</span></code></pre></div>
 <p><img src="bookdown-demo_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="holter-winter.html#cb63-1" tabindex="-1"></a><span class="co"># Revisar detalles del modelo y del pronóstico</span></span>
 <span id="cb63-2"><a href="holter-winter.html#cb63-2" tabindex="-1"></a><span class="fu">summary</span>(hw_model)</span></code></pre></div>

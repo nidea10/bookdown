@@ -178,51 +178,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="comparacion" class="section level1 hasAnchor" number="16">
 <h1><span class="header-section-number">Chapter 16</span> Comparacion<a href="comparacion.html#comparacion" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="comparacion.html#cb106-1" tabindex="-1"></a><span class="co"># Instalar el paquete (solo necesitas hacer esto una vez)</span></span>
-<span id="cb106-2"><a href="comparacion.html#cb106-2" tabindex="-1"></a><span class="co"># install.packages(&quot;forecast&quot;)</span></span>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="comparacion.html#cb105-1" tabindex="-1"></a><span class="co"># Instalar el paquete (solo necesitas hacer esto una vez)</span></span>
+<span id="cb105-2"><a href="comparacion.html#cb105-2" tabindex="-1"></a><span class="co"># install.packages(&quot;forecast&quot;)</span></span>
+<span id="cb105-3"><a href="comparacion.html#cb105-3" tabindex="-1"></a></span>
+<span id="cb105-4"><a href="comparacion.html#cb105-4" tabindex="-1"></a><span class="co"># Cargar el paquete</span></span>
+<span id="cb105-5"><a href="comparacion.html#cb105-5" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="comparacion.html#cb106-1" tabindex="-1"></a><span class="co"># Dividir los datos en conjuntos de entrenamiento y validación</span></span>
+<span id="cb106-2"><a href="comparacion.html#cb106-2" tabindex="-1"></a>train_length <span class="ot">&lt;-</span> <span class="fu">nrow</span>(soybean_xts) <span class="sc">-</span> <span class="dv">30</span>  <span class="co"># 30 días para validación</span></span>
 <span id="cb106-3"><a href="comparacion.html#cb106-3" tabindex="-1"></a></span>
-<span id="cb106-4"><a href="comparacion.html#cb106-4" tabindex="-1"></a><span class="co"># Cargar el paquete</span></span>
-<span id="cb106-5"><a href="comparacion.html#cb106-5" tabindex="-1"></a><span class="fu">library</span>(forecast)</span></code></pre></div>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="comparacion.html#cb107-1" tabindex="-1"></a><span class="co"># Dividir los datos en conjuntos de entrenamiento y validación</span></span>
-<span id="cb107-2"><a href="comparacion.html#cb107-2" tabindex="-1"></a>train_length <span class="ot">&lt;-</span> <span class="fu">nrow</span>(soybean_xts) <span class="sc">-</span> <span class="dv">30</span>  <span class="co"># 30 días para validación</span></span>
-<span id="cb107-3"><a href="comparacion.html#cb107-3" tabindex="-1"></a></span>
-<span id="cb107-4"><a href="comparacion.html#cb107-4" tabindex="-1"></a><span class="co"># Datos de entrenamiento</span></span>
-<span id="cb107-5"><a href="comparacion.html#cb107-5" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">head</span>(soybean_xts, train_length)</span>
-<span id="cb107-6"><a href="comparacion.html#cb107-6" tabindex="-1"></a></span>
-<span id="cb107-7"><a href="comparacion.html#cb107-7" tabindex="-1"></a><span class="co"># Datos de validación</span></span>
-<span id="cb107-8"><a href="comparacion.html#cb107-8" tabindex="-1"></a>validation_data <span class="ot">&lt;-</span> <span class="fu">tail</span>(soybean_xts, <span class="dv">30</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="comparacion.html#cb108-1" tabindex="-1"></a>arima_forecast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo, <span class="at">h=</span><span class="dv">30</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb109-1"><a href="comparacion.html#cb109-1" tabindex="-1"></a><span class="co"># 2. Calcular métricas de error</span></span>
-<span id="cb109-2"><a href="comparacion.html#cb109-2" tabindex="-1"></a></span>
-<span id="cb109-3"><a href="comparacion.html#cb109-3" tabindex="-1"></a><span class="co"># Holt-Winters</span></span>
-<span id="cb109-4"><a href="comparacion.html#cb109-4" tabindex="-1"></a>hw_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> hw_forecast<span class="sc">$</span>mean</span></code></pre></div>
+<span id="cb106-4"><a href="comparacion.html#cb106-4" tabindex="-1"></a><span class="co"># Datos de entrenamiento</span></span>
+<span id="cb106-5"><a href="comparacion.html#cb106-5" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> <span class="fu">head</span>(soybean_xts, train_length)</span>
+<span id="cb106-6"><a href="comparacion.html#cb106-6" tabindex="-1"></a></span>
+<span id="cb106-7"><a href="comparacion.html#cb106-7" tabindex="-1"></a><span class="co"># Datos de validación</span></span>
+<span id="cb106-8"><a href="comparacion.html#cb106-8" tabindex="-1"></a>validation_data <span class="ot">&lt;-</span> <span class="fu">tail</span>(soybean_xts, <span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb107-1"><a href="comparacion.html#cb107-1" tabindex="-1"></a>arima_forecast <span class="ot">&lt;-</span> <span class="fu">forecast</span>(modelo, <span class="at">h=</span><span class="dv">30</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="comparacion.html#cb108-1" tabindex="-1"></a><span class="co"># 2. Calcular métricas de error</span></span>
+<span id="cb108-2"><a href="comparacion.html#cb108-2" tabindex="-1"></a></span>
+<span id="cb108-3"><a href="comparacion.html#cb108-3" tabindex="-1"></a><span class="co"># Holt-Winters</span></span>
+<span id="cb108-4"><a href="comparacion.html#cb108-4" tabindex="-1"></a>hw_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> hw_forecast<span class="sc">$</span>mean</span></code></pre></div>
 <pre><code>## Warning: Métodos incompatibles (&quot;Ops.xts&quot;, &quot;Ops.ts&quot;) para &quot;-&quot;</code></pre>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="comparacion.html#cb111-1" tabindex="-1"></a>hw_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(hw_errors<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb111-2"><a href="comparacion.html#cb111-2" tabindex="-1"></a>hw_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(hw_errors))</span>
-<span id="cb111-3"><a href="comparacion.html#cb111-3" tabindex="-1"></a>hw_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hw_mse)</span>
-<span id="cb111-4"><a href="comparacion.html#cb111-4" tabindex="-1"></a></span>
-<span id="cb111-5"><a href="comparacion.html#cb111-5" tabindex="-1"></a><span class="co"># ARIMA</span></span>
-<span id="cb111-6"><a href="comparacion.html#cb111-6" tabindex="-1"></a>arima_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> arima_forecast<span class="sc">$</span>mean</span></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="comparacion.html#cb110-1" tabindex="-1"></a>hw_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(hw_errors<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb110-2"><a href="comparacion.html#cb110-2" tabindex="-1"></a>hw_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(hw_errors))</span>
+<span id="cb110-3"><a href="comparacion.html#cb110-3" tabindex="-1"></a>hw_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(hw_mse)</span>
+<span id="cb110-4"><a href="comparacion.html#cb110-4" tabindex="-1"></a></span>
+<span id="cb110-5"><a href="comparacion.html#cb110-5" tabindex="-1"></a><span class="co"># ARIMA</span></span>
+<span id="cb110-6"><a href="comparacion.html#cb110-6" tabindex="-1"></a>arima_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> arima_forecast<span class="sc">$</span>mean</span></code></pre></div>
 <pre><code>## Warning: Métodos incompatibles (&quot;Ops.xts&quot;, &quot;Ops.ts&quot;) para &quot;-&quot;</code></pre>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="comparacion.html#cb113-1" tabindex="-1"></a>arima_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(arima_errors<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb113-2"><a href="comparacion.html#cb113-2" tabindex="-1"></a>arima_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(arima_errors))</span>
-<span id="cb113-3"><a href="comparacion.html#cb113-3" tabindex="-1"></a>arima_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(arima_mse)</span>
-<span id="cb113-4"><a href="comparacion.html#cb113-4" tabindex="-1"></a></span>
-<span id="cb113-5"><a href="comparacion.html#cb113-5" tabindex="-1"></a><span class="co"># Prophet</span></span>
-<span id="cb113-6"><a href="comparacion.html#cb113-6" tabindex="-1"></a>prophet_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> <span class="fu">tail</span>(forecast<span class="sc">$</span>yhat, <span class="at">n=</span><span class="dv">30</span>) <span class="co"># Asumiendo que el período de validación es 30 días.</span></span>
-<span id="cb113-7"><a href="comparacion.html#cb113-7" tabindex="-1"></a>prophet_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(prophet_errors<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb113-8"><a href="comparacion.html#cb113-8" tabindex="-1"></a>prophet_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(prophet_errors))</span>
-<span id="cb113-9"><a href="comparacion.html#cb113-9" tabindex="-1"></a>prophet_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(prophet_mse)</span></code></pre></div>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="comparacion.html#cb114-1" tabindex="-1"></a><span class="co"># 3. Comparar errores</span></span>
-<span id="cb114-2"><a href="comparacion.html#cb114-2" tabindex="-1"></a></span>
-<span id="cb114-3"><a href="comparacion.html#cb114-3" tabindex="-1"></a>errors_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb114-4"><a href="comparacion.html#cb114-4" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">&quot;Holt-Winters&quot;</span>, <span class="st">&quot;ARIMA&quot;</span>, <span class="st">&quot;Prophet&quot;</span>),</span>
-<span id="cb114-5"><a href="comparacion.html#cb114-5" tabindex="-1"></a>  <span class="at">MSE =</span> <span class="fu">c</span>(hw_mse, arima_mse, prophet_mse),</span>
-<span id="cb114-6"><a href="comparacion.html#cb114-6" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">c</span>(hw_mae, arima_mae, prophet_mae),</span>
-<span id="cb114-7"><a href="comparacion.html#cb114-7" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(hw_rmse, arima_rmse, prophet_rmse)</span>
-<span id="cb114-8"><a href="comparacion.html#cb114-8" tabindex="-1"></a>)</span>
-<span id="cb114-9"><a href="comparacion.html#cb114-9" tabindex="-1"></a></span>
-<span id="cb114-10"><a href="comparacion.html#cb114-10" tabindex="-1"></a><span class="fu">print</span>(errors_df)</span></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="comparacion.html#cb112-1" tabindex="-1"></a>arima_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(arima_errors<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb112-2"><a href="comparacion.html#cb112-2" tabindex="-1"></a>arima_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(arima_errors))</span>
+<span id="cb112-3"><a href="comparacion.html#cb112-3" tabindex="-1"></a>arima_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(arima_mse)</span>
+<span id="cb112-4"><a href="comparacion.html#cb112-4" tabindex="-1"></a></span>
+<span id="cb112-5"><a href="comparacion.html#cb112-5" tabindex="-1"></a><span class="co"># Prophet</span></span>
+<span id="cb112-6"><a href="comparacion.html#cb112-6" tabindex="-1"></a>prophet_errors <span class="ot">&lt;-</span> validation_data<span class="sc">$</span>ZS.F.Close <span class="sc">-</span> <span class="fu">tail</span>(forecast<span class="sc">$</span>yhat, <span class="at">n=</span><span class="dv">30</span>) <span class="co"># Asumiendo que el período de validación es 30 días.</span></span>
+<span id="cb112-7"><a href="comparacion.html#cb112-7" tabindex="-1"></a>prophet_mse <span class="ot">&lt;-</span> <span class="fu">mean</span>(prophet_errors<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb112-8"><a href="comparacion.html#cb112-8" tabindex="-1"></a>prophet_mae <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(prophet_errors))</span>
+<span id="cb112-9"><a href="comparacion.html#cb112-9" tabindex="-1"></a>prophet_rmse <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(prophet_mse)</span></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="comparacion.html#cb113-1" tabindex="-1"></a><span class="co"># 3. Comparar errores</span></span>
+<span id="cb113-2"><a href="comparacion.html#cb113-2" tabindex="-1"></a></span>
+<span id="cb113-3"><a href="comparacion.html#cb113-3" tabindex="-1"></a>errors_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb113-4"><a href="comparacion.html#cb113-4" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">&quot;Holt-Winters&quot;</span>, <span class="st">&quot;ARIMA&quot;</span>, <span class="st">&quot;Prophet&quot;</span>),</span>
+<span id="cb113-5"><a href="comparacion.html#cb113-5" tabindex="-1"></a>  <span class="at">MSE =</span> <span class="fu">c</span>(hw_mse, arima_mse, prophet_mse),</span>
+<span id="cb113-6"><a href="comparacion.html#cb113-6" tabindex="-1"></a>  <span class="at">MAE =</span> <span class="fu">c</span>(hw_mae, arima_mae, prophet_mae),</span>
+<span id="cb113-7"><a href="comparacion.html#cb113-7" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(hw_rmse, arima_rmse, prophet_rmse)</span>
+<span id="cb113-8"><a href="comparacion.html#cb113-8" tabindex="-1"></a>)</span>
+<span id="cb113-9"><a href="comparacion.html#cb113-9" tabindex="-1"></a></span>
+<span id="cb113-10"><a href="comparacion.html#cb113-10" tabindex="-1"></a><span class="fu">print</span>(errors_df)</span></code></pre></div>
 <pre><code>##          Model        MSE       MAE      RMSE
 ## 1 Holt-Winters 1796855.93 1340.0883 1340.4685
 ## 2        ARIMA 1796071.65 1339.8250 1340.1760
