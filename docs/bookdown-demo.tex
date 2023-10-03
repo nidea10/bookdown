@@ -195,8 +195,10 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 \CommentTok{\# Especificar el símbolo para futuros de soja}
 \NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
 
-\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
-\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta}
+\CommentTok{\# hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }
+\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -287,8 +289,10 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 \CommentTok{\# Especificar el símbolo para futuros de soja}
 \NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
 
-\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
-\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta}
+\CommentTok{\# hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }
+\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -410,7 +414,8 @@ El proyecto está planteado ante una necesidad de los actores que requieren mejo
 \CommentTok{\# Crear un gráfico de serie de tiempo}
 \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =} \ConstantTok{NULL}\NormalTok{, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{index}\NormalTok{(close\_prices), }\AttributeTok{y =}\NormalTok{ close\_prices)) }\SpecialCharTok{+}
   \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Fecha"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Precio de Cierre"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Serie de Tiempo de Futuros de Soja"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Fecha"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Precio de Cierre"}\NormalTok{, }\AttributeTok{title =} \StringTok{"Serie de }
+\StringTok{\# Tiempo de Futuros de Soja"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_minimal}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
@@ -435,8 +440,10 @@ Cuando aplicamos un promedio móvil a una serie de tiempo, cada punto de la seri
 \CommentTok{\# Especificar el símbolo para futuros de soja}
 \NormalTok{symbol }\OtherTok{\textless{}{-}} \StringTok{"ZS=F"}
 
-\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 hasta hoy}
-\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# Descargar los datos históricos desde el 1 de enero de 2010 }
+\CommentTok{\# hasta hoy}
+\FunctionTok{getSymbols}\NormalTok{(symbol, }\AttributeTok{from =} \StringTok{"2010{-}01{-}01"}\NormalTok{, }\AttributeTok{to =} \FunctionTok{Sys.Date}\NormalTok{(), }
+\AttributeTok{auto.assign =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -506,21 +513,26 @@ Cuando aplicamos un promedio móvil a una serie de tiempo, cada punto de la seri
 
 \CommentTok{\# Usar ggplot2 para visualizar los datos}
 \FunctionTok{ggplot}\NormalTok{(soybean\_df, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Date)) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ZS.F.Close, }\AttributeTok{color =} \StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}}\NormalTok{), }\AttributeTok{alpha =} \FloatTok{0.75}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_200, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}}\NormalTok{), }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_500, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}}\NormalTok{), }\AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ ZS.F.Close, }\AttributeTok{color =} \StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{alpha =} \FloatTok{0.75}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_200, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}}\NormalTok{), }
+  \AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{y =}\NormalTok{ SMA\_500, }\AttributeTok{color =} \StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}}\NormalTok{), }
+  \AttributeTok{size =} \DecValTok{1}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{15}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{\textquotesingle{}Serie de Tiempo de Futuros de Soja\textquotesingle{}}\NormalTok{,}
        \AttributeTok{subtitle =} \StringTok{\textquotesingle{}Con Promedios Móviles de 200 y 500 Días\textquotesingle{}}\NormalTok{,}
        \AttributeTok{y =} \StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
-        \AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }\AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{),}
+        \AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size =} \DecValTok{10}\NormalTok{, }\AttributeTok{angle =} \DecValTok{90}\NormalTok{, }
+        \AttributeTok{vjust =} \FloatTok{0.5}\NormalTok{),}
         \AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
         \AttributeTok{plot.subtitle =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{),}
         \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{scale\_x\_date}\NormalTok{(}\AttributeTok{date\_breaks =} \StringTok{"1 year"}\NormalTok{, }\AttributeTok{date\_labels =} \StringTok{"\%Y"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{labels =} \FunctionTok{dollar\_format}\NormalTok{()) }\SpecialCharTok{+}
-  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{),}
+  \FunctionTok{scale\_color\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Precio de Cierre\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{,}
+  \StringTok{\textquotesingle{}Promedio Móvil 200\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Promedio Móvil 500\textquotesingle{}} \OtherTok{=} \StringTok{\textquotesingle{}green\textquotesingle{}}\NormalTok{),}
                      \AttributeTok{name =} \StringTok{""}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -553,20 +565,24 @@ El concepto de rezago es fundamental para analizar y modelar series de tiempo po
 \CommentTok{\# Sin cargar la librería dplyr para evitar conflictos}
 \NormalTok{datos\_lag }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
   \AttributeTok{Close =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coredata}\NormalTok{(soybean\_xts)),}
-  \AttributeTok{Lag =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coredata}\NormalTok{(stats}\SpecialCharTok{::}\FunctionTok{lag}\NormalTok{(soybean\_xts))) }\CommentTok{\# Usar stats::lag para evitar conflictos}
+  \AttributeTok{Lag =} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{coredata}\NormalTok{(stats}\SpecialCharTok{::}\FunctionTok{lag}\NormalTok{(soybean\_xts))) }\CommentTok{\# Usar }
+  \CommentTok{\# stats::lag para evitar conflictos}
 \NormalTok{)}
 
 \CommentTok{\# Comprobando que ambos vectores tengan la misma longitud}
-\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Close) }\SpecialCharTok{==} \FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Lag))  }\CommentTok{\# Detiene la ejecución si no son TRUE}
+\FunctionTok{stopifnot}\NormalTok{(}\FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Close) }\SpecialCharTok{==} \FunctionTok{length}\NormalTok{(datos\_lag}\SpecialCharTok{$}\NormalTok{Lag))  }
+\CommentTok{\# Detiene la ejecución si no son TRUE}
 
 \CommentTok{\# Crear el gráfico de rezago con ggplot2}
 \FunctionTok{library}\NormalTok{(ggplot2)}
 \FunctionTok{ggplot}\NormalTok{(datos\_lag, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{Lag, }\AttributeTok{y=}\NormalTok{Close)) }\SpecialCharTok{+}
   \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{color =}\NormalTok{ Close), }\AttributeTok{alpha=}\FloatTok{0.6}\NormalTok{) }\SpecialCharTok{+}
-  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{\textquotesingle{}lm\textquotesingle{}}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color=}\StringTok{"blue"}\NormalTok{, }\AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{\textquotesingle{}lm\textquotesingle{}}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color=}\StringTok{"blue"}\NormalTok{, }
+  \AttributeTok{linetype=}\StringTok{"dashed"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{scale\_color\_gradient}\NormalTok{(}\AttributeTok{low=}\StringTok{"red"}\NormalTok{, }\AttributeTok{high=}\StringTok{"green"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
-  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Gráfico de Rezago para Precio de Cierre"}\NormalTok{, }\AttributeTok{x=}\StringTok{"Rezago 1"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Precio de Cierre"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Gráfico de Rezago para Precio de Cierre"}\NormalTok{, }
+  \AttributeTok{x=}\StringTok{"Rezago 1"}\NormalTok{, }\AttributeTok{y=}\StringTok{"Precio de Cierre"}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{theme}\NormalTok{(}\AttributeTok{legend.position=}\StringTok{"none"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -621,7 +637,8 @@ Error o Residuo (random): Es la parte de la serie de tiempo que no se puede atri
 \begin{Highlighting}[]
 \CommentTok{\# Convertir a objeto ts, aquí supondré que tienes datos diarios.}
 \NormalTok{frecuencia }\OtherTok{\textless{}{-}} \DecValTok{365}  \CommentTok{\# (12 para mensual, 4 para trimestral, etc.)}
-\NormalTok{soybean\_ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{], }\AttributeTok{frequency =}\NormalTok{ frecuencia)}
+\NormalTok{soybean\_ts }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{], }
+\AttributeTok{frequency =}\NormalTok{ frecuencia)}
 
 \CommentTok{\# Utilizar decompose}
 \NormalTok{soybean\_decomposed }\OtherTok{\textless{}{-}} \FunctionTok{decompose}\NormalTok{(soybean\_ts)}
@@ -640,7 +657,8 @@ Al validar el componenete estacional de la serie por separado, como se ve en la 
   \AttributeTok{Seasonal =} \FunctionTok{as.numeric}\NormalTok{(soybean\_decomposed}\SpecialCharTok{$}\NormalTok{seasonal)}
 \NormalTok{)}
 
-\CommentTok{\# Eliminar las filas con NA en el componente estacional (pueden aparecer dependiendo del método de descomposición)}
+\CommentTok{\# Eliminar las filas con NA en el componente estacional (pueden }
+\CommentTok{\# aparecer dependiendo del método de descomposición)}
 \NormalTok{seasonal\_df }\OtherTok{\textless{}{-}}\NormalTok{ seasonal\_df[}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(seasonal\_df}\SpecialCharTok{$}\NormalTok{Seasonal), ]}
 \end{Highlighting}
 \end{Shaded}
@@ -725,9 +743,11 @@ Diferenciar una serie temporal es un proceso utilizado para hacer que una serie 
 \CommentTok{\# Realiza el test ADF y verifica la estacionariedad}
 \ControlFlowTok{while}\NormalTok{(}\ConstantTok{TRUE}\NormalTok{) \{}
 \NormalTok{  p\_value }\OtherTok{\textless{}{-}} \FunctionTok{adf.test}\NormalTok{(soybean\_ts)}\SpecialCharTok{$}\NormalTok{p.value}
-  \FunctionTok{cat}\NormalTok{(}\StringTok{"Número de diferencias:"}\NormalTok{, diferencias, }\StringTok{"{-} Valor p:"}\NormalTok{, p\_value, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+  \FunctionTok{cat}\NormalTok{(}\StringTok{"Número de diferencias:"}\NormalTok{, diferencias, }\StringTok{"{-} Valor p:"}\NormalTok{, }
+\NormalTok{  p\_value, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
   
-  \CommentTok{\# Si el valor p es menor que 0.05, la serie es estacionaria, y puedes salir del bucle.}
+  \CommentTok{\# Si el valor p es menor que 0.05, la serie es estacionaria,}
+  \CommentTok{\# y puedes salir del bucle.}
   \ControlFlowTok{if}\NormalTok{(p\_value }\SpecialCharTok{\textless{}} \FloatTok{0.05}\NormalTok{) \{}
     \FunctionTok{cat}\NormalTok{(}\StringTok{"La serie se volvió estacionaria después de"}\NormalTok{, diferencias, }\StringTok{"diferenciaciones.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
     \ControlFlowTok{break}
@@ -735,11 +755,13 @@ Diferenciar una serie temporal es un proceso utilizado para hacer que una serie 
   
   \CommentTok{\# Si has llegado al final de la serie, sal del bucle}
   \ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(soybean\_ts) }\SpecialCharTok{\textless{}=} \DecValTok{1}\NormalTok{) \{}
-    \FunctionTok{cat}\NormalTok{(}\StringTok{"La serie no se volvió estacionaria después de diferenciar.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+    \FunctionTok{cat}\NormalTok{(}\StringTok{"La serie no se volvió estacionaria después de }
+\StringTok{        diferenciar.}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
     \ControlFlowTok{break}
 \NormalTok{  \}}
   
-  \CommentTok{\# Si no es estacionaria, diferenciar la serie una vez más y continuar el bucle.}
+  \CommentTok{\# Si no es estacionaria, diferenciar la serie una vez más y }
+  \CommentTok{\# continuar el bucle.}
 \NormalTok{  soybean\_ts }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(soybean\_ts)}
 \NormalTok{  diferencias }\OtherTok{\textless{}{-}}\NormalTok{ diferencias }\SpecialCharTok{+} \DecValTok{1}
 \NormalTok{\}}
@@ -776,7 +798,7 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(forecast)  }\CommentTok{\# Necesario para pronosticar con el modelo Holt{-}Winters}
+\FunctionTok{library}\NormalTok{(forecast)  }\CommentTok{\# Necesario para pronosticar con el modelo }
 \end{Highlighting}
 \end{Shaded}
 
@@ -786,6 +808,10 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# Holt{-}Winters}
+
+
+
 \CommentTok{\# Ajustar el modelo Holt{-}Winters}
 \NormalTok{hw\_model }\OtherTok{\textless{}{-}} \FunctionTok{HoltWinters}\NormalTok{(soybean\_ts)}
 \CommentTok{\# Visualizar componentes del modelo}
@@ -799,7 +825,8 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 \begin{Highlighting}[]
 \CommentTok{\# Pronosticar los siguientes 30 días (o la cantidad que desees)}
 \FunctionTok{library}\NormalTok{(forecast)}
-\NormalTok{hw\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(hw\_model, }\AttributeTok{h =} \DecValTok{30}\NormalTok{)  }\CommentTok{\# Cambia 30 por el número de periodos que quieras pronosticar}
+\NormalTok{hw\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(hw\_model, }\AttributeTok{h =} \DecValTok{30}\NormalTok{)  }\CommentTok{\# Cambia 30 por el }
+\CommentTok{\# número de periodos que quieras pronosticar}
 \FunctionTok{plot}\NormalTok{(hw\_forecast)}
 \end{Highlighting}
 \end{Shaded}
@@ -1439,7 +1466,8 @@ Prophet es especialmente útil para series de tiempo que tienen patrones estacio
 \NormalTok{dates }\OtherTok{\textless{}{-}} \FunctionTok{index}\NormalTok{(soybean\_xts)}
 
 \CommentTok{\# Crea el dataframe}
-\NormalTok{soybean\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ds =} \FunctionTok{as.Date}\NormalTok{(dates), }\AttributeTok{y =} \FunctionTok{as.numeric}\NormalTok{(close\_prices))}
+\NormalTok{soybean\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ds =} \FunctionTok{as.Date}\NormalTok{(dates), }
+\AttributeTok{y =} \FunctionTok{as.numeric}\NormalTok{(close\_prices))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1495,77 +1523,6 @@ Prophet es especialmente útil para series de tiempo que tienen patrones estacio
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(ggplot2)}
-
-\CommentTok{\# Extraer datos del pronóstico}
-\CommentTok{\# forecast\_data \textless{}{-} data.frame(}
-\CommentTok{\#  ds = forecast$ds, }
-\CommentTok{\#  yhat = forecast$yhat, }
-\CommentTok{\#  yhat\_lower = forecast$yhat\_lower, }
-\CommentTok{\#  yhat\_upper = forecast$yhat\_upper}
-\CommentTok{\#)}
-
-\CommentTok{\# Datos reales}
-\CommentTok{\#actual\_data \textless{}{-} data.frame(ds = m$history$ds, y = m$history$y)}
-
-\CommentTok{\# Crear el gráfico con ggplot2}
-\CommentTok{\#p \textless{}{-} ggplot() +}
-  \CommentTok{\# Intervalo de confianza}
-\CommentTok{\#  geom\_ribbon(data = forecast\_data, aes(x = ds, ymin = yhat\_lower, ymax = \#yhat\_upper, fill = "Intervalo de Confianza"), alpha = 0.4, inherit.aes = FALSE) +}
-  \CommentTok{\# Línea de pronóstico}
-\CommentTok{\#  geom\_line(data = forecast\_data, aes(x = ds, y = yhat, color = "Pronóstico"), size = 1, inherit.aes = FALSE) + }
-  \CommentTok{\# Datos reales}
-\CommentTok{\#  geom\_point(data = actual\_data, aes(x = ds, y = y, color = "Datos Reales"), size \#= 2, inherit.aes = FALSE) +}
-  \CommentTok{\# Tema y etiquetas}
-\CommentTok{\#  theme\_minimal() +}
-\CommentTok{\#  labs(}
-\CommentTok{\#    title = "Pronóstico del Precio del Aceite de Soya",}
-\CommentTok{\#    x = "Fecha",}
-\CommentTok{\#   y = "Precio"}
-\CommentTok{\#  ) +}
-\CommentTok{\#  scale\_fill\_manual(}
-    \CommentTok{\#name = "Leyenda",}
-\CommentTok{\#    values = c("Intervalo de Confianza" = "lightblue"),}
-\CommentTok{\#    labels = c("Intervalo de Confianza")}
-\CommentTok{\#  ) +}
-\CommentTok{\#  scale\_color\_manual(}
-    \CommentTok{\#name = "Leyenda",}
-\CommentTok{\#    values = c("Datos Reales" = "\#D55E00", "Pronóstico" = "\#0072B2"),}
-\CommentTok{\#    labels = c("Datos Reales", "Pronóstico")}
-\CommentTok{\#  ) +}
-\CommentTok{\#  theme(legend.position = "bottom")}
-
-\CommentTok{\# Mostrar gráfico}
-\CommentTok{\#print(p)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# library(ggplot2)}
-
-\CommentTok{\# Extraer componentes del pronóstico}
-\CommentTok{\# components \textless{}{-} prophet\_plot\_components(m, forecast)}
-
-\CommentTok{\# Convertir el objeto básico de Prophet a ggplot}
-\CommentTok{\# p\_components \textless{}{-} ggplot() +}
-\CommentTok{\#  geom\_line(data = components$data$yearly, aes(x = ds, y = y, color = "Componente \# Anual"), size = 1) +}
-\CommentTok{\#  geom\_line(data = components$data$weekly, aes(x = ds, y = y, color = "Componente \# Semanal"), size = 1) +}
-\CommentTok{\#  geom\_line(data = components$data$daily, aes(x = ds, y = y, color = "Componente \# Diario"), size = 1) +}
-\CommentTok{\#  geom\_line(data = components$data$holidays, aes(x = ds, y = y, color = "Días \# \# Festivos"), size = 1) +}
-\CommentTok{\#  theme\_minimal() +}
-\CommentTok{\#  labs(}
-\CommentTok{\#    title = "Componentes del Pronóstico",}
-\CommentTok{\#    x = "Fecha",}
-\CommentTok{\#    y = "Valor"}
-\CommentTok{\#  ) +}
-\CommentTok{\#  scale\_color\_manual(}
-\CommentTok{\#    name = "Leyenda",}
-\CommentTok{\#    values = c("Componente Anual" = "blue", "Componente Semanal" = "green", \#"Componente Diario" = "red", "Días Festivos" = "orange")}
-\CommentTok{\#  ) +}
-\CommentTok{\#  theme(legend.position = "bottom")}
-
-\CommentTok{\# Mostrar gráfico de componentes}
-\CommentTok{\#print(p\_components)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1599,7 +1556,8 @@ La red Elman es una red neuronal recurrente, lo que significa que tiene conexion
 \CommentTok{\# Acceder a la columna de cierre}
 \NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ZS.F.Close =} \FunctionTok{as.vector}\NormalTok{(soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{]))}
 
-\CommentTok{\# Crear un retraso (lag) para las series temporales (esto es importante para las redes recurrentes)}
+\CommentTok{\# Crear un retraso (lag) para las series temporales (esto es }
+\CommentTok{\# importante para las redes recurrentes)}
 \NormalTok{data}\SpecialCharTok{$}\NormalTok{lag\_close }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{head}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))}
 
 \CommentTok{\# Eliminar la primera fila, ya que tendrá NA por el retraso}
@@ -1613,13 +1571,17 @@ La red Elman es una red neuronal recurrente, lo que significa que tiene conexion
 \CommentTok{\# Normalizar los datos}
 \NormalTok{maxs }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(train\_data, }\DecValTok{2}\NormalTok{, max)}
 \NormalTok{mins }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(train\_data, }\DecValTok{2}\NormalTok{, min)}
-\NormalTok{train\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(train\_data, }\AttributeTok{center=}\NormalTok{mins, }\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
-\NormalTok{test\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(test\_data, }\AttributeTok{center=}\NormalTok{mins, }\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
+\NormalTok{train\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(train\_data, }\AttributeTok{center=}\NormalTok{mins, }
+\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
+\NormalTok{test\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(test\_data, }\AttributeTok{center=}\NormalTok{mins, }
+\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
 
 \CommentTok{\# Entrenar una red Elman }
-\CommentTok{\# Aquí estamos prediciendo ZS.F.Close usando el valor anterior (lag\_close) como entrada}
+\CommentTok{\# Aquí estamos prediciendo ZS.F.Close usando el valor anterior }
+\CommentTok{\# (lag\_close) como entrada}
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
-\NormalTok{nn }\OtherTok{\textless{}{-}} \FunctionTok{neuralnet}\NormalTok{(ZS.F.Close }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lag\_close, }\AttributeTok{data=}\NormalTok{train\_data\_norm, }\AttributeTok{hidden=}\DecValTok{5}\NormalTok{, }\AttributeTok{algorithm=}\StringTok{"rprop+"}\NormalTok{, }\AttributeTok{linear.output=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{likelihood=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{nn }\OtherTok{\textless{}{-}} \FunctionTok{neuralnet}\NormalTok{(ZS.F.Close }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lag\_close, }\AttributeTok{data=}\NormalTok{train\_data\_norm, }
+\AttributeTok{hidden=}\DecValTok{5}\NormalTok{, }\AttributeTok{algorithm=}\StringTok{"rprop+"}\NormalTok{, }\AttributeTok{linear.output=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{likelihood=}\ConstantTok{TRUE}\NormalTok{)}
 
 \CommentTok{\# Hacer predicciones}
 \NormalTok{test\_data\_for\_pred }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lag\_close =}\NormalTok{ test\_data\_norm}\SpecialCharTok{$}\NormalTok{lag\_close)}
@@ -1631,11 +1593,12 @@ La red Elman es una red neuronal recurrente, lo que significa que tiene conexion
 \CommentTok{\# Comparar las predicciones con los datos reales}
 \FunctionTok{plot}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
 \FunctionTok{lines}\NormalTok{(predicted, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Real"}\NormalTok{, }\StringTok{"Predicho"}\NormalTok{), }\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Real"}\NormalTok{, }\StringTok{"Predicho"}\NormalTok{), }
+\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-36-1.pdf}
 
 Conclusiones:
 
@@ -1668,9 +1631,11 @@ Imagina que intentas predecir el clima. En lugar de solo mirar el clima de hoy, 
 \CommentTok{\# Acceder a la columna de cierre}
 \NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{ZS.F.Close =} \FunctionTok{as.vector}\NormalTok{(soybean\_xts[, }\StringTok{"ZS.F.Close"}\NormalTok{]))}
 
-\CommentTok{\# Crear un retraso (lag) para las series temporales y también un retraso para la variable objetivo}
+\CommentTok{\# Crear un retraso (lag) para las series temporales y también un}
+\CommentTok{\# retraso para la variable objetivo}
 \NormalTok{data}\SpecialCharTok{$}\NormalTok{lag\_close }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\FunctionTok{head}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{))}
-\NormalTok{data}\SpecialCharTok{$}\NormalTok{lag\_output }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\FunctionTok{head}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{))  }\CommentTok{\# Esto simula la idea de la red Jordan}
+\NormalTok{data}\SpecialCharTok{$}\NormalTok{lag\_output }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\FunctionTok{head}\NormalTok{(data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{))  }\CommentTok{\# Esto }
+\CommentTok{\# simula la idea de la red Jordan}
 
 \CommentTok{\# Eliminar las primeras filas, ya que tendrán NA por el retraso}
 \NormalTok{data }\OtherTok{\textless{}{-}}\NormalTok{ data[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{),]}
@@ -1683,15 +1648,20 @@ Imagina que intentas predecir el clima. En lugar de solo mirar el clima de hoy, 
 \CommentTok{\# Normalizar los datos}
 \NormalTok{maxs }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(train\_data, }\DecValTok{2}\NormalTok{, max)}
 \NormalTok{mins }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(train\_data, }\DecValTok{2}\NormalTok{, min)}
-\NormalTok{train\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(train\_data, }\AttributeTok{center=}\NormalTok{mins, }\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
-\NormalTok{test\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(test\_data, }\AttributeTok{center=}\NormalTok{mins, }\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
+\NormalTok{train\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(train\_data, }\AttributeTok{center=}\NormalTok{mins,}
+\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
+\NormalTok{test\_data\_norm }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(test\_data, }\AttributeTok{center=}\NormalTok{mins, }
+\AttributeTok{scale=}\NormalTok{maxs}\SpecialCharTok{{-}}\NormalTok{mins))}
 
 \CommentTok{\# Entrenar una red "Jordan{-}inspired" }
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
-\NormalTok{nn }\OtherTok{\textless{}{-}} \FunctionTok{neuralnet}\NormalTok{(ZS.F.Close }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lag\_close }\SpecialCharTok{+}\NormalTok{ lag\_output, }\AttributeTok{data=}\NormalTok{train\_data\_norm, }\AttributeTok{hidden=}\DecValTok{5}\NormalTok{, }\AttributeTok{algorithm=}\StringTok{"rprop+"}\NormalTok{, }\AttributeTok{linear.output=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{likelihood=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{nn }\OtherTok{\textless{}{-}} \FunctionTok{neuralnet}\NormalTok{(ZS.F.Close }\SpecialCharTok{\textasciitilde{}}\NormalTok{ lag\_close }\SpecialCharTok{+}\NormalTok{ lag\_output, }
+\AttributeTok{data=}\NormalTok{train\_data\_norm, }\AttributeTok{hidden=}\DecValTok{5}\NormalTok{, }\AttributeTok{algorithm=}\StringTok{"rprop+"}\NormalTok{, }
+\AttributeTok{linear.output=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{likelihood=}\ConstantTok{TRUE}\NormalTok{)}
 
 \CommentTok{\# Hacer predicciones}
-\NormalTok{test\_data\_for\_pred }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lag\_close =}\NormalTok{ test\_data\_norm}\SpecialCharTok{$}\NormalTok{lag\_close, }\AttributeTok{lag\_output =}\NormalTok{ test\_data\_norm}\SpecialCharTok{$}\NormalTok{lag\_output)}
+\NormalTok{test\_data\_for\_pred }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{lag\_close =}\NormalTok{ test\_data\_norm}\SpecialCharTok{$}\NormalTok{lag\_close, }
+\AttributeTok{lag\_output =}\NormalTok{ test\_data\_norm}\SpecialCharTok{$}\NormalTok{lag\_output)}
 \NormalTok{predicted\_norm }\OtherTok{\textless{}{-}} \FunctionTok{compute}\NormalTok{(nn, test\_data\_for\_pred)}
 
 \CommentTok{\# Des{-}normalizar las predicciones}
@@ -1700,11 +1670,12 @@ Imagina que intentas predecir el clima. En lugar de solo mirar el clima de hoy, 
 \CommentTok{\# Comparar las predicciones con los datos reales}
 \FunctionTok{plot}\NormalTok{(test\_data}\SpecialCharTok{$}\NormalTok{ZS.F.Close, }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
 \FunctionTok{lines}\NormalTok{(predicted, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
-\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Real"}\NormalTok{, }\StringTok{"Predicho"}\NormalTok{), }\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topright"}\NormalTok{, }\AttributeTok{legend=}\FunctionTok{c}\NormalTok{(}\StringTok{"Real"}\NormalTok{, }\StringTok{"Predicho"}\NormalTok{), }
+\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\StringTok{"blue"}\NormalTok{, }\StringTok{"red"}\NormalTok{))}
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-38-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 Conclusiones:
 
