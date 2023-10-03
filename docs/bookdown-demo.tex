@@ -127,7 +127,7 @@
 
 \title{MODELACIÓN DEL PRECIO PARA LA COMPRA Y VENTA DE ACEITE DE SOYA}
 \author{Nidia Munevar - Leonardo Palacios}
-\date{2023-09-26}
+\date{2023-10-02}
 
 \begin{document}
 \maketitle
@@ -585,6 +585,19 @@ El concepto de rezago es fundamental para analizar y modelar series de tiempo po
 
 \includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-14-1.pdf}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#library(forecast)}
+\CommentTok{\#class(soybean\_xts) }
+\CommentTok{\#as.ts(soybean\_xts)}
+\CommentTok{\#modelo\textless{}{-}auto.arima(soybean\_xts)}
+\CommentTok{\#modelo}
+
+ \CommentTok{\#soybean\_tsp \textless{}{-} diff(soybean\_xts)}
+\CommentTok{\#print(soybean\_tsp)}
+\end{Highlighting}
+\end{Shaded}
+
 Se ve un patrón claro o una agrupación de puntos en el gráfico de rezago 1, por lo tanto es probable que exista una autocorrelación significativa. Se puede considerar modelos de series de tiempo como ARIMA que toman en cuenta la autocorrelación para hacer predicciones más precisas de ser necesario.
 
 \hypertarget{descomposicion}{%
@@ -616,7 +629,7 @@ Error o Residuo (random): Es la parte de la serie de tiempo que no se puede atri
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-15-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-16-1.pdf}
 Al validar el componenete estacional de la serie por separado, como se ve en la siguiente imagen:
 
 \begin{Shaded}
@@ -644,7 +657,7 @@ Al validar el componenete estacional de la serie por separado, como se ve en la 
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-17-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-18-1.pdf}
 Podemos deducir que la serie de tiempo de los precios del aceite de soya:
 
 \begin{enumerate}
@@ -689,7 +702,7 @@ Vamos a comprobar mediante esta prueba si es o no estacionaria la serie de tiemp
 ##  Augmented Dickey-Fuller Test
 ## 
 ## data:  soybean_ts
-## Dickey-Fuller = -2.0289, Lag order = 15, p-value = 0.5661
+## Dickey-Fuller = -2.0408, Lag order = 15, p-value = 0.5611
 ## alternative hypothesis: stationary
 \end{verbatim}
 
@@ -734,7 +747,7 @@ Diferenciar una serie temporal es un proceso utilizado para hacer que una serie 
 \end{Shaded}
 
 \begin{verbatim}
-## Número de diferencias: 0 - Valor p: 0.5660899
+## Número de diferencias: 0 - Valor p: 0.5610549
 \end{verbatim}
 
 \begin{verbatim}
@@ -780,7 +793,7 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-20-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-21-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -791,7 +804,7 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-22-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -802,8 +815,8 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 
 \begin{verbatim}
 ##              Length Class  Mode     
-## fitted       12348  mts    numeric  
-## x             3452  ts     numeric  
+## fitted       12364  mts    numeric  
+## x             3456  ts     numeric  
 ## alpha            1  -none- numeric  
 ## beta             1  -none- numeric  
 ## gamma            1  -none- numeric  
@@ -830,416 +843,416 @@ La metodología Holt-Winters, también conocida como triple suavizado exponencia
 ## HoltWinters(x = soybean_ts)
 ## 
 ## Smoothing parameters:
-##  alpha: 0.001513595
+##  alpha: 0.001521614
 ##  beta : 0
-##  gamma: 0.3523387
+##  gamma: 0.3511517
 ## 
 ## Coefficients:
 ##               [,1]
-## a     -1.929391138
+## a     -1.984582580
 ## b     -0.001484417
-## s1     4.582162383
-## s2     2.917054320
-## s3    -2.792023886
-## s4    16.438699482
-## s5    10.324668487
-## s6    17.926924350
-## s7     5.229401015
-## s8   -11.326377965
-## s9     0.963002245
-## s10    3.007431334
-## s11    1.798317222
-## s12   -3.367555137
-## s13   -0.288966674
-## s14   -6.256853382
-## s15    0.468146356
-## s16    6.237588050
-## s17    4.798310102
-## s18   -4.144225802
-## s19   -9.696902544
-## s20    3.720422996
-## s21    6.916946502
-## s22   -0.323101548
-## s23   18.792492632
-## s24  -23.815178035
-## s25   11.560375345
-## s26   -6.126604491
-## s27   11.363620621
-## s28    6.818268284
-## s29   -6.403242763
-## s30    1.183016479
-## s31    0.671356135
-## s32   18.851600512
-## s33   10.311896291
-## s34  -16.750753452
-## s35    7.154940441
-## s36   18.997617648
-## s37   -4.232110804
-## s38    2.587679523
-## s39   10.740245891
-## s40    5.347627847
-## s41    8.698699935
-## s42    3.632347595
-## s43  -10.917325854
-## s44   -1.966024311
-## s45    0.948067100
-## s46   10.231119777
-## s47    4.127298154
-## s48   -5.211077122
-## s49   -6.615404268
-## s50  -21.180146051
-## s51   12.973504422
-## s52    7.723456160
-## s53   16.768126045
-## s54   -0.163355807
-## s55   -4.699983094
-## s56  -18.563517056
-## s57  -14.144309214
-## s58  -12.700828126
-## s59   15.057799618
-## s60   17.042194147
-## s61    7.282569696
-## s62  -20.771751904
-## s63    1.987600563
-## s64    6.129687038
-## s65  -52.312998249
-## s66   14.410245702
-## s67   -8.416780621
-## s68   -9.268680523
-## s69   -6.020895243
-## s70   11.064892994
-## s71    2.825000670
-## s72   27.504347880
-## s73   18.069057262
-## s74   14.719539445
-## s75    8.705219038
-## s76  -16.209724754
-## s77   -8.319567688
-## s78   -1.276135074
-## s79   30.522192082
-## s80   10.203557698
-## s81   -0.136192108
-## s82   26.162721641
-## s83   -1.440324386
-## s84   12.807794895
-## s85  -13.426041132
-## s86  -60.788271125
-## s87   -6.660617534
-## s88   11.418984967
-## s89    7.679685592
-## s90   -9.997822602
-## s91   14.116502278
-## s92   19.211660994
-## s93    0.539178182
-## s94   -2.873923293
-## s95   17.775781959
-## s96  -28.214970933
-## s97    0.776003611
-## s98   -0.497434437
-## s99   -5.872658545
-## s100  12.762425533
-## s101  -5.352988480
-## s102 -10.681658678
-## s103   0.421714157
-## s104   0.427871448
-## s105  38.625818330
-## s106 -10.549033307
-## s107  -7.761475630
-## s108 -14.387806014
-## s109  -2.771739765
-## s110   9.087295651
-## s111   2.484195187
-## s112 -13.370816176
-## s113   1.294512835
-## s114  -5.527608642
-## s115   0.146940645
-## s116   7.023424623
-## s117   6.310197846
-## s118   4.266829113
-## s119 -10.795176126
-## s120  13.072370600
-## s121   2.335212768
-## s122   1.590108116
-## s123  -7.780563459
-## s124   4.557244385
-## s125   0.889611758
-## s126  10.300452874
-## s127   1.838701772
-## s128   3.100609200
-## s129  -3.663511676
-## s130   5.181658124
-## s131  -1.532601854
-## s132  -0.960802162
-## s133   8.508378200
-## s134   6.912061490
-## s135 -20.934818384
-## s136   1.535039770
-## s137  -3.486978217
-## s138   2.789103773
-## s139  -5.993153107
-## s140   8.960305939
-## s141  11.068347504
-## s142   3.115141118
-## s143  -7.251313366
-## s144   8.586302253
-## s145   5.512433483
-## s146   3.793838471
-## s147  16.771853632
-## s148  -9.348245985
-## s149   2.781361605
-## s150   3.403226487
-## s151  -1.047832761
-## s152  -5.578235778
-## s153  -6.438040227
-## s154  -1.972977675
-## s155  -2.509062276
-## s156  -9.725611917
-## s157   1.843034329
-## s158  -3.991155429
-## s159 -17.638890136
-## s160  18.932666612
-## s161   9.981509005
-## s162 -17.405684860
-## s163   2.593087066
-## s164  -1.240272512
-## s165  -5.705074203
-## s166  14.041020124
-## s167   6.082258683
-## s168  19.198665502
-## s169  -8.552206193
-## s170   8.121017409
-## s171 -19.072117695
-## s172   0.235352203
-## s173   3.984638277
-## s174  -2.587484896
-## s175  13.185375964
-## s176   3.124224196
-## s177   1.129992687
-## s178   0.336185546
-## s179   4.946881486
-## s180   3.275655434
-## s181   3.584194592
-## s182   4.032667680
-## s183 -16.123356654
-## s184  -7.698235874
-## s185   0.770426333
-## s186  15.049507138
-## s187   5.621259981
-## s188   3.003154305
-## s189  -1.537679430
-## s190   6.942001848
-## s191  -4.635975724
-## s192   2.954637074
-## s193  -5.441290264
-## s194   1.838159913
-## s195  -0.438877219
-## s196  -1.744332683
-## s197  -6.970300846
-## s198   4.699455343
-## s199  15.668290510
-## s200 -15.209805874
-## s201   6.048468650
-## s202  -2.666979611
-## s203 -11.315066405
-## s204  -1.706858378
-## s205  -0.137737151
-## s206   5.294759742
-## s207  -1.727073232
-## s208   8.471293098
-## s209  -1.798925820
-## s210  -0.484597124
-## s211   3.591101328
-## s212  -2.536255553
-## s213  -3.398325492
-## s214   1.013209649
-## s215  -3.034840398
-## s216  11.361005281
-## s217  -1.560753569
-## s218   2.504258743
-## s219  -5.755239934
-## s220  -4.765103319
-## s221  -5.844821473
-## s222   5.887393617
-## s223   3.339453837
-## s224  -0.124135110
-## s225   9.127919804
-## s226  -2.763851078
-## s227  -1.387825854
-## s228  -2.245018188
-## s229  -0.737054785
-## s230  -3.817434793
-## s231   1.576819624
-## s232  -9.765449979
-## s233  -1.408391688
-## s234  -7.982348074
-## s235   6.657261602
-## s236  -9.006840572
-## s237  -5.460474313
-## s238  -7.765921513
-## s239   4.690360692
-## s240   0.315751664
-## s241   8.334506749
-## s242   3.269035110
-## s243   1.541180092
-## s244  14.511981270
-## s245  10.105630937
-## s246   2.873948206
-## s247  -5.067081849
-## s248  -7.224419107
-## s249   2.883684724
-## s250   6.437547235
-## s251   6.022852407
-## s252  -1.275898252
-## s253   1.216723124
-## s254   8.014533133
-## s255   2.403066271
-## s256  -3.248248135
-## s257  -6.253222843
-## s258  -7.061377256
-## s259 -10.354270330
-## s260   0.737013910
-## s261   2.304455115
-## s262   0.597155785
-## s263  13.009742256
-## s264   7.515159848
-## s265 -12.782093524
-## s266   9.934012155
-## s267  -2.162980361
-## s268   9.096788779
-## s269   4.611906907
-## s270  -2.925270933
-## s271  -8.608644113
-## s272  -0.669661523
-## s273  -6.386286085
-## s274 -16.515971667
-## s275  -7.903660629
-## s276  -5.251559017
-## s277   4.151109422
-## s278 -13.041123426
-## s279  11.841886870
-## s280  -1.642324074
-## s281   5.538959377
-## s282   4.356173173
-## s283  -0.131828463
-## s284  -8.519052220
-## s285  -2.380294085
-## s286  14.837057715
-## s287  11.012540633
-## s288  -0.018949025
-## s289   3.965308404
-## s290   9.544823454
-## s291   3.826160159
-## s292  17.732556175
-## s293  -4.096190452
-## s294  10.414114179
-## s295 -10.436449250
-## s296  15.541873429
-## s297  18.795860143
-## s298  13.617378581
-## s299  14.109554993
-## s300  -6.234603325
-## s301   4.097378093
-## s302   5.136980691
-## s303  -6.216264765
-## s304 -10.993671497
-## s305   5.365792494
-## s306  25.677948405
-## s307   0.748032229
-## s308   2.406747444
-## s309   2.127176810
-## s310 -15.279212965
-## s311   7.757276904
-## s312   8.713054071
-## s313  -2.955336663
-## s314  13.109781815
-## s315  -0.089637039
-## s316   0.910850818
-## s317  13.526850902
-## s318   4.027480269
-## s319   2.853394948
-## s320   9.379620328
-## s321  15.572132827
-## s322  -1.256885365
-## s323  20.730227438
-## s324  -8.438975318
-## s325 -12.888249928
-## s326 -12.814128195
-## s327  -2.428184949
-## s328   2.468134704
-## s329   3.652568673
-## s330  10.927992549
-## s331  -1.278166371
-## s332  18.902577548
-## s333   1.144003263
-## s334 -24.383756339
-## s335  10.715309724
-## s336  17.168361718
-## s337 -26.967672571
-## s338   2.344103368
-## s339  -1.776835237
-## s340   8.714972888
-## s341  10.777991068
-## s342  -9.784349003
-## s343   5.569313202
-## s344   1.369166623
-## s345   8.354150140
-## s346  -1.112880071
-## s347  -5.066524267
-## s348   6.395679771
-## s349  -4.590388609
-## s350   6.224730075
-## s351  -0.634782605
-## s352  13.485164749
-## s353 -12.946619992
-## s354   5.780986256
-## s355  -9.225156092
-## s356  -8.091836858
-## s357   6.228798507
-## s358  -6.862548862
-## s359  -6.884365352
-## s360  -1.789971174
-## s361   7.975252378
-## s362   2.221258945
-## s363  -0.977014208
-## s364   9.358837965
-## s365  -8.034359349
+## s1    10.314656534
+## s2    17.874294874
+## s3     5.232474330
+## s4   -11.293771948
+## s5     0.951602577
+## s6     3.006374310
+## s7     1.759498869
+## s8    -3.341989784
+## s9    -0.314377212
+## s10   -6.228944388
+## s11    0.497178737
+## s12    6.215103894
+## s13    4.783045092
+## s14   -4.138468694
+## s15   -9.664046098
+## s16    3.719584563
+## s17    6.861089813
+## s18   -0.336699222
+## s19   18.716821596
+## s20  -23.742818413
+## s21   11.526675054
+## s22   -6.086538594
+## s23   11.342669819
+## s24    6.815182886
+## s25   -6.402688781
+## s26    1.177083882
+## s27    0.679908084
+## s28   18.795027718
+## s29   10.316408539
+## s30  -16.705414792
+## s31    7.121920397
+## s32   18.938106635
+## s33   -4.208132861
+## s34    2.577424683
+## s35   10.692427210
+## s36    5.328611242
+## s37    8.663030408
+## s38    3.637183387
+## s39  -10.880338048
+## s40   -1.976077764
+## s41    0.958449900
+## s42   10.187700338
+## s43    4.132360622
+## s44   -5.166570831
+## s45   -6.594768964
+## s46  -21.103794596
+## s47   12.897839890
+## s48    7.713430395
+## s49   16.681211531
+## s50   -0.179922901
+## s51   -4.682626689
+## s52  -18.521924918
+## s53  -14.075674049
+## s54  -12.690886521
+## s55   15.034759913
+## s56   16.963630423
+## s57    7.270399771
+## s58  -20.720350585
+## s59    1.995831506
+## s60    6.091075530
+## s61  -52.134254821
+## s62   14.356251661
+## s63   -8.409259122
+## s64   -9.235965403
+## s65   -6.007951361
+## s66   11.029091204
+## s67    2.800534223
+## s68   27.430891931
+## s69   18.008679655
+## s70   14.666383557
+## s71    8.668020638
+## s72  -16.152771549
+## s73   -8.297463525
+## s74   -1.280376526
+## s75   30.468180599
+## s76   10.209686452
+## s77   -0.137761283
+## s78   26.060326969
+## s79   -1.423837395
+## s80   12.778035533
+## s81  -13.396812030
+## s82  -60.591451302
+## s83   -6.613355861
+## s84   11.389141648
+## s85    7.644408211
+## s86   -9.985301091
+## s87   14.053193852
+## s88   19.186089335
+## s89    0.535677198
+## s90   -2.875700559
+## s91   17.712287231
+## s92  -28.123393878
+## s93    0.798539011
+## s94   -0.496192644
+## s95   -5.823785474
+## s96   12.681696916
+## s97   -5.306739950
+## s98  -10.653774888
+## s99    0.411304410
+## s100   0.416542312
+## s101  38.535557692
+## s102 -10.518202529
+## s103  -7.738458083
+## s104 -14.327093859
+## s105  -2.768356823
+## s106   9.075766064
+## s107   2.461798818
+## s108 -13.369906617
+## s109   1.293348021
+## s110  -5.512646557
+## s111   0.150564813
+## s112   7.032292593
+## s113   6.313711157
+## s114   4.225309798
+## s115 -10.781181936
+## s116  13.047966696
+## s117   2.297076714
+## s118   1.608034284
+## s119  -7.771285399
+## s120   4.547286094
+## s121   0.895804140
+## s122  10.282128411
+## s123   1.807643948
+## s124   3.073914110
+## s125  -3.662082457
+## s126   5.151901030
+## s127  -1.522671168
+## s128  -0.974093859
+## s129   8.471023061
+## s130   6.869424629
+## s131 -20.895370096
+## s132   1.533865851
+## s133  -3.482646294
+## s134   2.805026043
+## s135  -5.994517284
+## s136   8.938061573
+## s137  11.032646671
+## s138   3.108892126
+## s139  -7.239974368
+## s140   8.561669632
+## s141   5.510033831
+## s142   3.804039222
+## s143  16.754341483
+## s144  -9.336733335
+## s145   2.726791639
+## s146   3.399507135
+## s147  -1.083861079
+## s148  -5.551368048
+## s149  -6.435410505
+## s150  -2.011328528
+## s151  -2.511906967
+## s152  -9.718225120
+## s153   1.827246273
+## s154  -3.985772601
+## s155 -17.624729314
+## s156  18.911356075
+## s157   9.965937088
+## s158 -17.351889864
+## s159   2.577317372
+## s160  -1.238158494
+## s161  -5.736239045
+## s162  14.024105451
+## s163   6.055250473
+## s164  19.147428598
+## s165  -8.529492467
+## s166   8.076388126
+## s167 -19.051167773
+## s168   0.237971944
+## s169   3.974754432
+## s170  -2.580633551
+## s171  13.153541183
+## s172   3.116689962
+## s173   1.119603690
+## s174   0.323613312
+## s175   4.952843723
+## s176   3.254640033
+## s177   3.567339958
+## s178   4.011108373
+## s179 -16.089402611
+## s180  -7.694479724
+## s181   0.774035356
+## s182  14.999392882
+## s183   5.606916879
+## s184   2.986985325
+## s185  -1.534739829
+## s186   6.923109944
+## s187  -4.672236823
+## s188   2.951194744
+## s189  -5.430172039
+## s190   1.830893888
+## s191  -0.450111374
+## s192  -1.733976770
+## s193  -6.956546994
+## s194   4.678280726
+## s195  15.626423849
+## s196 -15.188449724
+## s197   6.004818926
+## s198  -2.663911124
+## s199 -11.290916178
+## s200  -1.724956745
+## s201  -0.131381855
+## s202   5.287530549
+## s203  -1.728364295
+## s204   8.451643027
+## s205  -1.814096924
+## s206  -0.491648590
+## s207   3.594530883
+## s208  -2.528860600
+## s209  -3.393446638
+## s210   1.004671786
+## s211  -3.046892446
+## s212  11.341802335
+## s213  -1.534847490
+## s214   2.495705435
+## s215  -5.762434533
+## s216  -4.768098478
+## s217  -5.826680125
+## s218   5.860029127
+## s219   3.317051148
+## s220  -0.134695032
+## s221   9.107620755
+## s222  -2.744692254
+## s223  -1.405140716
+## s224  -2.247577422
+## s225  -0.736460251
+## s226  -3.794069160
+## s227   1.566676934
+## s228  -9.758273599
+## s229  -1.428994687
+## s230  -7.977810765
+## s231   6.628399817
+## s232  -9.000719276
+## s233  -5.452317047
+## s234  -7.716233572
+## s235   4.686069396
+## s236   0.305629595
+## s237   8.302369499
+## s238   3.227602434
+## s239   1.531554964
+## s240  14.469930659
+## s241  10.087736967
+## s242   2.869987024
+## s243  -5.054995298
+## s244  -7.208881708
+## s245   2.886803587
+## s246   6.430753349
+## s247   6.017576733
+## s248  -1.276738887
+## s249   1.200158057
+## s250   8.006406746
+## s251   2.382911353
+## s252  -3.230114280
+## s253  -6.244755815
+## s254  -7.035181728
+## s255 -10.345546115
+## s256   0.756044440
+## s257   2.317891166
+## s258   0.591359849
+## s259  12.972344243
+## s260   7.470249420
+## s261 -12.807911531
+## s262   9.909897603
+## s263  -2.181574126
+## s264   9.061506322
+## s265   4.602534041
+## s266  -2.900748330
+## s267  -8.625275116
+## s268  -0.693312777
+## s269  -6.406209817
+## s270 -16.476443228
+## s271  -7.868183819
+## s272  -5.225796883
+## s273   4.136882863
+## s274 -13.030882038
+## s275  11.815003474
+## s276  -1.605732717
+## s277   5.523779356
+## s278   4.355798636
+## s279  -0.142331930
+## s280  -8.487392667
+## s281  -2.423134311
+## s282  14.777208007
+## s283  10.975350048
+## s284  -0.031725524
+## s285   3.952668307
+## s286   9.523439658
+## s287   3.812772446
+## s288  17.695794793
+## s289  -4.092724679
+## s290  10.372696211
+## s291 -10.422300385
+## s292  15.484932728
+## s293  18.747098342
+## s294  13.585975544
+## s295  14.040247838
+## s296  -6.211912171
+## s297   4.083608818
+## s298   5.109930488
+## s299  -6.188641449
+## s300 -10.957180738
+## s301   5.345063701
+## s302  25.587388423
+## s303   0.714525431
+## s304   2.414187190
+## s305   2.127723347
+## s306 -15.232323243
+## s307   7.715676510
+## s308   8.687302707
+## s309  -2.925391283
+## s310  13.048640996
+## s311  -0.063179797
+## s312   0.909600114
+## s313  13.512916245
+## s314   4.007937286
+## s315   2.850754916
+## s316   9.365804315
+## s317  15.525244777
+## s318  -1.249872728
+## s319  20.683620623
+## s320  -8.422959918
+## s321 -12.851557824
+## s322 -12.748313029
+## s323  -2.427220804
+## s324   2.468893178
+## s325   3.649083115
+## s326  10.910818659
+## s327  -1.267107720
+## s328  18.864402389
+## s329   1.154519548
+## s330 -24.338743221
+## s331  10.692082763
+## s332  17.173559209
+## s333 -26.879175539
+## s334   2.317715851
+## s335  -1.803340177
+## s336   8.669815203
+## s337  10.774333618
+## s338  -9.762994990
+## s339   5.540778242
+## s340   1.355306197
+## s341   8.318763332
+## s342  -1.121312910
+## s343  -5.046428433
+## s344   6.391044659
+## s345  -4.579673607
+## s346   6.225392239
+## s347  -0.632907993
+## s348  13.461125116
+## s349 -12.926620058
+## s350   5.759155294
+## s351  -9.249725219
+## s352  -8.050850342
+## s353   6.218446988
+## s354  -6.864900638
+## s355  -6.868767973
+## s356  -1.775186518
+## s357   7.947714769
+## s358   2.207334884
+## s359  -0.962905330
+## s360   9.327568653
+## s361  -8.020286999
+## s362   5.390884382
+## s363   2.731310488
+## s364  -2.120153614
+## s365   2.381502063
 ## 
 ## Error measures:
 ##                     ME     RMSE      MAE MPE MAPE      MASE       ACF1
-## Training set 0.3675777 20.36142 14.07497 NaN  Inf 0.7995699 0.02160829
+## Training set 0.3546955 20.36104 14.07105 NaN  Inf 0.7991731 0.02147927
 ## 
 ## Forecasts:
-##          Point Forecast      Lo 80     Hi 80     Lo 95    Hi 95
-## 10.46027      2.6512868 -23.442894 28.745467 -37.25632 42.55889
-## 10.46301      0.9846943 -25.109516 27.078905 -38.92296 40.89235
-## 10.46575     -4.7258683 -30.820109 21.368372 -44.63357 35.18183
-## 10.46849     14.5033707 -11.590900 40.597641 -25.40437 54.41111
-## 10.47123      8.3878553 -17.706445 34.482155 -31.51993 48.29564
-## 10.47397     15.9886267 -10.105703 42.082957 -23.91921 55.89646
-## 10.47671      3.2896190 -22.804741 29.383979 -36.61826 43.19750
-## 10.47945    -13.2676444 -39.362034 12.826745 -53.17557 26.64028
-## 10.48219     -0.9797486 -27.074168 25.114671 -40.88772 38.92822
-## 10.48493      1.0631960 -25.031254 27.157646 -38.84482 40.97121
-## 10.48767     -0.1474025 -26.241882 25.947077 -40.05547 39.76066
-## 10.49041     -5.3147593 -31.409269 20.779750 -45.22287 34.59335
-## 10.49315     -2.2376552 -28.332195 23.856884 -42.14581 37.67050
-## 10.49589     -8.2070264 -34.301596 17.887543 -48.11523 31.70117
-## 10.49863     -1.4835110 -27.578110 24.611088 -41.39176 38.42473
-## 10.50137      4.2844462 -21.810183 30.379075 -35.62384 44.19274
-## 10.50411      2.8436839 -23.250975 28.938343 -37.06465 42.75202
-## 10.50685     -6.1003364 -32.195025 19.994352 -46.00872 33.80805
-## 10.50959    -11.6544976 -37.749216 14.440221 -51.56293 28.25393
-## 10.51233      1.7613435 -24.333405 27.856092 -38.14713 41.66982
-## 10.51507      4.9563826 -21.138396 31.051161 -34.95214 44.86490
-## 10.51781     -2.2851498 -28.379958 23.809658 -42.19372 37.62342
-## 10.52055     16.8289599  -9.265878 42.923798 -23.07965 56.73757
-## 10.52329    -25.7801952 -51.875063  0.314673 -65.68885 14.12846
-## 10.52603      9.5938738 -16.501024 35.688772 -30.31483 49.50258
-## 10.52877     -8.0945905 -34.189518 18.000337 -48.00334 31.81416
-## 10.53151      9.3941502 -16.700808 35.489108 -30.51464 49.30294
-## 10.53425      4.8473135 -21.247674 30.942301 -35.06153 44.75615
-## 10.53699     -8.3756820 -34.470700 17.719336 -48.28457 31.53320
-## 10.53973     -0.7909072 -26.885955 25.304140 -40.69984 39.11802
+##          Point Forecast      Lo 80      Hi 80     Lo 95    Hi 95
+## 10.47123      8.3285895 -17.765392 34.4225708 -31.57871 48.23589
+## 10.47397     15.8867435 -10.207268 41.9807549 -24.02060 55.79409
+## 10.47671      3.2434385 -22.850603 29.3374802 -36.66395 43.15083
+## 10.47945    -13.2842922 -39.378364 12.8097797 -53.19173 26.62315
+## 10.48219     -1.0404021 -27.134504 25.0537000 -40.94789 38.86708
+## 10.48493      1.0128852 -25.081247 27.1070175 -38.89465 40.92042
+## 10.48767     -0.2354746 -26.329637 25.8586879 -40.14305 39.67210
+## 10.49041     -5.3384477 -31.432640 20.7557450 -45.24607 34.56918
+## 10.49315     -2.3123195 -28.406542 23.7819034 -42.21999 37.59535
+## 10.49589     -8.2283711 -34.322624 17.8658820 -48.13609 31.67935
+## 10.49863     -1.5037324 -27.598016 24.5905509 -41.41149 38.40403
+## 10.50137      4.2127083 -21.881605 30.3070218 -35.69510 44.12052
+## 10.50411      2.7791651 -23.315179 28.8735088 -37.12869 42.68702
+## 10.50685     -6.1438331 -32.238207 19.9505408 -46.05173 33.76407
+## 10.50959    -11.6708949 -37.765299 14.4235092 -51.57884 28.23705
+## 10.51233      1.7112513 -24.383183 27.8056857 -38.19674 41.61924
+## 10.51507      4.8512722 -21.243192 30.9457367 -35.05677 44.75931
+## 10.51781     -2.3480013 -28.442496 23.7464935 -42.25609 37.56008
+## 10.52055     16.7040351  -9.390490 42.7985601 -23.20410 56.61217
+## 10.52329    -25.7570893 -51.851645  0.3374659 -65.66527 14.15109
+## 10.52603      9.5109197 -16.583666 35.6055051 -30.39730 49.41914
+## 10.52877     -8.1037783 -34.198394 17.9908373 -48.01205 31.80449
+## 10.53151      9.3239457 -16.770700 35.4185915 -30.58437 49.23226
+## 10.53425      4.7949743 -21.299702 30.8896503 -35.11339 44.70334
+## 10.53699     -8.4243818 -34.519088 17.6703244 -48.33279 31.48403
+## 10.53973     -0.8460935 -26.940830 25.2486429 -40.75455 39.06236
+## 10.54247     -1.3447537 -27.439520 24.7500129 -41.25326 38.56375
+## 10.54521     16.7688815  -9.325915 42.8636783 -23.13967 56.67743
+## 10.54795      8.2887779 -17.806049 34.3836049 -31.61982 48.19737
+## 10.55068    -18.7345299 -44.829387  7.3603274 -58.64317 21.17411
 \end{verbatim}
 
 \hypertarget{arima}{%
@@ -1258,8 +1271,8 @@ ARIMA es como un método o herramienta que nos ayuda a entender y prever cómo s
 ## Series: soybean_ts 
 ## ARIMA(0,0,0) with zero mean 
 ## 
-## sigma^2 = 314.9:  log likelihood = -14826.36
-## AIC=29654.72   AICc=29654.72   BIC=29660.86
+## sigma^2 = 314.7:  log likelihood = -14842.62
+## AIC=29687.25   AICc=29687.25   BIC=29693.39
 \end{verbatim}
 
 Conclusión:
@@ -1275,7 +1288,7 @@ Los valores de la serie de tiempo del precio delaceite de soya son como un conju
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 3452
+## [1] 3456
 \end{verbatim}
 
 \begin{Shaded}
@@ -1351,7 +1364,7 @@ Los valores de la serie de tiempo del precio delaceite de soya son como un conju
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-26-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-27-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1362,18 +1375,18 @@ Los valores de la serie de tiempo del precio delaceite de soya son como un conju
 
 \begin{verbatim}
 ##          Point Forecast     Lo 80    Hi 80     Lo 95    Hi 95
-## 10.46027       1.705264 -18.49799 21.90851 -29.19294 32.60347
-## 10.46301      -1.864569 -22.06782 18.33868 -32.76277 29.03364
-## 10.46575      -8.091969 -28.29522 12.11128 -38.99017 22.80624
-## 10.46849       9.907042 -10.29621 30.11029 -20.99116 40.80525
-## 10.47123       9.176571 -11.02668 29.37982 -21.72163 40.07478
-## 10.47397       9.721777 -10.48147 29.92503 -21.17643 40.61998
-## 10.47671       6.436872 -13.76638 26.64012 -24.46133 37.33508
-## 10.47945      -7.249053 -27.45230 12.95420 -38.14726 23.64915
-## 10.48219      -4.373007 -24.57626 15.83024 -35.27121 26.52520
-## 10.48493       1.090572 -19.11268 21.29382 -29.80763 31.98878
-## 10.48767      -6.707186 -26.91044 13.49607 -37.60539 24.19102
-## 10.49041       1.096394 -19.10686 21.29965 -29.80181 31.99460
+## 10.47123      9.1621457 -11.04269 29.36699 -21.73849 40.06278
+## 10.47397      9.7073395 -10.49750 29.91218 -21.19330 40.60797
+## 10.47671      6.4224222 -13.78242 26.62726 -24.47821 37.32306
+## 10.47945     -7.2635149 -27.46835 12.94132 -38.16415 23.63712
+## 10.48219     -4.3874816 -24.59232 15.81736 -35.28812 26.51315
+## 10.48493      1.0760848 -19.12875 21.28092 -29.82455 31.97672
+## 10.48767     -6.7216847 -26.92652 13.48316 -37.62232 24.17895
+## 10.49041      1.0818831 -19.12296 21.28672 -29.81875 31.98252
+## 10.49315     -6.5365717 -26.74141 13.66827 -37.43721 24.36406
+## 10.49589     -0.2337289 -20.43857 19.97111 -31.13437 30.66691
+## 10.49863      4.6448830 -15.55996 24.84972 -26.25575 35.54552
+## 10.50137      1.4679600 -18.73688 21.67280 -29.43268 32.36860
 \end{verbatim}
 
 \begin{Shaded}
@@ -1383,7 +1396,7 @@ Los valores de la serie de tiempo del precio delaceite de soya son como un conju
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-28-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-29-1.pdf}
 
 \hypertarget{prophet}{%
 \chapter{Prophet}\label{prophet}}
@@ -1469,7 +1482,7 @@ Prophet es especialmente útil para series de tiempo que tienen patrones estacio
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-33-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-34-1.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1477,7 +1490,7 @@ Prophet es especialmente útil para series de tiempo que tienen patrones estacio
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-33-2.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-34-2.pdf}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1622,7 +1635,7 @@ La red Elman es una red neuronal recurrente, lo que significa que tiene conexion
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-36-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
 
 Conclusiones:
 
@@ -1691,16 +1704,132 @@ Imagina que intentas predecir el clima. En lugar de solo mirar el clima de hoy, 
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-37-1.pdf}
+\includegraphics{bookdown-demo_files/figure-latex/unnamed-chunk-38-1.pdf}
 
 Conclusiones:
 
 El modelo predice con exactitud,funciona bien en datos no vistos,es equilibrado, no solo memoriza los datos de entrenamiento,los datos usados son pertinentes para la tarea, puede ser aplicado en situaciones reales, a pesar de los buenos resultados, siempre es esencial hacer análisis.
 
-\hypertarget{final-words}{%
-\chapter{Final Words}\label{final-words}}
+\hypertarget{comparacion}{%
+\chapter{Comparacion}\label{comparacion}}
 
-We have finished a nice book.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Instalar el paquete (solo necesitas hacer esto una vez)}
+\CommentTok{\# install.packages("forecast")}
+
+\CommentTok{\# Cargar el paquete}
+\FunctionTok{library}\NormalTok{(forecast)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Dividir los datos en conjuntos de entrenamiento y validación}
+\NormalTok{train\_length }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(soybean\_xts) }\SpecialCharTok{{-}} \DecValTok{30}  \CommentTok{\# 30 días para validación}
+
+\CommentTok{\# Datos de entrenamiento}
+\NormalTok{train\_data }\OtherTok{\textless{}{-}} \FunctionTok{head}\NormalTok{(soybean\_xts, train\_length)}
+
+\CommentTok{\# Datos de validación}
+\NormalTok{validation\_data }\OtherTok{\textless{}{-}} \FunctionTok{tail}\NormalTok{(soybean\_xts, }\DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{arima\_forecast }\OtherTok{\textless{}{-}} \FunctionTok{forecast}\NormalTok{(modelo, }\AttributeTok{h=}\DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 2. Calcular métricas de error}
+
+\CommentTok{\# Holt{-}Winters}
+\NormalTok{hw\_errors }\OtherTok{\textless{}{-}}\NormalTok{ validation\_data}\SpecialCharTok{$}\NormalTok{ZS.F.Close }\SpecialCharTok{{-}}\NormalTok{ hw\_forecast}\SpecialCharTok{$}\NormalTok{mean}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Métodos incompatibles ("Ops.xts", "Ops.ts") para "-"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hw\_mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(hw\_errors}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{hw\_mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(hw\_errors))}
+\NormalTok{hw\_rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(hw\_mse)}
+
+\CommentTok{\# ARIMA}
+\NormalTok{arima\_errors }\OtherTok{\textless{}{-}}\NormalTok{ validation\_data}\SpecialCharTok{$}\NormalTok{ZS.F.Close }\SpecialCharTok{{-}}\NormalTok{ arima\_forecast}\SpecialCharTok{$}\NormalTok{mean}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Métodos incompatibles ("Ops.xts", "Ops.ts") para "-"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{arima\_mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(arima\_errors}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{arima\_mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(arima\_errors))}
+\NormalTok{arima\_rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(arima\_mse)}
+
+\CommentTok{\# Prophet}
+\NormalTok{prophet\_errors }\OtherTok{\textless{}{-}}\NormalTok{ validation\_data}\SpecialCharTok{$}\NormalTok{ZS.F.Close }\SpecialCharTok{{-}} \FunctionTok{tail}\NormalTok{(forecast}\SpecialCharTok{$}\NormalTok{yhat, }\AttributeTok{n=}\DecValTok{30}\NormalTok{) }\CommentTok{\# Asumiendo que el período de validación es 30 días.}
+\NormalTok{prophet\_mse }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(prophet\_errors}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{prophet\_mae }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(}\FunctionTok{abs}\NormalTok{(prophet\_errors))}
+\NormalTok{prophet\_rmse }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(prophet\_mse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# 3. Comparar errores}
+
+\NormalTok{errors\_df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{Model =} \FunctionTok{c}\NormalTok{(}\StringTok{"Holt{-}Winters"}\NormalTok{, }\StringTok{"ARIMA"}\NormalTok{, }\StringTok{"Prophet"}\NormalTok{),}
+  \AttributeTok{MSE =} \FunctionTok{c}\NormalTok{(hw\_mse, arima\_mse, prophet\_mse),}
+  \AttributeTok{MAE =} \FunctionTok{c}\NormalTok{(hw\_mae, arima\_mae, prophet\_mae),}
+  \AttributeTok{RMSE =} \FunctionTok{c}\NormalTok{(hw\_rmse, arima\_rmse, prophet\_rmse)}
+\NormalTok{)}
+
+\FunctionTok{print}\NormalTok{(errors\_df)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          Model        MSE       MAE      RMSE
+## 1 Holt-Winters 1796855.93 1340.0883 1340.4685
+## 2        ARIMA 1796071.65 1339.8250 1340.1760
+## 3      Prophet   53710.17  224.0065  231.7546
+\end{verbatim}
+
+Conclusion:
+
+Los resultados que se presentan son métricas de error para tres modelos diferentes: Holt-Winters, ARIMA y Prophet. Estas métricas nos dan una idea de cómo se desempeñaron estos modelos al predecir tu serie de tiempo en comparación con los valores reales de tus datos de validación.
+
+A partir de las métricas presentadas, podemos deducir lo siguiente:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{Mean Squared Error (MSE)}: Mide el promedio de los errores al cuadrado. Es una métrica que da más peso a errores grandes. Los valores MSE son 1796855.93, 1796071.65 y 54135.22 para Holt-Winters, ARIMA y Prophet respectivamente. Aquí, Prophet tiene un MSE mucho menor en comparación con los otros dos modelos, lo que indica que, en promedio, sus errores son más pequeños.
+\item
+  \textbf{Mean Absolute Error (MAE)}: Mide el promedio de los valores absolutos de los errores. Los valores MAE son 1340.0883, 1339.8250 y 226.6025 para Holt-Winters, ARIMA y Prophet respectivamente. Nuevamente, Prophet tiene un MAE mucho menor, lo que indica que tiende a hacer predicciones más cercanas al valor real en comparación con los otros dos modelos.
+\item
+  \textbf{Root Mean Squared Error (RMSE)}: Es la raíz cuadrada del MSE y da una idea de la magnitud del error. Los valores RMSE son 1340.4685, 1340.1760 y 232.6698 para Holt-Winters, ARIMA y Prophet respectivamente. Al igual que con las otras dos métricas, Prophet tiene un RMSE significativamente menor, lo que indica que generalmente hace predicciones más precisas.
+\end{enumerate}
+
+\textbf{Conclusión}:
+
+\begin{itemize}
+\item
+  El modelo \textbf{Prophet} parece ser el más preciso de los tres según todas las métricas presentadas. Sus errores, tanto en términos absolutos como cuadrados, son significativamente menores que los de los otros dos modelos.
+\item
+  Los modelos \textbf{Holt-Winters} y \textbf{ARIMA} tienen un desempeño similar entre sí según estas métricas, pero son superados por Prophet.
+\end{itemize}
 
   \bibliography{book.bib,packages.bib}
 

@@ -23,7 +23,7 @@
 <meta name="author" content="Nidia Munevar - Leonardo Palacios" />
 
 
-<meta name="date" content="2023-09-26" />
+<meta name="date" content="2023-10-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -155,7 +155,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="prophet.html"><a href="prophet.html"><i class="fa fa-check"></i><b>13</b> Prophet</a></li>
 <li class="chapter" data-level="14" data-path="elman.html"><a href="elman.html"><i class="fa fa-check"></i><b>14</b> Elman</a></li>
 <li class="chapter" data-level="15" data-path="jordan.html"><a href="jordan.html"><i class="fa fa-check"></i><b>15</b> Jordan</a></li>
-<li class="chapter" data-level="16" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>16</b> Final Words</a></li>
+<li class="chapter" data-level="16" data-path="comparacion.html"><a href="comparacion.html"><i class="fa fa-check"></i><b>16</b> Comparacion</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -179,22 +179,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="prophet" class="section level1 hasAnchor" number="13">
 <h1><span class="header-section-number">Chapter 13</span> Prophet<a href="prophet.html#prophet" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Prophet es especialmente útil para series de tiempo que tienen patrones estacionales fuertes y varios puntos de inflexión o “cambios de tendencia”. Fue diseñado para manejar datos diarios con al menos un año de historia y se espera que funcione bien con datos que tienen patrones estacionales y fechas festivas.</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="prophet.html#cb85-1" tabindex="-1"></a><span class="co"># install.packages(&quot;prophet&quot;)</span></span>
-<span id="cb85-2"><a href="prophet.html#cb85-2" tabindex="-1"></a><span class="fu">library</span>(prophet)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="prophet.html#cb86-1" tabindex="-1"></a><span class="co"># install.packages(&quot;prophet&quot;)</span></span>
+<span id="cb86-2"><a href="prophet.html#cb86-2" tabindex="-1"></a><span class="fu">library</span>(prophet)</span></code></pre></div>
 <pre><code>## Warning: package &#39;prophet&#39; was built under R version 4.2.3</code></pre>
 <pre><code>## Loading required package: Rcpp</code></pre>
 <pre><code>## Warning: package &#39;Rcpp&#39; was built under R version 4.2.3</code></pre>
 <pre><code>## Loading required package: rlang</code></pre>
 <pre><code>## Warning: package &#39;rlang&#39; was built under R version 4.2.3</code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="prophet.html#cb91-1" tabindex="-1"></a><span class="co"># Acceder a la columna &quot;ZS.F.Close&quot; en soybean_xts</span></span>
-<span id="cb91-2"><a href="prophet.html#cb91-2" tabindex="-1"></a>close_prices <span class="ot">&lt;-</span> soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>]</span>
-<span id="cb91-3"><a href="prophet.html#cb91-3" tabindex="-1"></a></span>
-<span id="cb91-4"><a href="prophet.html#cb91-4" tabindex="-1"></a><span class="co"># Extrae las fechas</span></span>
-<span id="cb91-5"><a href="prophet.html#cb91-5" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">index</span>(soybean_xts)</span>
-<span id="cb91-6"><a href="prophet.html#cb91-6" tabindex="-1"></a></span>
-<span id="cb91-7"><a href="prophet.html#cb91-7" tabindex="-1"></a><span class="co"># Crea el dataframe</span></span>
-<span id="cb91-8"><a href="prophet.html#cb91-8" tabindex="-1"></a>soybean_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ds =</span> <span class="fu">as.Date</span>(dates), <span class="at">y =</span> <span class="fu">as.numeric</span>(close_prices))</span></code></pre></div>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="prophet.html#cb92-1" tabindex="-1"></a><span class="fu">head</span>(soybean_df)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="prophet.html#cb92-1" tabindex="-1"></a><span class="co"># Acceder a la columna &quot;ZS.F.Close&quot; en soybean_xts</span></span>
+<span id="cb92-2"><a href="prophet.html#cb92-2" tabindex="-1"></a>close_prices <span class="ot">&lt;-</span> soybean_xts[, <span class="st">&quot;ZS.F.Close&quot;</span>]</span>
+<span id="cb92-3"><a href="prophet.html#cb92-3" tabindex="-1"></a></span>
+<span id="cb92-4"><a href="prophet.html#cb92-4" tabindex="-1"></a><span class="co"># Extrae las fechas</span></span>
+<span id="cb92-5"><a href="prophet.html#cb92-5" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">index</span>(soybean_xts)</span>
+<span id="cb92-6"><a href="prophet.html#cb92-6" tabindex="-1"></a></span>
+<span id="cb92-7"><a href="prophet.html#cb92-7" tabindex="-1"></a><span class="co"># Crea el dataframe</span></span>
+<span id="cb92-8"><a href="prophet.html#cb92-8" tabindex="-1"></a>soybean_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">ds =</span> <span class="fu">as.Date</span>(dates), <span class="at">y =</span> <span class="fu">as.numeric</span>(close_prices))</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="prophet.html#cb93-1" tabindex="-1"></a><span class="fu">head</span>(soybean_df)</span></code></pre></div>
 <pre><code>##           ds       y
 ## 1 2010-01-04 1049.50
 ## 2 2010-01-05 1052.25
@@ -202,81 +202,81 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 ## 4 2010-01-07 1017.75
 ## 5 2010-01-08 1013.00
 ## 6 2010-01-11 1001.75</code></pre>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="prophet.html#cb94-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">prophet</span>(soybean_df)</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="prophet.html#cb95-1" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">prophet</span>(soybean_df)</span></code></pre></div>
 <pre><code>## Disabling daily seasonality. Run prophet with daily.seasonality=TRUE to override this.</code></pre>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="prophet.html#cb96-1" tabindex="-1"></a>future <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(m, <span class="at">periods =</span> <span class="dv">365</span>) </span>
-<span id="cb96-2"><a href="prophet.html#cb96-2" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, future)</span></code></pre></div>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="prophet.html#cb97-1" tabindex="-1"></a><span class="fu">plot</span>(m, forecast)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="prophet.html#cb98-1" tabindex="-1"></a><span class="fu">prophet_plot_components</span>(m, forecast)</span></code></pre></div>
-<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="prophet.html#cb99-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb99-2"><a href="prophet.html#cb99-2" tabindex="-1"></a></span>
-<span id="cb99-3"><a href="prophet.html#cb99-3" tabindex="-1"></a><span class="co"># Extraer datos del pronóstico</span></span>
-<span id="cb99-4"><a href="prophet.html#cb99-4" tabindex="-1"></a><span class="co"># forecast_data &lt;- data.frame(</span></span>
-<span id="cb99-5"><a href="prophet.html#cb99-5" tabindex="-1"></a><span class="co">#  ds = forecast$ds, </span></span>
-<span id="cb99-6"><a href="prophet.html#cb99-6" tabindex="-1"></a><span class="co">#  yhat = forecast$yhat, </span></span>
-<span id="cb99-7"><a href="prophet.html#cb99-7" tabindex="-1"></a><span class="co">#  yhat_lower = forecast$yhat_lower, </span></span>
-<span id="cb99-8"><a href="prophet.html#cb99-8" tabindex="-1"></a><span class="co">#  yhat_upper = forecast$yhat_upper</span></span>
-<span id="cb99-9"><a href="prophet.html#cb99-9" tabindex="-1"></a><span class="co">#)</span></span>
-<span id="cb99-10"><a href="prophet.html#cb99-10" tabindex="-1"></a></span>
-<span id="cb99-11"><a href="prophet.html#cb99-11" tabindex="-1"></a><span class="co"># Datos reales</span></span>
-<span id="cb99-12"><a href="prophet.html#cb99-12" tabindex="-1"></a><span class="co">#actual_data &lt;- data.frame(ds = m$history$ds, y = m$history$y)</span></span>
-<span id="cb99-13"><a href="prophet.html#cb99-13" tabindex="-1"></a></span>
-<span id="cb99-14"><a href="prophet.html#cb99-14" tabindex="-1"></a><span class="co"># Crear el gráfico con ggplot2</span></span>
-<span id="cb99-15"><a href="prophet.html#cb99-15" tabindex="-1"></a><span class="co">#p &lt;- ggplot() +</span></span>
-<span id="cb99-16"><a href="prophet.html#cb99-16" tabindex="-1"></a>  <span class="co"># Intervalo de confianza</span></span>
-<span id="cb99-17"><a href="prophet.html#cb99-17" tabindex="-1"></a><span class="co">#  geom_ribbon(data = forecast_data, aes(x = ds, ymin = yhat_lower, ymax = #yhat_upper, fill = &quot;Intervalo de Confianza&quot;), alpha = 0.4, inherit.aes = FALSE) +</span></span>
-<span id="cb99-18"><a href="prophet.html#cb99-18" tabindex="-1"></a>  <span class="co"># Línea de pronóstico</span></span>
-<span id="cb99-19"><a href="prophet.html#cb99-19" tabindex="-1"></a><span class="co">#  geom_line(data = forecast_data, aes(x = ds, y = yhat, color = &quot;Pronóstico&quot;), size = 1, inherit.aes = FALSE) + </span></span>
-<span id="cb99-20"><a href="prophet.html#cb99-20" tabindex="-1"></a>  <span class="co"># Datos reales</span></span>
-<span id="cb99-21"><a href="prophet.html#cb99-21" tabindex="-1"></a><span class="co">#  geom_point(data = actual_data, aes(x = ds, y = y, color = &quot;Datos Reales&quot;), size #= 2, inherit.aes = FALSE) +</span></span>
-<span id="cb99-22"><a href="prophet.html#cb99-22" tabindex="-1"></a>  <span class="co"># Tema y etiquetas</span></span>
-<span id="cb99-23"><a href="prophet.html#cb99-23" tabindex="-1"></a><span class="co">#  theme_minimal() +</span></span>
-<span id="cb99-24"><a href="prophet.html#cb99-24" tabindex="-1"></a><span class="co">#  labs(</span></span>
-<span id="cb99-25"><a href="prophet.html#cb99-25" tabindex="-1"></a><span class="co">#    title = &quot;Pronóstico del Precio del Aceite de Soya&quot;,</span></span>
-<span id="cb99-26"><a href="prophet.html#cb99-26" tabindex="-1"></a><span class="co">#    x = &quot;Fecha&quot;,</span></span>
-<span id="cb99-27"><a href="prophet.html#cb99-27" tabindex="-1"></a><span class="co">#   y = &quot;Precio&quot;</span></span>
-<span id="cb99-28"><a href="prophet.html#cb99-28" tabindex="-1"></a><span class="co">#  ) +</span></span>
-<span id="cb99-29"><a href="prophet.html#cb99-29" tabindex="-1"></a><span class="co">#  scale_fill_manual(</span></span>
-<span id="cb99-30"><a href="prophet.html#cb99-30" tabindex="-1"></a>    <span class="co">#name = &quot;Leyenda&quot;,</span></span>
-<span id="cb99-31"><a href="prophet.html#cb99-31" tabindex="-1"></a><span class="co">#    values = c(&quot;Intervalo de Confianza&quot; = &quot;lightblue&quot;),</span></span>
-<span id="cb99-32"><a href="prophet.html#cb99-32" tabindex="-1"></a><span class="co">#    labels = c(&quot;Intervalo de Confianza&quot;)</span></span>
-<span id="cb99-33"><a href="prophet.html#cb99-33" tabindex="-1"></a><span class="co">#  ) +</span></span>
-<span id="cb99-34"><a href="prophet.html#cb99-34" tabindex="-1"></a><span class="co">#  scale_color_manual(</span></span>
-<span id="cb99-35"><a href="prophet.html#cb99-35" tabindex="-1"></a>    <span class="co">#name = &quot;Leyenda&quot;,</span></span>
-<span id="cb99-36"><a href="prophet.html#cb99-36" tabindex="-1"></a><span class="co">#    values = c(&quot;Datos Reales&quot; = &quot;#D55E00&quot;, &quot;Pronóstico&quot; = &quot;#0072B2&quot;),</span></span>
-<span id="cb99-37"><a href="prophet.html#cb99-37" tabindex="-1"></a><span class="co">#    labels = c(&quot;Datos Reales&quot;, &quot;Pronóstico&quot;)</span></span>
-<span id="cb99-38"><a href="prophet.html#cb99-38" tabindex="-1"></a><span class="co">#  ) +</span></span>
-<span id="cb99-39"><a href="prophet.html#cb99-39" tabindex="-1"></a><span class="co">#  theme(legend.position = &quot;bottom&quot;)</span></span>
-<span id="cb99-40"><a href="prophet.html#cb99-40" tabindex="-1"></a></span>
-<span id="cb99-41"><a href="prophet.html#cb99-41" tabindex="-1"></a><span class="co"># Mostrar gráfico</span></span>
-<span id="cb99-42"><a href="prophet.html#cb99-42" tabindex="-1"></a><span class="co">#print(p)</span></span></code></pre></div>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="prophet.html#cb100-1" tabindex="-1"></a><span class="co"># library(ggplot2)</span></span>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="prophet.html#cb97-1" tabindex="-1"></a>future <span class="ot">&lt;-</span> <span class="fu">make_future_dataframe</span>(m, <span class="at">periods =</span> <span class="dv">365</span>) </span>
+<span id="cb97-2"><a href="prophet.html#cb97-2" tabindex="-1"></a>forecast <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, future)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="prophet.html#cb98-1" tabindex="-1"></a><span class="fu">plot</span>(m, forecast)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="prophet.html#cb99-1" tabindex="-1"></a><span class="fu">prophet_plot_components</span>(m, forecast)</span></code></pre></div>
+<p><img src="bookdown-demo_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="prophet.html#cb100-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb100-2"><a href="prophet.html#cb100-2" tabindex="-1"></a></span>
-<span id="cb100-3"><a href="prophet.html#cb100-3" tabindex="-1"></a><span class="co"># Extraer componentes del pronóstico</span></span>
-<span id="cb100-4"><a href="prophet.html#cb100-4" tabindex="-1"></a><span class="co"># components &lt;- prophet_plot_components(m, forecast)</span></span>
-<span id="cb100-5"><a href="prophet.html#cb100-5" tabindex="-1"></a></span>
-<span id="cb100-6"><a href="prophet.html#cb100-6" tabindex="-1"></a><span class="co"># Convertir el objeto básico de Prophet a ggplot</span></span>
-<span id="cb100-7"><a href="prophet.html#cb100-7" tabindex="-1"></a><span class="co"># p_components &lt;- ggplot() +</span></span>
-<span id="cb100-8"><a href="prophet.html#cb100-8" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$yearly, aes(x = ds, y = y, color = &quot;Componente # Anual&quot;), size = 1) +</span></span>
-<span id="cb100-9"><a href="prophet.html#cb100-9" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$weekly, aes(x = ds, y = y, color = &quot;Componente # Semanal&quot;), size = 1) +</span></span>
-<span id="cb100-10"><a href="prophet.html#cb100-10" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$daily, aes(x = ds, y = y, color = &quot;Componente # Diario&quot;), size = 1) +</span></span>
-<span id="cb100-11"><a href="prophet.html#cb100-11" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$holidays, aes(x = ds, y = y, color = &quot;Días # # Festivos&quot;), size = 1) +</span></span>
-<span id="cb100-12"><a href="prophet.html#cb100-12" tabindex="-1"></a><span class="co">#  theme_minimal() +</span></span>
-<span id="cb100-13"><a href="prophet.html#cb100-13" tabindex="-1"></a><span class="co">#  labs(</span></span>
-<span id="cb100-14"><a href="prophet.html#cb100-14" tabindex="-1"></a><span class="co">#    title = &quot;Componentes del Pronóstico&quot;,</span></span>
-<span id="cb100-15"><a href="prophet.html#cb100-15" tabindex="-1"></a><span class="co">#    x = &quot;Fecha&quot;,</span></span>
-<span id="cb100-16"><a href="prophet.html#cb100-16" tabindex="-1"></a><span class="co">#    y = &quot;Valor&quot;</span></span>
-<span id="cb100-17"><a href="prophet.html#cb100-17" tabindex="-1"></a><span class="co">#  ) +</span></span>
-<span id="cb100-18"><a href="prophet.html#cb100-18" tabindex="-1"></a><span class="co">#  scale_color_manual(</span></span>
-<span id="cb100-19"><a href="prophet.html#cb100-19" tabindex="-1"></a><span class="co">#    name = &quot;Leyenda&quot;,</span></span>
-<span id="cb100-20"><a href="prophet.html#cb100-20" tabindex="-1"></a><span class="co">#    values = c(&quot;Componente Anual&quot; = &quot;blue&quot;, &quot;Componente Semanal&quot; = &quot;green&quot;, #&quot;Componente Diario&quot; = &quot;red&quot;, &quot;Días Festivos&quot; = &quot;orange&quot;)</span></span>
-<span id="cb100-21"><a href="prophet.html#cb100-21" tabindex="-1"></a><span class="co">#  ) +</span></span>
-<span id="cb100-22"><a href="prophet.html#cb100-22" tabindex="-1"></a><span class="co">#  theme(legend.position = &quot;bottom&quot;)</span></span>
-<span id="cb100-23"><a href="prophet.html#cb100-23" tabindex="-1"></a></span>
-<span id="cb100-24"><a href="prophet.html#cb100-24" tabindex="-1"></a><span class="co"># Mostrar gráfico de componentes</span></span>
-<span id="cb100-25"><a href="prophet.html#cb100-25" tabindex="-1"></a><span class="co">#print(p_components)</span></span></code></pre></div>
+<span id="cb100-3"><a href="prophet.html#cb100-3" tabindex="-1"></a><span class="co"># Extraer datos del pronóstico</span></span>
+<span id="cb100-4"><a href="prophet.html#cb100-4" tabindex="-1"></a><span class="co"># forecast_data &lt;- data.frame(</span></span>
+<span id="cb100-5"><a href="prophet.html#cb100-5" tabindex="-1"></a><span class="co">#  ds = forecast$ds, </span></span>
+<span id="cb100-6"><a href="prophet.html#cb100-6" tabindex="-1"></a><span class="co">#  yhat = forecast$yhat, </span></span>
+<span id="cb100-7"><a href="prophet.html#cb100-7" tabindex="-1"></a><span class="co">#  yhat_lower = forecast$yhat_lower, </span></span>
+<span id="cb100-8"><a href="prophet.html#cb100-8" tabindex="-1"></a><span class="co">#  yhat_upper = forecast$yhat_upper</span></span>
+<span id="cb100-9"><a href="prophet.html#cb100-9" tabindex="-1"></a><span class="co">#)</span></span>
+<span id="cb100-10"><a href="prophet.html#cb100-10" tabindex="-1"></a></span>
+<span id="cb100-11"><a href="prophet.html#cb100-11" tabindex="-1"></a><span class="co"># Datos reales</span></span>
+<span id="cb100-12"><a href="prophet.html#cb100-12" tabindex="-1"></a><span class="co">#actual_data &lt;- data.frame(ds = m$history$ds, y = m$history$y)</span></span>
+<span id="cb100-13"><a href="prophet.html#cb100-13" tabindex="-1"></a></span>
+<span id="cb100-14"><a href="prophet.html#cb100-14" tabindex="-1"></a><span class="co"># Crear el gráfico con ggplot2</span></span>
+<span id="cb100-15"><a href="prophet.html#cb100-15" tabindex="-1"></a><span class="co">#p &lt;- ggplot() +</span></span>
+<span id="cb100-16"><a href="prophet.html#cb100-16" tabindex="-1"></a>  <span class="co"># Intervalo de confianza</span></span>
+<span id="cb100-17"><a href="prophet.html#cb100-17" tabindex="-1"></a><span class="co">#  geom_ribbon(data = forecast_data, aes(x = ds, ymin = yhat_lower, ymax = #yhat_upper, fill = &quot;Intervalo de Confianza&quot;), alpha = 0.4, inherit.aes = FALSE) +</span></span>
+<span id="cb100-18"><a href="prophet.html#cb100-18" tabindex="-1"></a>  <span class="co"># Línea de pronóstico</span></span>
+<span id="cb100-19"><a href="prophet.html#cb100-19" tabindex="-1"></a><span class="co">#  geom_line(data = forecast_data, aes(x = ds, y = yhat, color = &quot;Pronóstico&quot;), size = 1, inherit.aes = FALSE) + </span></span>
+<span id="cb100-20"><a href="prophet.html#cb100-20" tabindex="-1"></a>  <span class="co"># Datos reales</span></span>
+<span id="cb100-21"><a href="prophet.html#cb100-21" tabindex="-1"></a><span class="co">#  geom_point(data = actual_data, aes(x = ds, y = y, color = &quot;Datos Reales&quot;), size #= 2, inherit.aes = FALSE) +</span></span>
+<span id="cb100-22"><a href="prophet.html#cb100-22" tabindex="-1"></a>  <span class="co"># Tema y etiquetas</span></span>
+<span id="cb100-23"><a href="prophet.html#cb100-23" tabindex="-1"></a><span class="co">#  theme_minimal() +</span></span>
+<span id="cb100-24"><a href="prophet.html#cb100-24" tabindex="-1"></a><span class="co">#  labs(</span></span>
+<span id="cb100-25"><a href="prophet.html#cb100-25" tabindex="-1"></a><span class="co">#    title = &quot;Pronóstico del Precio del Aceite de Soya&quot;,</span></span>
+<span id="cb100-26"><a href="prophet.html#cb100-26" tabindex="-1"></a><span class="co">#    x = &quot;Fecha&quot;,</span></span>
+<span id="cb100-27"><a href="prophet.html#cb100-27" tabindex="-1"></a><span class="co">#   y = &quot;Precio&quot;</span></span>
+<span id="cb100-28"><a href="prophet.html#cb100-28" tabindex="-1"></a><span class="co">#  ) +</span></span>
+<span id="cb100-29"><a href="prophet.html#cb100-29" tabindex="-1"></a><span class="co">#  scale_fill_manual(</span></span>
+<span id="cb100-30"><a href="prophet.html#cb100-30" tabindex="-1"></a>    <span class="co">#name = &quot;Leyenda&quot;,</span></span>
+<span id="cb100-31"><a href="prophet.html#cb100-31" tabindex="-1"></a><span class="co">#    values = c(&quot;Intervalo de Confianza&quot; = &quot;lightblue&quot;),</span></span>
+<span id="cb100-32"><a href="prophet.html#cb100-32" tabindex="-1"></a><span class="co">#    labels = c(&quot;Intervalo de Confianza&quot;)</span></span>
+<span id="cb100-33"><a href="prophet.html#cb100-33" tabindex="-1"></a><span class="co">#  ) +</span></span>
+<span id="cb100-34"><a href="prophet.html#cb100-34" tabindex="-1"></a><span class="co">#  scale_color_manual(</span></span>
+<span id="cb100-35"><a href="prophet.html#cb100-35" tabindex="-1"></a>    <span class="co">#name = &quot;Leyenda&quot;,</span></span>
+<span id="cb100-36"><a href="prophet.html#cb100-36" tabindex="-1"></a><span class="co">#    values = c(&quot;Datos Reales&quot; = &quot;#D55E00&quot;, &quot;Pronóstico&quot; = &quot;#0072B2&quot;),</span></span>
+<span id="cb100-37"><a href="prophet.html#cb100-37" tabindex="-1"></a><span class="co">#    labels = c(&quot;Datos Reales&quot;, &quot;Pronóstico&quot;)</span></span>
+<span id="cb100-38"><a href="prophet.html#cb100-38" tabindex="-1"></a><span class="co">#  ) +</span></span>
+<span id="cb100-39"><a href="prophet.html#cb100-39" tabindex="-1"></a><span class="co">#  theme(legend.position = &quot;bottom&quot;)</span></span>
+<span id="cb100-40"><a href="prophet.html#cb100-40" tabindex="-1"></a></span>
+<span id="cb100-41"><a href="prophet.html#cb100-41" tabindex="-1"></a><span class="co"># Mostrar gráfico</span></span>
+<span id="cb100-42"><a href="prophet.html#cb100-42" tabindex="-1"></a><span class="co">#print(p)</span></span></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="prophet.html#cb101-1" tabindex="-1"></a><span class="co"># library(ggplot2)</span></span>
+<span id="cb101-2"><a href="prophet.html#cb101-2" tabindex="-1"></a></span>
+<span id="cb101-3"><a href="prophet.html#cb101-3" tabindex="-1"></a><span class="co"># Extraer componentes del pronóstico</span></span>
+<span id="cb101-4"><a href="prophet.html#cb101-4" tabindex="-1"></a><span class="co"># components &lt;- prophet_plot_components(m, forecast)</span></span>
+<span id="cb101-5"><a href="prophet.html#cb101-5" tabindex="-1"></a></span>
+<span id="cb101-6"><a href="prophet.html#cb101-6" tabindex="-1"></a><span class="co"># Convertir el objeto básico de Prophet a ggplot</span></span>
+<span id="cb101-7"><a href="prophet.html#cb101-7" tabindex="-1"></a><span class="co"># p_components &lt;- ggplot() +</span></span>
+<span id="cb101-8"><a href="prophet.html#cb101-8" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$yearly, aes(x = ds, y = y, color = &quot;Componente # Anual&quot;), size = 1) +</span></span>
+<span id="cb101-9"><a href="prophet.html#cb101-9" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$weekly, aes(x = ds, y = y, color = &quot;Componente # Semanal&quot;), size = 1) +</span></span>
+<span id="cb101-10"><a href="prophet.html#cb101-10" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$daily, aes(x = ds, y = y, color = &quot;Componente # Diario&quot;), size = 1) +</span></span>
+<span id="cb101-11"><a href="prophet.html#cb101-11" tabindex="-1"></a><span class="co">#  geom_line(data = components$data$holidays, aes(x = ds, y = y, color = &quot;Días # # Festivos&quot;), size = 1) +</span></span>
+<span id="cb101-12"><a href="prophet.html#cb101-12" tabindex="-1"></a><span class="co">#  theme_minimal() +</span></span>
+<span id="cb101-13"><a href="prophet.html#cb101-13" tabindex="-1"></a><span class="co">#  labs(</span></span>
+<span id="cb101-14"><a href="prophet.html#cb101-14" tabindex="-1"></a><span class="co">#    title = &quot;Componentes del Pronóstico&quot;,</span></span>
+<span id="cb101-15"><a href="prophet.html#cb101-15" tabindex="-1"></a><span class="co">#    x = &quot;Fecha&quot;,</span></span>
+<span id="cb101-16"><a href="prophet.html#cb101-16" tabindex="-1"></a><span class="co">#    y = &quot;Valor&quot;</span></span>
+<span id="cb101-17"><a href="prophet.html#cb101-17" tabindex="-1"></a><span class="co">#  ) +</span></span>
+<span id="cb101-18"><a href="prophet.html#cb101-18" tabindex="-1"></a><span class="co">#  scale_color_manual(</span></span>
+<span id="cb101-19"><a href="prophet.html#cb101-19" tabindex="-1"></a><span class="co">#    name = &quot;Leyenda&quot;,</span></span>
+<span id="cb101-20"><a href="prophet.html#cb101-20" tabindex="-1"></a><span class="co">#    values = c(&quot;Componente Anual&quot; = &quot;blue&quot;, &quot;Componente Semanal&quot; = &quot;green&quot;, #&quot;Componente Diario&quot; = &quot;red&quot;, &quot;Días Festivos&quot; = &quot;orange&quot;)</span></span>
+<span id="cb101-21"><a href="prophet.html#cb101-21" tabindex="-1"></a><span class="co">#  ) +</span></span>
+<span id="cb101-22"><a href="prophet.html#cb101-22" tabindex="-1"></a><span class="co">#  theme(legend.position = &quot;bottom&quot;)</span></span>
+<span id="cb101-23"><a href="prophet.html#cb101-23" tabindex="-1"></a></span>
+<span id="cb101-24"><a href="prophet.html#cb101-24" tabindex="-1"></a><span class="co"># Mostrar gráfico de componentes</span></span>
+<span id="cb101-25"><a href="prophet.html#cb101-25" tabindex="-1"></a><span class="co">#print(p_components)</span></span></code></pre></div>
 <p>Conclusión: Se toman datos de la serie de tiempo histórica del precio del aceite de soya, creamos un modelo de pronóstico con Prophet, y se produce pronósticos para 365 días adicionales y luego visualiza esos pronósticos y sus componentes.</p>
 <p>Si es viable la justificación para la variable en serie de tiempo vista como una regresión y prophet permite la incorporación de variables exógenas a través de los regresores e identifica automáticamente las estacionalidades diarias, semanales y anuales en los datos. También captura las tendencias a lo largo del tiempo y permite puntos de cambio en la tendencia.</p>
 
